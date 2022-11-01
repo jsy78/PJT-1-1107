@@ -3,5 +3,124 @@
 {% load static %}
 
 {% block content %}
-  <h1>main.html</h1>
+
+<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 아래 성민 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+<!-- 배너 부분 carousel -->
+<div id="carouselExampleControls" class="container carousel slide" data-bs-ride="carousel">
+  <div class="my-3 fs-5 fw-bold">인기 맛집 - <span class="pink">TOP 9</span></div>
+  <div class="carousel-inner">
+
+    <div class="carousel-item active" >
+      <div class="row">
+        {% for article in articles|slice:":3" %}
+        <div class="col-lg-4 mb-4">
+          <div class="card">
+            <img src="{{ article.image.url }}" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">{{ article.title }}</h5>
+              <p class="card-text">{{ article.location }}</p>
+              <p class="card-text">한식</p>
+              <a href="" class="btn btn-outline-success btn-sm">Read More</a>
+              <a href="" class="btn btn-outline-danger btn-sm"><i class="far fa-heart"></i></a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="carousel-item active" >
+      <div class="row">
+        {% for article in articles|slice:"3:6" %}
+        <div class="col-lg-4 mb-4">
+          <div class="card">
+            <img src="{{ article.image.url }}" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">{{ article.title }}</h5>
+              <p class="card-text">{{ article.location }}</p>
+              <p class="card-text">한식</p>
+              <a href="" class="btn btn-outline-success btn-sm">Read More</a>
+              <a href="" class="btn btn-outline-danger btn-sm"><i class="far fa-heart"></i></a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="carousel-item active" >
+      <div class="row">
+        {% for article in articles|slice:"6:10" %}
+        <div class="col-lg-4 mb-4">
+          <div class="card">
+            <img src="{{ article.image.url }}" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">{{ article.title }}</h5>
+              <p class="card-text">{{ article.location }}</p>
+              <p class="card-text">한식</p>
+              <a href="" class="btn btn-outline-success btn-sm">Read More</a>
+              <a href="" class="btn btn-outline-danger btn-sm"><i class="far fa-heart"></i></a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- carousel 넘기기 버튼 -->
+<button style="color: black; width: 5rem; height: 50rem;" class="fs-1 ms-5 justify-content-start carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+  <i class="bi bi-arrow-left-square " ></i>
+  <span class="visually-hidden">Previous</span>
+</button>
+
+<button style="color: black; width: 5rem; height: 50rem;" class="fs-1 me-5 justify-content-end carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+  <i class="bi bi-arrow-right-square " ></i>
+  <span class="visually-hidden">Next</span>
+</button>
+
+<!-- 메인 (정렬하기) -->
+<div class="row ">
+<div class="d-flex justify-content-between">
+  <div class="pink fs-5 fw-bold">맛집 <span class="black">리스트</span></div>
+  <div class="btn-group">
+    <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      정렬하기
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="#">최신순</a></li>
+      <li><a class="dropdown-item" href="#">조회순</a></li>
+      <li><a class="dropdown-item" href="#">인기순 (좋아요순)</a></li>
+    </ul>
+  </div>
+</div>
+
+{% for article in articles %}
+<div class="col-3 d-flex flex-column align-items-center" id="one">
+  <div style="width: 13rem; height: 13rem;">
+    <img class="w-100 h-100" src="{{ article.image.url }}" alt="">
+  </div>
+    
+  <div style="width: 13rem;">
+    <div>
+      <div class="my-3">
+        <button class="pink-btn btn text-center">{{ article.title }}</button>
+      </div>
+      <div>{{ article.location }}</div>
+      <div>치킨</div>
+    </div>
+    <div class="my-2">
+      <span class="fs-5 me-2">
+        <i class="bi bi-heart-fill"></i> 999
+      </span>
+      <span class="fs-5">
+        <i class="bi bi-person-check"></i> 999
+      </span>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+
 {% endblock content %}
