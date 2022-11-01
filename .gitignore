@@ -260,4 +260,4 @@ secrets.json
 
 # Django settings.py SECRET_KEY file
 secrets.json
-.env
+env
