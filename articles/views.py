@@ -3,6 +3,7 @@ from .forms import ArticleForm, CommentForm
 from .models import Article, Comment
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from datetime import date, datetime, timedelta
 
 # Create your views here.
 
@@ -13,6 +14,43 @@ def index(request):
         "articles": articles,
     }
     return render(request, "articles/index.html", context)
+
+
+def detail(request, pk):
+    article = get_object_or_404(Article, pk=pk)
+    comment_form = CommentForm()
+    context = {
+        "article": article,
+        "comments": article.comment_set.all(),
+        "comment_form": comment_form,
+    }
+    if request.user == article.user:
+        context["user"] = True
+    else:
+        context["user"] = False
+    # 리턴된 HttpResponse 객체를 response 변수에 할당
+    response = render(request, "article/detail.html", context)
+    # 조회수 기능(쿠키이용)
+    # 쿠키 만료시간 설정
+    expire_date, now = datetime.now(), datetime.now()
+    expire_date += timedelta(days=1)
+    expire_date = expire_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    expire_date -= now
+    # 쿠키 만료시간 설정 끝
+    # 남은 시간 초단위 저장
+    max_age = expire_date.total_seconds()
+    # request 에서 hitboard라는 쿠키값 가져오기, 없으면 _ 로 가져오기
+    cookie_value = request.COOKIES.get("hitboard", "_")
+    # 쿠키값에 해당 게시글의 번호가 없을 경우, 쿠키에 게시글의 번호를 추가하고 조회수를 +1
+    if f"_{pk}_" not in cookie_value:
+        cookie_value += f"{pk}_"
+        response.set_cookie(
+            "hitboard", value=cookie_value, max_age=max_age, httponly=True
+        )
+        article.hits += 1
+        article.save()
+    # response객체return
+    return response
 
 
 @login_required

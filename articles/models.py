@@ -11,6 +11,7 @@ class Article(models.Model):
     title = models.CharField(max_length=80)
     content = models.TextField()
     grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    location = models.CharField(max_length=120)
     image = ProcessedImageField(
         upload_to="images/",
         blank=True,
@@ -44,6 +45,7 @@ class Article(models.Model):
     bookmark_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="bookmark_users"
     )
+    hits = models.PositiveBigIntegerField(default=0, verbose_name="조회수")
 
 
 class Comment(models.Model):
