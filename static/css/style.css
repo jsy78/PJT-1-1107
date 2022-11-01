@@ -1,14 +1,18 @@
 .lower-navbar {
   background-color: #f38524;
   color: white;
-  /* position: sticky; */
-  /* top: 20px;
+  position: fixed;
+  top: 80px;
   left: 50%;
   z-index: 100;
   width: 100%;
-  padding: 3px 0;
   transform: translate(-50%);
-  transition: all 0.3s; */
+  transition: top 0.2s ease-in-out;
+}
+
+/* JS로 추가 */
+.nav-up {
+  top: -80px;
 }
 
 .btn-search {
