@@ -37,13 +37,13 @@ class Article(models.Model):
         ("기타", "기타"),
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    create_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     like_users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="like_users"
+        settings.AUTH_USER_MODEL, related_name="like_articles"
     )
     bookmark_users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="bookmark_users"
+        settings.AUTH_USER_MODEL, related_name="bookmark_articles"
     )
     hits = models.PositiveBigIntegerField(default=0, verbose_name="조회수")
 
@@ -51,9 +51,9 @@ class Article(models.Model):
 class Comment(models.Model):
     content = models.CharField(max_length=80)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="comment_articles",
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    like_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="like_comments"
     )
