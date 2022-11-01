@@ -1,13 +1,14 @@
 .lower-navbar {
   background-color: #f38524;
-  position: fixed;
-  top: 4.6rem;
+  color: white;
+  /* position: sticky; */
+  /* top: 20px;
   left: 50%;
   z-index: 100;
   width: 100%;
   padding: 3px 0;
   transform: translate(-50%);
-  transition: all 0.3s;
+  transition: all 0.3s; */
 }
 
 .btn-search {
@@ -23,6 +24,29 @@
   border: 1px solid #ea449a;
 }
 
+.nav1-text:hover {
+  color: #ea449a;
+}
+
+.nav2-text:hover {
+  font-weight: bold;
+  margin-right: -1.5px;
+}
+
+.nav2-mypage:hover {
+  font-weight: bold;
+}
+
+/* Medium devices (tablets, 768px and up) 
+The navbar toggle appears at this breakpoint */
+@media (min-width: 768px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    border-radius: 0;
+  }
+}
+
 /* ㅡㅡㅡㅡㅡㅡㅡㅡ 아래 성민 ㅡㅡㅡㅡㅡㅡㅡㅡ */
 .black {
   color: black;
@@ -36,4 +60,3 @@
   color: white;
   background-color: #ea449a;
 }
-
