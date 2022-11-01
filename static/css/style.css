@@ -1,5 +1,13 @@
 .lower-navbar {
   background-color: #f38524;
+  position: fixed;
+  top: 4.6rem;
+  left: 50%;
+  z-index: 100;
+  width: 100%;
+  padding: 3px 0;
+  transform: translate(-50%);
+  transition: all 0.3s;
 }
 
 .btn-search {
