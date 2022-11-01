@@ -1,0 +1,16 @@
+.lower-navbar {
+  background-color: #f38524;
+}
+
+.btn-search {
+  background-color: #ea449a;
+  color: white;
+  border: 1px solid #ea449a;
+  cursor: pointer;
+}
+
+.btn-search:hover {
+  background-color: white;
+  color: #ea449a;
+  border: 1px solid #ea449a;
+}
