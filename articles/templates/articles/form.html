@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="container my-3 pb-5">
+  <div class="container my-3 border border-dark border-2" style="border-radius: 5px;">
+    {% if request.resolver_match.url_name == "create" %}
+    <h2 class="mx-1 my-3">글쓰기</h2>
+    {% else %}
+    <h2> 수정하기 </h2>
+    {% endif %}
+    <hr>
+    <div class="container mx-2 d-flex justify-content-center">
+      <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% bootstrap_button button_type="submit" content="글쓰기" %}
+      </form>
+    </div>
+    <div class="container mx-3 my-3 d-flex">
+      {% if request.resolver_match.url_name == "create" %}
+      <a href="{% url 'articles:index' %}" class="btn btn-warning">목록으로</a>
+      {% else %}
+      <a href="{% url 'articles:index' %}" class="btn btn-warning">목록으로</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
