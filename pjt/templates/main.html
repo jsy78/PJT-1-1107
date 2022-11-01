@@ -4,7 +4,124 @@
 
 {% block content %}
 
-  <h1>main.html</h1>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam illum libero quisquam tempora beatae consequatur laudantium laborum fugit culpa minima. Provident aperiam ea eveniet earum expedita natus, aliquam atque quaerat illo iure a ipsum quisquam, obcaecati consequuntur, harum fuga odio. Esse iusto, consectetur qui voluptatibus amet magni id ipsam dolorum perferendis, voluptatum repudiandae eum sed culpa suscipit, distinctio inventore. Nostrum placeat inventore, ad perferendis sed praesentium vel voluptate numquam libero quam ipsum, adipisci harum sit magni quisquam doloremque, voluptatum aut reprehenderit quasi in tempore quidem. Suscipit explicabo aliquid, similique blanditiis temporibus aut optio veritatis, laborum laudantium, soluta voluptatem obcaecati. Perferendis quo non nemo sit cumque ut accusamus expedita soluta odit quos illum ipsa dolore velit laudantium vero aspernatur accusantium, facere repellendus autem! Soluta modi quibusdam consequuntur minus laboriosam, in repudiandae magni officiis eum adipisci neque eveniet debitis necessitatibus nulla maiores molestiae veritatis. Doloremque delectus ipsum facere dolore explicabo omnis id a. Quis mollitia nostrum optio ipsam repellendus distinctio cum architecto facere maxime ratione temporibus suscipit laboriosam vitae deleniti, quia est tenetur illum, veniam odit, commodi sapiente iusto dolor incidunt quae. Animi sequi voluptates accusantium temporibus iste neque, vitae officiis, nam non expedita repellat autem debitis quos, nostrum ab deleniti recusandae molestiae natus! Voluptatem excepturi suscipit, recusandae laudantium dolorem reprehenderit nisi? Distinctio iste veniam vel veritatis at quia hic sequi. Iste a veniam quod cum reprehenderit neque laudantium nulla error? Odit blanditiis iure ratione! Ut aspernatur odio quo atque dignissimos amet, libero laborum enim saepe possimus reiciendis, voluptate facilis deserunt doloremque corporis culpa ducimus distinctio tempore. Quo impedit doloribus quasi quod reprehenderit quibusdam quia iure sit quidem minus, labore omnis voluptas, recusandae mollitia magnam natus a et debitis! Quaerat nesciunt quae voluptatem consequatur. Asperiores maxime doloribus porro est quaerat dolorum, consequatur, commodi cum dolorem tempora atque modi! Aperiam dolore officia corrupti!</p>
-  <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Similique numquam necessitatibus saepe debitis deserunt molestiae cumque voluptate incidunt! Atque nam corporis id illum eos perferendis repudiandae dolorum doloremque aut! Officiis mollitia quia pariatur, dicta neque at facilis. Magni aliquam numquam exercitationem quis facilis distinctio culpa expedita pariatur beatae animi voluptates, magnam minima libero perferendis atque porro sunt velit molestias aut. Alias, asperiores similique inventore iusto modi quis sed ipsum odit eum neque accusamus et dignissimos quos beatae doloribus tenetur placeat labore voluptatum quia. Neque illum quas, incidunt, animi quae, voluptatum et accusantium facere nobis dolor autem laudantium impedit atque? Architecto nemo consequatur, nobis consectetur eveniet error magnam veniam dolore tenetur iure at assumenda harum, saepe inventore deserunt odio, fugiat excepturi possimus dicta cupiditate est tempore optio veritatis? Sapiente quaerat saepe doloribus, assumenda eos temporibus maiores quasi corporis praesentium. Tempore nulla voluptatibus itaque repellat mollitia quia beatae porro quam quidem odio. Nisi corporis nobis saepe libero quibusdam et illum? Veritatis eaque unde deleniti quo quasi dolor perferendis sed vel accusantium exercitationem facilis tempore voluptatum illo magni aliquam praesentium, optio nesciunt, temporibus velit. Officia eius, itaque dignissimos, corrupti qui animi quo totam optio rerum perferendis nisi perspiciatis est tempore impedit quas nulla atque inventore? Et harum sapiente nesciunt ipsa nostrum recusandae nobis officiis, reiciendis architecto, fugiat placeat expedita eaque, praesentium tenetur dignissimos provident mollitia magni animi. Molestias, perferendis dolorem! Deserunt, aliquam libero similique est neque maiores ea ducimus dicta molestias, ab nulla delectus consequuntur possimus consectetur iste. Officia beatae dolorem et repellat? Aspernatur quibusdam repellendus nesciunt ipsa, provident nostrum tenetur reiciendis amet sequi magnam laudantium laborum officia ducimus laboriosam necessitatibus quis obcaecati id aliquam. Ratione qui debitis illum amet modi, fugit eaque neque ab, laudantium delectus quasi suscipit ea ex veritatis sit eum earum quo dolorem nesciunt, illo repellat. Molestias, atque aliquam!</p>
+
+<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 아래 성민 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+<!-- 배너 부분 carousel -->
+<div id="carouselExampleControls" class="container carousel slide" data-bs-ride="carousel">
+  <div class="my-3 fs-5 fw-bold">인기 맛집 - <span class="pink">TOP 9</span></div>
+  <div class="carousel-inner">
+
+    <div class="carousel-item active" >
+      <div class="row">
+        {% for article in articles|slice:":3" %}
+        <div class="col-lg-4 mb-4">
+          <div class="card">
+            <img src="{{ article.image.url }}" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">{{ article.title }}</h5>
+              <p class="card-text">{{ article.location }}</p>
+              <p class="card-text">한식</p>
+              <a href="" class="btn btn-outline-success btn-sm">Read More</a>
+              <a href="" class="btn btn-outline-danger btn-sm"><i class="far fa-heart"></i></a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="carousel-item active" >
+      <div class="row">
+        {% for article in articles|slice:"3:6" %}
+        <div class="col-lg-4 mb-4">
+          <div class="card">
+            <img src="{{ article.image.url }}" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">{{ article.title }}</h5>
+              <p class="card-text">{{ article.location }}</p>
+              <p class="card-text">한식</p>
+              <a href="" class="btn btn-outline-success btn-sm">Read More</a>
+              <a href="" class="btn btn-outline-danger btn-sm"><i class="far fa-heart"></i></a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="carousel-item active" >
+      <div class="row">
+        {% for article in articles|slice:"6:10" %}
+        <div class="col-lg-4 mb-4">
+          <div class="card">
+            <img src="{{ article.image.url }}" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">{{ article.title }}</h5>
+              <p class="card-text">{{ article.location }}</p>
+              <p class="card-text">한식</p>
+              <a href="" class="btn btn-outline-success btn-sm">Read More</a>
+              <a href="" class="btn btn-outline-danger btn-sm"><i class="far fa-heart"></i></a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- carousel 넘기기 버튼 -->
+<button style="color: black; width: 5rem; height: 50rem;" class="fs-1 ms-5 justify-content-start carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+  <i class="bi bi-arrow-left-square " ></i>
+  <span class="visually-hidden">Previous</span>
+</button>
+
+<button style="color: black; width: 5rem; height: 50rem;" class="fs-1 me-5 justify-content-end carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+  <i class="bi bi-arrow-right-square " ></i>
+  <span class="visually-hidden">Next</span>
+</button>
+
+<!-- 메인 (정렬하기) -->
+<div class="row ">
+<div class="d-flex justify-content-between">
+  <div class="pink fs-5 fw-bold">맛집 <span class="black">리스트</span></div>
+  <div class="btn-group">
+    <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      정렬하기
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="#">최신순</a></li>
+      <li><a class="dropdown-item" href="#">조회순</a></li>
+      <li><a class="dropdown-item" href="#">인기순 (좋아요순)</a></li>
+    </ul>
+  </div>
+</div>
+
+{% for article in articles %}
+<div class="col-3 d-flex flex-column align-items-center" id="one">
+  <div style="width: 13rem; height: 13rem;">
+    <img class="w-100 h-100" src="{{ article.image.url }}" alt="">
+  </div>
+    
+  <div style="width: 13rem;">
+    <div>
+      <div class="my-3">
+        <button class="pink-btn btn text-center">{{ article.title }}</button>
+      </div>
+      <div>{{ article.location }}</div>
+      <div>치킨</div>
+    </div>
+    <div class="my-2">
+      <span class="fs-5 me-2">
+        <i class="bi bi-heart-fill"></i> 999
+      </span>
+      <span class="fs-5">
+        <i class="bi bi-person-check"></i> 999
+      </span>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+
 {% endblock content %}
