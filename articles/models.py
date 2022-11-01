@@ -42,7 +42,7 @@ class Article(models.Model):
         settings.AUTH_USER_MODEL, related_name="like_users"
     )
     bookmark_users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="like_users"
+        settings.AUTH_USER_MODEL, related_name="bookmark_users"
     )
 
 
