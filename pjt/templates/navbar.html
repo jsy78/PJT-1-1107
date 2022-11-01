@@ -12,7 +12,7 @@
         </a>
       </div>
       <!-- 검색창 -->
-      <div>
+      <div style="width: 30rem;">
         <li class="nav-item">
           <form class="form-inline my-2 my-lg-0 d-flex" style="position:sticky; top:70px; right:25px;" action="#" method="get">
             {% csrf_token %}
@@ -65,23 +65,49 @@
 </div>
 </nav>
 
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
+
+// Hide .lower-navbar on on scroll down
+var didScroll;
 var lastScrollTop = 0;
+var delta = 5;
+var navbarHeight = $('.lower-navbar').outerHeight();
 
-$(window).scroll(function () {
-var scrollTop = $(this).scrollTop();/* 스크롤바 수직 위치를 가져옵니다, 괄호 안에 값(value)이 있을 경우 수직 위치를 정합니다. */
-// scrollTop - 선택한 요소의 스크롤바 수직 위치를 반환하거나 스크롤바 수직 위치를 정하는 메소드
+$(window).scroll(function (event) {
+didScroll = true;
+});
 
-if (scrollTop >= 100) { // 숫자에 따라 아래로 스크롤 했을 때 사라지는 영역의 크기가 바뀝니다.
-  if ((scrollTop > lastScrollTop) && (lastScrollTop > 0)) {
-    /* &&: AND, 두 값이 모두 참이어야 값이 출력 */
-    /* 화면에 나오지 않을 때: top값을 마이너스로 요소가 보이지 않게 사용해야함 */
-    $(".scroll_01").css("top", "-100px");
-  } else {
-    $(".scroll_01").css("top", "0px");
+setInterval(function () {
+if (didScroll) {
+  hasScrolled();
+  didScroll = false;
+}
+}, 250);
+
+function hasScrolled() {
+var st = $(this).scrollTop();
+
+// Make sure they scroll more than delta
+if (Math.abs(lastScrollTop - st) <= delta) 
+  return;
+
+// If they scrolled down and are past the navbar, add class .nav-up.
+// This is necessary so you never see what is "behind" the navbar.
+if (st > lastScrollTop && st > navbarHeight) {
+  // Scroll Down
+  $('.lower-navbar')
+    .removeClass('nav-down')
+    .addClass('nav-up');
+} else {
+  // Scroll Up
+  if (st + $(window).height() < $(document).height()) {
+    $('.lower-navbar')
+      .removeClass('nav-up')
+      .addClass('nav-down');
   }
+}
 
-  lastScrollTop = scrollTop;
+lastScrollTop = st;
 }
 </script>
