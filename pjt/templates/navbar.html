@@ -1,43 +1,67 @@
+
+{% load django_bootstrap5 %}
 {% load static %}
-<nav class="navbar navbar-expand-lg bg-white navbar-dark sticky-top">
+
+<!-- Upper Navbar -->
+<nav class="navbar navbar-expand-lg">
   <div class="container">
+    <!-- 로고 -->
     <a class="navbar-brand" href="">
-      <img src="{% static 'images/맛팔해조 로고.png' %}" alt="Logo" width="100" height="40">
+      <img src="{% static 'images/맛팔해조 로고.png' %}" alt="Logo" style="width: 10rem; height: 4rem;">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      {% comment %} <ul class="navbar-nav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- 서치바 -->
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'reviews:index' %}">Home</a>
+          <form class="form-inline my-2 my-lg-0 d-flex" style="position:sticky; top:70px; right:25px;" action="#" method="get">
+            {% csrf_token %}
+            <input class="form-control bg-light" type="search" placeholder="지역, 음식 또는 식당" aria-label="Search" name="q">
+            <button class="btn btn-search  ms-2" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'articles:index' %}">Community</a>
-        </li>
+
         {% if request.user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'accounts:detail' request.user.pk %}">{{ request.user }}</a>
+            <a class="nav-link" href="#">{{ request.user }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'accounts:logout' %}">로그아웃</a>
+            <a class="nav-link" href="#">로그아웃</a>
           </li>
         {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'accounts:signup'%}">회원가입</a>
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="#">로그인</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'accounts:login' %}">로그인</a>
+            <a class="nav-link" href="#">회원가입</a>
           </li>
         {% endif %}
-      <!-- 서치바 -->
-      <form class="nav-item form-inline my-2 my-lg-0 d-flex" style="position:sticky; top:70px; right:25px;" action="{% url 'search:searchResult' %}" method="get">
-        {% csrf_token %}
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">SEARCH<i class="fas fa-search"></i></button>
-      </form>
-      <!-- 서치바 -->
-      </ul> {% endcomment %}
+      </ul>
     </div>
+  </div>
+</nav>
+
+<!-- Lower Navbar -->
+<nav class="lower-navbar navbar-expand-lg text-white">
+  <div class="container">
+    <ul class="navbar-nav d-flex justify-content-between">
+      <div class="d-flex">
+        <li class="nav-item mx-5">
+          <a class="nav-link " aria-current="page" href="#">All</a>
+        </li>
+        <li class="nav-item me-5">
+          <a class="nav-link " aria-current="page" href="#">팔로잉</a>
+        </li>
+      </div>
+      <div>
+        <li class="nav-item mx-5">
+          <a class="nav-link " aria-current="page" href="#">마이페이지</a>
+        </li>
+      </div>
+    </ul>
   </div>
 </nav>
