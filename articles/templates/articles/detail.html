@@ -10,7 +10,7 @@
     <div class="card my-5">
       <div class="card-body d-flex flex-column align-items-center">
         <div id="map" style="width:300px;height:300px;"></div>
-        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=08f364617d32600c522f4000c8d39be8"></script>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={% include 'articles/appkey.txt' %}"></script>
         <script>
           var container = document.getElementById('map');
           var options = {
