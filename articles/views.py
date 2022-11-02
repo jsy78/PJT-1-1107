@@ -4,6 +4,7 @@ from .models import Article, Comment
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from datetime import date, datetime, timedelta
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -137,3 +138,16 @@ def likes(request, article_pk):
     else:
         article.like_users.add(request.user)
     return redirect("articles:detail", article_pk)
+
+
+def paginator(request):
+    article_list = Article.objects.all().order_by("-pk")  # 데이터 역순 정렬
+    page = request.GET.get("page", "1")  # GET 방식으로 정보를 받아오는 데이터
+    paginator = Paginator(article_list, "2")  # Paginator(분할될 객체, 페이지 당 담길 객체수)
+    paginated_article_lists = paginator.get_page(page)  # 페이지 번호를 받아 해당 페이지를 리턴
+    context = {
+        "article_list": article_list,
+        "paginated_article_lists": paginated_article_lists,
+    }
+
+    return render(request, "articles/index.html", context)

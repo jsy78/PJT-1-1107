@@ -14,13 +14,14 @@
       <!-- 검색창 -->
       <div style="width: 30rem;">
         <li class="nav-item">
-          <form class="form-inline my-2 my-lg-0 d-flex" style="position:sticky; top:70px; right:25px;" action="#" method="get">
+          <form class="form-inline my-2 my-lg-0 d-flex" style="position:sticky; top:70px; right:25px;" action="{% url 'search:searchResult' %}" method="get">
             {% csrf_token %}
             <input class="form-control bg-light" type="search" placeholder="지역, 음식 또는 식당" aria-label="Search" name="q">
             <button class="btn btn-search  ms-2" type="submit">
               <i class="bi bi-search"></i>
             </button>
           </form>
+          <!-- 서치바 -->
         </li>
       </div>
 
