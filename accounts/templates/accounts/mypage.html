@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 
 {% block content %}
   <div class="container my-4">
@@ -22,23 +23,471 @@
     <div class="row mx-auto mb-3 py-3 rounded bg-light border">
       <div class="col-2 my-3">
         <div class="list-group">
-          <button type="button" class="list-group-item list-group-item-action">작성한 글</button>
-          <button type="button" class="list-group-item list-group-item-action">작성한 댓글</button>
-          <button type="button" class="list-group-item list-group-item-action">좋아요한 글</button>
-          <button type="button" class="list-group-item list-group-item-action">스크랩한 글</button>
+          <button id="user-articles-btn" type="button" class="list-group-item list-group-item-action">작성한 글</button>
+          <button id="user-comments-btn" type="button" class="list-group-item list-group-item-action">작성한 댓글</button>
+          <button id="like-articles-btn" type="button" class="list-group-item list-group-item-action">좋아요한 글</button>
+          <button id="bookmark-articles-btn" type="button" class="list-group-item list-group-item-action">스크랩한 글</button>
         </div>
         <hr>
         <div class="list-group">
-          <button type="button" class="list-group-item list-group-item-action border-top">회원 정보 수정</button>
+          <button id="accounts-update-btn" type="button" class="list-group-item list-group-item-action border-top">회원 정보 수정</button>
+          <button id="password-update-btn" type="button" class="list-group-item list-group-item-action border-top">비밀번호 변경</button>
         </div>
       </div>
       <div class="col-10">
-        <div class="user-articles d-block"></div>
-        <div class="user-comments d-none"></div>
-        <div class="like-articles d-none"></div>
-        <div class="bookmark-articles d-none"></div>
-        <div class="accounts-update d-none"></div>
+        <div class="user-articles d-block">
+          <div class="row">
+            {% for article in user_articles %}
+              <!--각각의 글들-->
+              <div class="col-4 d-block">
+                <div class="card text-center w-75 my-2">
+                  {% if article.image %}
+                  <!--이미지-->
+                    <img src="{{ article.image.url }}" class="card-img-top" alt="...">
+                  {% else %}
+                  <!--이미지 없을시-->
+                    <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top">
+                  {% endif %}
+                  <div class="card-body">
+                    <!--본문-->
+                    <h5 class="card-title card_color">{{ article.title }}</h5>
+                    <p class="text-muted">
+                      <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">
+                        {{ article.user.username }}
+                        <!--user페이지 링크-->
+                      </a>
+                    </p>
+                    <p>{{ article.created_at|date:'SHORT_DATETIME_FORMAT' }}</p>
+                    <!--날짜-->
+                    <a href="{% url 'articles:detail' article.pk %}" class="btn btn-outline-primary my-3">CHECK</a>
+                    <!--디테일링크-->
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <ul class="pagination justify-content-center align-end">
+            <!-- 이전 페이지 -->
+            {% if paginated_user_articles_lists.has_previous %}
+              <!-- 이전 페이지 있으면 연결-->
+              <li class="page-item">
+                <a class="page-link" tabindex="-1"  href="?user-articles-page={{ paginated_user_articles_lists.previous_page_number }}">&laquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo;</a>
+              </li>
+            {% endif %}
+            <!-- 페이지 리스트 -->
+            {% for page_number in paginated_user_articles_lists.paginator.page_range %} <!--페이지 범위를 하나씩 리턴-->
+              <!--현재 페이지일 때는 active-->
+              {% if page_number == paginated_user_articles_lists.number %} 
+                <li class="page-item active" aria-current="page">
+                  <a class="page-link" href="?user-articles-page={{ page_number }}">{{ page_number }}</a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="?user-articles-page={{ page_number }}">{{ page_number }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            <!-- 다음 페이지 -->
+            {% if paginated_user_articles_lists.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?user-articles-page={{ paginated_user_articles_lists.next_page_number }}">&raquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" href="#">&raquo;</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+        <div class="user-comments d-none">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">게시글 ID</th>
+                <th scope="col">게시글 제목</th>
+                <th scope="col">댓글 내용</th>
+                <th scope="col">작성 일자</th>
+                <th scope="col">수정 일자</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for comment in user_comments %}
+                <tr>
+                  <th scope="row" class="align-middle">{{ comment.article.pk }}</td>
+                  <td class="align-middle">
+                    <a href="{% url 'articles:detail' comment.article.pk %}" class="text-decoration-none">{{ comment.article.title }}</a>
+                  </td>
+                  <td class="align-middle text-truncate" style="max-width: 10rem;">{{ comment.content }}</td>
+                  <td class="align-middle">{{ comment.created_at|date:'SHORT_DATETIME_FORMAT' }}</td>
+                  <td class="align-middle">{{ comment.updated_at|date:'SHORT_DATETIME_FORMAT' }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <ul class="pagination justify-content-center">
+            <!-- 이전 페이지 -->
+            {% if paginated_user_comments_lists.has_previous %}
+              <!-- 이전 페이지 있으면 연결-->
+              <li class="page-item">
+                <a class="page-link" tabindex="-1"  href="?user-comments-page={{ paginated_user_comments_lists.previous_page_number }}">&laquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo;</a>
+              </li>
+            {% endif %}
+            <!-- 페이지 리스트 -->
+            {% for page_number in paginated_user_comments_lists.paginator.page_range %} <!--페이지 범위를 하나씩 리턴-->
+              <!--현재 페이지일 때는 active-->
+              {% if page_number == paginated_user_comments_lists.number %} 
+                <li class="page-item active" aria-current="page">
+                  <a class="page-link" href="?user-comments-page={{ page_number }}">{{ page_number }}</a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="?user-comments-page={{ page_number }}">{{ page_number }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            <!-- 다음 페이지 -->
+            {% if paginated_user_comments_lists.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?user-comments-page={{ paginated_user_comments_lists.next_page_number }}">&raquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" href="#">&raquo;</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+        <div class="like-articles d-none">
+          <div class="row">
+            {% for article in like_articles %}
+              <!--각각의 글들-->
+              <div class="col-4 d-block">
+                <div class="card text-center w-75 my-2">
+                  {% if article.image %}
+                  <!--이미지-->
+                    <img src="{{ article.image.url }}" class="card-img-top" alt="...">
+                  {% else %}
+                  <!--이미지 없을시-->
+                    <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top">
+                  {% endif %}
+                  <div class="card-body">
+                    <!--본문-->
+                    <h5 class="card-title card_color">{{ article.title }}</h5>
+                    <p class="text-muted">
+                      <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">
+                        {{ article.user.username }}
+                        <!--user페이지 링크-->
+                      </a>
+                    </p>
+                    <p>{{ article.created_at|date:'SHORT_DATETIME_FORMAT' }}</p>
+                    <!--날짜-->
+                    <a href="{% url 'articles:detail' article.pk %}" class="btn btn-outline-primary my-3">CHECK</a>
+                    <!--디테일링크-->
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <ul class="pagination justify-content-center">
+            <!-- 이전 페이지 -->
+            {% if paginated_like_articles_lists.has_previous %}
+              <!-- 이전 페이지 있으면 연결-->
+              <li class="page-item">
+                <a class="page-link" tabindex="-1"  href="?like-articles-page={{ paginated_like_articles_lists.previous_page_number }}">&laquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo;</a>
+              </li>
+            {% endif %}
+            <!-- 페이지 리스트 -->
+            {% for page_number in paginated_like_articles_lists.paginator.page_range %} <!--페이지 범위를 하나씩 리턴-->
+              <!--현재 페이지일 때는 active-->
+              {% if page_number == paginated_like_articles_lists.number %} 
+                <li class="page-item active" aria-current="page">
+                  <a class="page-link" href="?like-articles-page={{ page_number }}">{{ page_number }}</a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="?like-articles-page={{ page_number }}">{{ page_number }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            <!-- 다음 페이지 -->
+            {% if paginated_like_articles_lists.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?like-articles-page={{ paginated_like_articles_lists.next_page_number }}">&raquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" href="#">&raquo;</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+        <div class="bookmark-articles d-none">
+          <div class="row">
+            {% for article in bookmark_articles %}
+              <!--각각의 글들-->
+              <div class="col-4 d-block">
+                <div class="card text-center w-75 my-2">
+                  {% if article.image %}
+                  <!--이미지-->
+                    <img src="{{ article.image.url }}" class="card-img-top" alt="...">
+                  {% else %}
+                  <!--이미지 없을시-->
+                    <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top">
+                  {% endif %}
+                  <div class="card-body">
+                    <!--본문-->
+                    <h5 class="card-title card_color">{{ article.title }}</h5>
+                    <p class="text-muted">
+                      <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">
+                        {{ article.user.username }}
+                        <!--user페이지 링크-->
+                      </a>
+                    </p>
+                    <p>{{ article.created_at|date:'SHORT_DATETIME_FORMAT' }}</p>
+                    <!--날짜-->
+                    <a href="{% url 'articles:detail' article.pk %}" class="btn btn-outline-primary my-3">CHECK</a>
+                    <!--디테일링크-->
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <ul class="pagination justify-content-center">
+            <!-- 이전 페이지 -->
+            {% if paginated_bookmark_articles_lists.has_previous %}
+              <!-- 이전 페이지 있으면 연결-->
+              <li class="page-item">
+                <a class="page-link" tabindex="-1"  href="?bookmark-articles-page={{ paginated_bookmark_articles_lists.previous_page_number }}">&laquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo;</a>
+              </li>
+            {% endif %}
+            <!-- 페이지 리스트 -->
+            {% for page_number in paginated_bookmark_articles_lists.paginator.page_range %} <!--페이지 범위를 하나씩 리턴-->
+              <!--현재 페이지일 때는 active-->
+              {% if page_number == paginated_bookmark_articles_lists.number %} 
+                <li class="page-item active" aria-current="page">
+                  <a class="page-link" href="?bookmark-articles-page={{ page_number }}">{{ page_number }}</a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="?bookmark-articles-page={{ page_number }}">{{ page_number }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            <!-- 다음 페이지 -->
+            {% if paginated_bookmark_articles_lists.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?book-articles-page={{ paginated_bookmark_articles_lists.next_page_number }}">&raquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" href="#">&raquo;</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+        <div class="accounts-update d-none">
+          <form action="{% url 'accounts:update' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" class="form-control" name="next" value="{{ request.GET.next }}">
+            <div class="row justify-content-center">
+              <div class="col-sm-12 col-md-10 col-lg-6">
+                {% bootstrap_form update_form %}
+              </div>
+            </div>
+            <div class="row justify-content-center my-3">
+              <div class="col-sm-12 col-md-10 col-lg-6">
+                <button class="btn form-control text-white" type="submit" style="background: #ea449a;">변경하기</button>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-sm-12 col-md-10 col-lg-6">
+                <a href="#" class="btn btn-secondary form-control col-6">취소</a>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="password-update d-none">
+          <form action="{% url 'accounts:password' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" class="form-control" name="next" value="{{ request.GET.next }}">
+            <div class="row justify-content-center">
+              <div class="col-sm-12 col-md-10 col-lg-6">
+                {% bootstrap_form password_form %}
+              </div>
+            </div>
+            <div class="row justify-content-center my-3">
+              <div class="col-sm-12 col-md-10 col-lg-6">
+                <button class="btn form-control text-white" type="submit" style="background: #ea449a;">변경하기</button>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-sm-12 col-md-10 col-lg-6">
+                <a href="#" class="btn btn-secondary form-control col-6">취소</a>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
+
+  <script>
+    const mb3 = document.querySelectorAll('.accounts-update .mb-3')
+    mb3.item(5).remove() // 비밀번호 제거
+
+    const userArticlesBtn = document.querySelector('#user-articles-btn')
+    const userCommentsBtn = document.querySelector('#user-comments-btn')
+    const likeArticlesBtn = document.querySelector('#like-articles-btn')
+    const bookmarkArticlesBtn = document.querySelector('#bookmark-articles-btn')
+    const accountsUpdateBtn = document.querySelector('#accounts-update-btn')
+    const passwordUpdateBtn = document.querySelector('#password-update-btn')
+
+    userArticlesBtn.addEventListener('click', function () {
+      const userArticles = document.querySelector('.user-articles')
+      const userComments = document.querySelector('.user-comments')
+      const likeArticles = document.querySelector('.like-articles')
+      const bookmarkArticles = document.querySelector('.bookmark-articles')
+      const accountsUpdate = document.querySelector('.accounts-update')
+      const passwordUpdate = document.querySelector('.password-update')
+
+      userArticles.classList.add('d-block')
+      userArticles.classList.remove('d-none')
+      userComments.classList.add('d-none')
+      userComments.classList.remove('d-block')
+      likeArticles.classList.add('d-none')
+      likeArticles.classList.remove('d-block')
+      bookmarkArticles.classList.add('d-none')
+      bookmarkArticles.classList.remove('d-block')
+      accountsUpdate.classList.add('d-none')
+      accountsUpdate.classList.remove('d-block')
+      passwordUpdate.classList.add('d-none')
+      passwordUpdate.classList.remove('d-block')
+    })
+
+    userCommentsBtn.addEventListener('click', function () {
+      const userArticles = document.querySelector('.user-articles')
+      const userComments = document.querySelector('.user-comments')
+      const likeArticles = document.querySelector('.like-articles')
+      const bookmarkArticles = document.querySelector('.bookmark-articles')
+      const accountsUpdate = document.querySelector('.accounts-update')
+      const passwordUpdate = document.querySelector('.password-update')
+
+      userArticles.classList.add('d-none')
+      userArticles.classList.remove('d-block')
+      userComments.classList.add('d-block')
+      userComments.classList.remove('d-none')
+      likeArticles.classList.add('d-none')
+      likeArticles.classList.remove('d-block')
+      bookmarkArticles.classList.add('d-none')
+      bookmarkArticles.classList.remove('d-block')
+      accountsUpdate.classList.add('d-none')
+      accountsUpdate.classList.remove('d-block')
+      passwordUpdate.classList.add('d-none')
+      passwordUpdate.classList.remove('d-block')
+    })
+
+    likeArticlesBtn.addEventListener('click', function () {
+      const userArticles = document.querySelector('.user-articles')
+      const userComments = document.querySelector('.user-comments')
+      const likeArticles = document.querySelector('.like-articles')
+      const bookmarkArticles = document.querySelector('.bookmark-articles')
+      const accountsUpdate = document.querySelector('.accounts-update')
+      const passwordUpdate = document.querySelector('.password-update')
+
+      userArticles.classList.add('d-none')
+      userArticles.classList.remove('d-block')
+      userComments.classList.add('d-none')
+      userComments.classList.remove('d-block')
+      likeArticles.classList.add('d-block')
+      likeArticles.classList.remove('d-none')
+      bookmarkArticles.classList.add('d-none')
+      bookmarkArticles.classList.remove('d-block')
+      accountsUpdate.classList.add('d-none')
+      accountsUpdate.classList.remove('d-block')
+      passwordUpdate.classList.add('d-none')
+      passwordUpdate.classList.remove('d-block')
+    })
+
+    bookmarkArticlesBtn.addEventListener('click', function () {
+      const userArticles = document.querySelector('.user-articles')
+      const userComments = document.querySelector('.user-comments')
+      const likeArticles = document.querySelector('.like-articles')
+      const bookmarkArticles = document.querySelector('.bookmark-articles')
+      const accountsUpdate = document.querySelector('.accounts-update')
+      const passwordUpdate = document.querySelector('.password-update')
+
+      userArticles.classList.add('d-none')
+      userArticles.classList.remove('d-block')
+      userComments.classList.add('d-none')
+      userComments.classList.remove('d-block')
+      likeArticles.classList.add('d-none')
+      likeArticles.classList.remove('d-block')
+      bookmarkArticles.classList.add('d-block')
+      bookmarkArticles.classList.remove('d-none')
+      accountsUpdate.classList.add('d-none')
+      accountsUpdate.classList.remove('d-block')
+      passwordUpdate.classList.add('d-none')
+      passwordUpdate.classList.remove('d-block')
+    })
+
+    accountsUpdateBtn.addEventListener('click', function () {
+      const userArticles = document.querySelector('.user-articles')
+      const userComments = document.querySelector('.user-comments')
+      const likeArticles = document.querySelector('.like-articles')
+      const bookmarkArticles = document.querySelector('.bookmark-articles')
+      const accountsUpdate = document.querySelector('.accounts-update')
+      const passwordUpdate = document.querySelector('.password-update')
+
+      userArticles.classList.add('d-none')
+      userArticles.classList.remove('d-block')
+      userComments.classList.add('d-none')
+      userComments.classList.remove('d-block')
+      likeArticles.classList.add('d-none')
+      likeArticles.classList.remove('d-block')
+      bookmarkArticles.classList.add('d-none')
+      bookmarkArticles.classList.remove('d-block')
+      accountsUpdate.classList.add('d-block')
+      accountsUpdate.classList.remove('d-none')
+      passwordUpdate.classList.add('d-none')
+      passwordUpdate.classList.remove('d-block')
+    })
+
+    passwordUpdateBtn.addEventListener('click', function () {
+      const userArticles = document.querySelector('.user-articles')
+      const userComments = document.querySelector('.user-comments')
+      const likeArticles = document.querySelector('.like-articles')
+      const bookmarkArticles = document.querySelector('.bookmark-articles')
+      const accountsUpdate = document.querySelector('.accounts-update')
+      const passwordUpdate = document.querySelector('.password-update')
+
+      userArticles.classList.add('d-none')
+      userArticles.classList.remove('d-block')
+      userComments.classList.add('d-none')
+      userComments.classList.remove('d-block')
+      likeArticles.classList.add('d-none')
+      likeArticles.classList.remove('d-block')
+      bookmarkArticles.classList.add('d-none')
+      bookmarkArticles.classList.remove('d-block')
+      accountsUpdate.classList.add('d-none')
+      accountsUpdate.classList.remove('d-block')
+      passwordUpdate.classList.add('d-block')
+      passwordUpdate.classList.remove('d-none')
+    })
+  </script>
 {% endblock content %}
