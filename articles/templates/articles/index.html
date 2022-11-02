@@ -6,9 +6,6 @@
 {% block content %}
 
 
-<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Placeat, odio veniam est natus quia, consequuntur officiis autem maiores, nobis minus totam. Consectetur veniam quaerat deleniti maiores dolore aliquam aut laborum qui amet voluptatibus. Quas sequi, cum omnis nisi sint vero autem consequuntur ipsa possimus aliquam unde dicta illo qui facilis cumque magnam provident vel ab deserunt nam. Dolorem non est nulla suscipit quisquam repudiandae optio veniam, dolores beatae voluptatem nobis quia laborum enim, cumque mollitia vitae illo autem. Placeat tempora vero dignissimos accusantium corrupti, hic deserunt optio minima laboriosam quas assumenda adipisci asperiores libero ullam est explicabo cum tempore dolorem quibusdam molestiae odit voluptates? Impedit, libero! Culpa quasi nesciunt magnam rem. Itaque aperiam exercitationem magnam cumque saepe, a repudiandae distinctio alias quidem dignissimos sunt nesciunt dolorum tenetur similique? Earum commodi, odit quis soluta esse dolores minus voluptas ipsam distinctio sunt repellendus quo quia perferendis molestiae qui, repudiandae libero aliquam. Blanditiis quae quia aut similique perspiciatis nam eum aspernatur quidem ipsum possimus adipisci suscipit consectetur totam dolorum asperiores, quas maxime tempora tenetur nemo animi? Laudantium corporis accusamus a voluptatum at voluptatem sint minus consequatur, qui porro nihil nulla ipsam sunt commodi repellat hic voluptates tempore provident, rem totam natus. Beatae necessitatibus expedita tempore sint perferendis repellendus culpa magni, animi praesentium tempora. Eaque blanditiis minus ad odio hic voluptatibus minima inventore nostrum repudiandae, molestiae vel provident corporis a eligendi ex rem deleniti. Aut eos quos doloremque eaque quaerat, veniam nostrum nihil laudantium. Nostrum ea beatae quibusdam corrupti magnam. Ea dolorem velit optio consequuntur distinctio aut voluptatum, porro nulla vitae ab, consectetur minima iusto, quas commodi quaerat quod? Error expedita ipsam distinctio quisquam vitae corporis eos quia inventore alias consequatur maxime voluptate vero odio aspernatur soluta quas temporibus quis, architecto sint nostrum deserunt minima hic commodi nesciunt? Sit praesentium eligendi quasi reiciendis dolorum.</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias officiis quia molestiae ducimus vero eius dicta voluptatem fugiat, illo incidunt itaque velit minima facere, laudantium architecto autem exercitationem ratione? Aspernatur veniam obcaecati aperiam aliquam, beatae deleniti eius ipsa. Qui possimus quas earum vero maiores laborum quisquam ipsam ipsum voluptatum aliquid, culpa nisi doloremque consectetur nihil exercitationem veniam illo cum inventore voluptas asperiores rerum voluptate. Pariatur odio nemo natus rerum aliquid perferendis facere recusandae eum fugit? Molestiae obcaecati incidunt, enim saepe magnam, accusamus, mollitia sint sequi deserunt corrupti consequatur minima perspiciatis? Quis officia, natus excepturi sequi rem nemo quaerat sed voluptates fugit debitis et consequatur nobis amet libero nisi corporis nesciunt minus officiis hic? Placeat labore, neque animi adipisci maxime fuga magni quia vero magnam? Perspiciatis praesentium fugit qui velit neque labore ipsam commodi, iusto cumque laudantium blanditiis quo explicabo vitae, eligendi est! Quo dolorum quis perferendis voluptatum officiis minima eveniet labore ipsam odio architecto quibusdam, molestiae nobis magnam ab eos? Placeat quasi dolorum quo non illo iste hic, numquam adipisci reiciendis nobis distinctio impedit molestiae veniam quam aut sunt sit ipsa eum nulla? Culpa nostrum necessitatibus ipsam voluptatibus! Rem, quo! Doloremque alias voluptatum sed exercitationem corporis cupiditate vel dicta recusandae, ea dignissimos assumenda repudiandae odit omnis, ab ducimus distinctio praesentium perferendis sit nostrum maxime fugit? Ad aliquid dicta sunt possimus voluptate iste quod ipsam ullam sit, quae sed voluptatum deleniti veniam itaque delectus adipisci assumenda aut officia unde. Perspiciatis sequi placeat culpa sunt consequatur ipsa fugit, a harum nisi unde nesciunt eveniet tempora libero, veritatis modi quia odit facere eum facilis nihil expedita! Dignissimos aperiam quam sed mollitia, commodi ex corrupti enim ea delectus maiores. Iusto expedita amet ex perspiciatis, neque ipsa cumque voluptatibus, autem, esse sed corrupti cupiditate adipisci odio! Nobis natus ex, laudantium nostrum excepturi deleniti odit vero!</p>
-
 <div class="container my-4">
     <h1>Community</h1>
 </div>
@@ -57,6 +54,45 @@
                         </div>
                     </div>
                     {% endfor %}
+                    <div class="board-pagination">
+                        <ul class="pagination">
+                        <!-- 이전페이지 -->
+                            {% if paginated_article_lists.has_previous %}
+                            <!-- 이전페이지 있으면 연결-->
+                            <li class="page-item">
+                                <a class="page-link" tabindex="-1"  href="?page={{ paginated_article_lists.previous_page_number }}">&laquo;</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#">&laquo;</a>
+                            </li>
+                            {% endif %}
+                            <!-- 페이지리스트 -->
+                            {% for page_number in paginated_article_lists.paginator.page_range %} <!--페이지 범위를 하나씩 리턴-->
+                           {{ page.number }}
+                            <!--현재 페이지일 때는 active-->
+                            {% if page_number == paginated_article_lists.number %} 
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                           </li>
+                            {% endif %}
+                            {% endfor %}
+                            <!-- 다음페이지 -->
+                            {% if paginated_article_lists.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ article_lists.next_page_number }}">&raquo;</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                 <a class="page-link" tabindex="-1" href="#">&raquo;</a>
+                               </li>
+                               {% endif %}
+                        </ul>
+                    </div>
                 </div>
             </article>
         </section>
