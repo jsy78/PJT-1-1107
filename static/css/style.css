@@ -1,5 +1,18 @@
 .lower-navbar {
   background-color: #f38524;
+  color: white;
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  z-index: 100;
+  width: 100%;
+  transform: translate(-50%);
+  transition: top 0.2s ease-in-out;
+}
+
+/* JS로 추가 */
+.nav-up {
+  top: -80px;
 }
 
 .btn-search {
@@ -13,4 +26,41 @@
   background-color: white;
   color: #ea449a;
   border: 1px solid #ea449a;
+}
+
+.nav1-text:hover {
+  color: #ea449a;
+}
+
+.nav2-text:hover {
+  font-weight: bold;
+  margin-right: -1.5px;
+}
+
+.nav2-mypage:hover {
+  font-weight: bold;
+}
+
+/* Medium devices (tablets, 768px and up) 
+The navbar toggle appears at this breakpoint */
+@media (min-width: 768px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    border-radius: 0;
+  }
+}
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡ 아래 성민 ㅡㅡㅡㅡㅡㅡㅡㅡ */
+.black {
+  color: black;
+}
+
+.pink {
+  color: #ea449a;
+}
+
+.pink-btn {
+  color: white;
+  background-color: #ea449a;
 }
