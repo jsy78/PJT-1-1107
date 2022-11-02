@@ -2,28 +2,24 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-  <div class="d-flex justify-content-center align-items-center">
-    <h1 class="my-4">회원가입</h1>
+
+<div class="container my-5 pt-1">
+  <h1 class="text-center my-4 fs-3 fw-bold">회원가입</h1>
+  <div class="d-flex justify-content-center">
+    <div class="card col-6">
+      <div class="card-body py-5 px-5">
+        <form action="{% url 'accounts:signup' %}" method="POST" enctype="multipart/form-data" class="mx-3">
+          {% csrf_token %}
+          <input type="hidden" class="form-control" name="next" value="{{ request.GET.next }}">
+              {% bootstrap_form form %}
+              <button class="btn btn-form form-control col-6 text-white mt-4 mb-5" type="submit" >가입하기</button>
+              <p class="text-muted mb-1">이미 가입하셨나요?</p>
+              <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary form-control col-6">로그인하러 가기</a>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-  <div class="p-4">
-    <form action="{% url 'accounts:signup' %}" method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      <input type="hidden" class="form-control" name="next" value="{{ request.GET.next }}">
-      <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-10 col-lg-6">
-          {% bootstrap_form form %}
-        </div>
-      </div>
-      <div class="row justify-content-center my-3">
-        <div class="col-sm-12 col-md-10 col-lg-6">
-          <button class="btn form-control text-white" type="submit" style="background: #ea449a;">가입하기</button>
-        </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-10 col-lg-6">
-          <a href="{% url 'accounts:login' %}" class="btn btn-secondary form-control col-6">로그인하러 가기</a>
-        </div>
-      </div>
-    </form>
-  </div>
+</div>
+
 {% endblock content %}
