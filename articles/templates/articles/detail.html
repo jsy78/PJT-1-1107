@@ -102,12 +102,13 @@
       <div class="d-flex align-items-center">     
         
         <!-- 좋아요 -->
+        <!-- 좋아요 개수 추가!!! -->
         <div class="me-3">
           <a class="p-0 m-0 btn btn-lg border-0" href="{% url 'articles:likes' article.pk %}">
             {% if request.user in article.likes_users.all %}
-              <i class="bi bi-heart-fill fs-4"></i>
+            <i class="bi bi-heart-fill fs-4" style="color: #f38524;"></i>
             {% else %}
-              <i class="bi bi-heart fs-4"></i>
+            <i class="bi bi-heart fs-4"></i>
             {% endif %}
           </a>
           {% comment %} <p>{{ article.likes_users.count }}</p> {% endcomment %}
@@ -115,7 +116,12 @@
         <!-- 공유 -->
         <a class="p-0 btn btn-lg border-0 bi bi-share me-3 fs-4" href="#"></a>
         <!-- 스크랩 -->
-          <a class="p-0 m-0 btn btn-lg border-0 bi bi-bookmark fs-4" href="#"></a>
+        {% if request.user in article.likes_users.all %}
+        <!-- 스크랩한 유저로 변경해야함!!!!! -->
+        <a class="p-0 m-0 btn btn-lg border-0 bi bi-bookmark-fill fs-4" style="color: #ea449a;" href="#"></a>
+        {% else %}
+        <a class="p-0 m-0 btn btn-lg border-0 bi bi-bookmark fs-4" href="#"></a>
+        {% endif %}
       </div>
     </div>
   
