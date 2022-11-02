@@ -12,6 +12,7 @@ urlpatterns = [
     path("password/", views.password, name="password"),
     path("delete/", views.delete, name="delete"),
     path("mypage/", views.mypage, name="mypage"),
+    path("followings/", views.followings, name="followings"),
     path("follow/<username>/", views.follow, name="follow"),
     path("profile/<username>/", views.profile, name="profile"),
 ]
