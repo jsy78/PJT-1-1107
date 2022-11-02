@@ -12,7 +12,7 @@ class ArticleForm(forms.ModelForm):
             "grade": "평점",
             "location": "위치",
             "image": "사진 첨부",
-            "foodType": "종류",
+            "foodType": "음식 종류",
         }
         widgets = {
             "rating": forms.NumberInput(
@@ -27,6 +27,15 @@ class ArticleForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    content = forms.CharField(
+        label="",
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "댓글을 남겨보세요 💬",
+            }
+        ),
+    )
+
     class Meta:
         model = Comment
         fields = [
