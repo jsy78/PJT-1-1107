@@ -9,7 +9,7 @@
       <span><h2>{{ article.title }}</h2><h6>{{ article.location }}</h6></span>
       <hr>
       <h4>
-        {% comment %} <a href="{% url 'accounts:detail' article.user.pk %}" class="text-decoration-none text-dark"> {% endcomment %}
+        <a href="{% url 'accounts:mypage' %}" class="text-decoration-none text-dark">
           {{article.user.username }}
         </a>
       </h4>
