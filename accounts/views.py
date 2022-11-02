@@ -233,3 +233,18 @@ def follow(request, username):
             return JsonResponse(context)
         return redirect("accounts:profile", person.username)
     return redirect("accounts:login")
+
+
+@login_required
+def followings(request):
+    # user = get_object_or_404(get_user_model(), pk=request.user.pk)
+    users = (
+        get_user_model()
+        .objects.prefetch_related("followings")
+        .get(pk=request.user.pk)
+        .followings.order_by("-pk")
+    )
+    context = {
+        "users": users,
+    }
+    return render(request, "accounts/followings.html", context)
