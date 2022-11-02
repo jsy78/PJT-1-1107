@@ -6,10 +6,10 @@
   <div class="container justify-content-center border border-dark border-2 mx-3"
     style="width: 100%; height:auto; border-radius:5px;">
     <div class="mt-2">
-      <h2>{{ article.title }}</h2>
+      <span><h2>{{ article.title }}</h2><h6>{{ article.location }}</h6></span>
       <hr>
       <h4>
-        <a href="{% url 'accounts:detail' article.user.pk %}" class="text-decoration-none text-dark">
+        {% comment %} <a href="{% url 'accounts:detail' article.user.pk %}" class="text-decoration-none text-dark"> {% endcomment %}
           {{article.user.username }}
         </a>
       </h4>
@@ -20,6 +20,7 @@
       <img src="{{ article.image.url }}" alt="..." width="400">
       {% endif %}
       <p>{{ article.content }}</p>
+      <span>{{ article.foodType }}</span>
     </div>
     <hr>
     <span class="mx-1">
@@ -37,13 +38,14 @@
     </span>
     <span class="mx-1">
       {% if request.user.is_authenticated %}
-      <a href="{% url 'articles:dislikes' article.pk %}" class="text-decoration-none">
+      {% comment %} <a href="{% url 'articles:dislikes' article.pk %}" class="text-decoration-none">
         {% if request.user in article.dislike_users.all %}
         <button class="btn btn-primary"><i class="bi bi-x-circle-fill"></i></button>
         {% else %}
         <button class="btn btn-danger"><i class="bi bi-hand-thumbs-down-fill"></i></button>
         {% endif %}
-      </a> | {{ article.dislike_users.count }}
+      </a> | {{ article.dislike_users.count }} {% endcomment %}
+      empth
       {% else %}
       <button class="btn btn-warning"><a href="{% url 'accounts:login' %}">로그인</a></button>
       {% endif %}
