@@ -4,26 +4,26 @@
 {% block content %}
 
 <div class="container my-5 pt-1">
-{% if request.resolver_match.url_name == "create" %}
-<h1 class="text-center my-4 fs-3 fw-bold">후기 작성</h1>
-{% elif request.resolver_match.url_name == "update" %}
-<h1 class="text-center my-4 fs-3 fw-bold">후기 수정</h1>
-{% else %}
-<h1 class="text-center my-4 fs-3 fw-bold">후기 삭제</h1>
-{% endif %}
-<div class="d-flex justify-content-center">
-  <div class="card col-9 review-detail">
-    <div class="card-body">
-      <form action="" method="POST" class="text-dark px-5 py-3">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <div class="text-end mt-4">
-          <input type="submit" class="btn btn-form" value="저장">
-        </div>
-      </form>
+  {% if request.resolver_match.url_name == "create" %}
+  <h1 class="text-center my-4 fs-3 fw-bold">후기 작성</h1>
+  {% elif request.resolver_match.url_name == "update" %}
+  <h1 class="text-center my-4 fs-3 fw-bold">후기 수정</h1>
+  {% else %}
+  <h1 class="text-center my-4 fs-3 fw-bold">후기 삭제</h1>
+  {% endif %}
+  <div class="d-flex justify-content-center">
+    <div class="card col-9 review-detail">
+      <div class="card-body">
+        <form action="" method="POST" class="text-dark px-5 py-3">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <div class="text-end mt-4">
+            <input type="submit" class="btn btn-form" value="저장">
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 {% endblock content %}
