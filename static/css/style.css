@@ -70,6 +70,7 @@ The navbar toggle appears at this breakpoint */
   background-color: white;
 }
 
+/* 드롭다운 색 */
 .picker {
   color: #ea449a;
 }
@@ -77,4 +78,15 @@ The navbar toggle appears at this breakpoint */
 .picker:hover {
   color: #ea449a;
   background-color: rgb(228, 224, 224);
+}
+
+/* carousel 버튼 색 */
+.carousel-btn {
+  color: gray;
+  background-color: white;
+  border: 0;
+}
+
+.carousel-btn:hover {
+  color: #ea449a;
 }
