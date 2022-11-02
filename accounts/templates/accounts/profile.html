@@ -48,11 +48,11 @@
       </div>
       <div class="col-10">
         <div class="user-articles d-block">
-          <div class="row">
+          <div class="row justify-content-center">
             {% for article in user_articles %}
               <!--각각의 글들-->
               <div class="col-4 d-block">
-                <div class="card text-center w-75 my-2">
+                <div class="card text-center w-75 mx-auto my-2">
                   {% if article.image %}
                   <!--이미지-->
                     <img src="{{ article.image.url }}" class="card-img-top" alt="...">
