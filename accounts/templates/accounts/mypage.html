@@ -302,7 +302,7 @@
           </ul>
         </div>
         <div class="accounts-update d-none">
-          <form action="{% url 'accounts:update' %}" method="POST">
+          <form action="{% url 'accounts:update' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" class="form-control" name="next" value="{{ request.GET.next }}">
             <div class="row justify-content-center">
