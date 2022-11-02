@@ -51,6 +51,18 @@
   border: 1px solid #e11383;
 }
 
+.bi-heart:hover {
+  color: #f38524;
+}
+
+.bi-share:hover {
+  color: #0d6efd;
+}
+
+.bi-bookmark:hover {
+  color: #ea449a;
+}
+
 .nav1-text:hover {
   color: #ea449a;
 }
