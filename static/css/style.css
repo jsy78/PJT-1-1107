@@ -64,3 +64,17 @@ The navbar toggle appears at this breakpoint */
   color: white;
   background-color: #ea449a;
 }
+
+.pink-btn:hover {
+  color: #ea449a;
+  background-color: white;
+}
+
+.picker {
+  color: #ea449a;
+}
+
+.picker:hover {
+  color: #ea449a;
+  background-color: rgb(228, 224, 224);
+}
