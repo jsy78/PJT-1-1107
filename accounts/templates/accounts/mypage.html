@@ -30,8 +30,8 @@
         </div>
         <hr>
         <div class="list-group">
-          <button id="accounts-update-btn" type="button" class="list-group-item list-group-item-action border-top">회원 정보 수정</button>
-          <button id="password-update-btn" type="button" class="list-group-item list-group-item-action border-top">비밀번호 변경</button>
+          <button id="accounts-update-btn" type="button" class="list-group-item list-group-item-action border-top" data-bs-toggle="modal" data-bs-target="#updateModal">회원 정보 수정</button>
+          <button id="password-update-btn" type="button" class="list-group-item list-group-item-action border-top" data-bs-toggle="modal" data-bs-target="#passwordModal">비밀번호 변경</button>
         </div>
       </div>
       <div class="col-10">
@@ -301,48 +301,57 @@
             {% endif %}
           </ul>
         </div>
-        <div class="accounts-update d-none">
-          <form action="{% url 'accounts:update' %}" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="hidden" class="form-control" name="next" value="{{ request.GET.next }}">
-            <div class="row justify-content-center">
-              <div class="col-sm-12 col-md-10 col-lg-6">
-                {% bootstrap_form update_form %}
+
+        <!-- 회원정보 수정 Modal -->
+        <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">회원 정보 수정</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
+              <div class="modal-body">
+                <form action="{% url 'accounts:update' %}" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <input type="hidden" class="form-control" name="next" value="{{ request.GET.next }}">
+                  <div class="px-3">
+                    {% bootstrap_form update_form %}
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+                  <button type="submit" class="btn btn-form text-white">저장</button>
+                </div>
+              </form>
             </div>
-            <div class="row justify-content-center my-3">
-              <div class="col-sm-12 col-md-10 col-lg-6">
-                <button class="btn form-control text-white" type="submit" style="background: #ea449a;">변경하기</button>
-              </div>
-            </div>
-            <div class="row justify-content-center">
-              <div class="col-sm-12 col-md-10 col-lg-6">
-                <a href="#" class="btn btn-secondary form-control col-6">취소</a>
-              </div>
-            </div>
-          </form>
+          </div>
         </div>
-        <div class="password-update d-none">
-          <form action="{% url 'accounts:password' %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" class="form-control" name="next" value="{{ request.GET.next }}">
-            <div class="row justify-content-center">
-              <div class="col-sm-12 col-md-10 col-lg-6">
-                {% bootstrap_form password_form %}
+        
+        <!-- 비밀번호 변경 Modal -->
+        <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">비밀번호 변경</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
+              <div class="modal-body">
+                <form action="{% url 'accounts:password' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" class="form-control" name="next" value="{{ request.GET.next }}">
+                  <div class="px-3">
+                    {% bootstrap_form password_form %}
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+                  <button type="submit" class="btn btn-form text-white">저장</button>
+                </div>
+              </form>
             </div>
-            <div class="row justify-content-center my-3">
-              <div class="col-sm-12 col-md-10 col-lg-6">
-                <button class="btn form-control text-white" type="submit" style="background: #ea449a;">변경하기</button>
-              </div>
-            </div>
-            <div class="row justify-content-center">
-              <div class="col-sm-12 col-md-10 col-lg-6">
-                <a href="#" class="btn btn-secondary form-control col-6">취소</a>
-              </div>
-            </div>
-          </form>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
