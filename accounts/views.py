@@ -98,7 +98,7 @@ def signup(request):
 
     # POST 요청 처리
     if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()  # ModelForm의 save 메서드의 리턴값은 해당 모델의 인스턴스
             auth_login(request, user)  # 회원가입 직후 자동 로그인
@@ -151,7 +151,7 @@ def update(request):
         return redirect("accounts:login")
 
     if request.method == "POST":
-        form = CustomUserChangeForm(request.POST, instance=request.user)
+        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, "정보 수정 성공")
