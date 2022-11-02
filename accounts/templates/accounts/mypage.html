@@ -357,23 +357,19 @@
   </div>
 
   <script>
-    const mb3 = document.querySelectorAll('.accounts-update .mb-3')
+    const mb3 = document.querySelectorAll('#updateModal .mb-3')
     mb3.item(5).remove() // 비밀번호 제거
 
     const userArticlesBtn = document.querySelector('#user-articles-btn')
     const userCommentsBtn = document.querySelector('#user-comments-btn')
     const likeArticlesBtn = document.querySelector('#like-articles-btn')
     const bookmarkArticlesBtn = document.querySelector('#bookmark-articles-btn')
-    const accountsUpdateBtn = document.querySelector('#accounts-update-btn')
-    const passwordUpdateBtn = document.querySelector('#password-update-btn')
 
     userArticlesBtn.addEventListener('click', function () {
       const userArticles = document.querySelector('.user-articles')
       const userComments = document.querySelector('.user-comments')
       const likeArticles = document.querySelector('.like-articles')
       const bookmarkArticles = document.querySelector('.bookmark-articles')
-      const accountsUpdate = document.querySelector('.accounts-update')
-      const passwordUpdate = document.querySelector('.password-update')
 
       userArticles.classList.add('d-block')
       userArticles.classList.remove('d-none')
@@ -383,10 +379,6 @@
       likeArticles.classList.remove('d-block')
       bookmarkArticles.classList.add('d-none')
       bookmarkArticles.classList.remove('d-block')
-      accountsUpdate.classList.add('d-none')
-      accountsUpdate.classList.remove('d-block')
-      passwordUpdate.classList.add('d-none')
-      passwordUpdate.classList.remove('d-block')
     })
 
     userCommentsBtn.addEventListener('click', function () {
@@ -394,8 +386,6 @@
       const userComments = document.querySelector('.user-comments')
       const likeArticles = document.querySelector('.like-articles')
       const bookmarkArticles = document.querySelector('.bookmark-articles')
-      const accountsUpdate = document.querySelector('.accounts-update')
-      const passwordUpdate = document.querySelector('.password-update')
 
       userArticles.classList.add('d-none')
       userArticles.classList.remove('d-block')
@@ -405,10 +395,6 @@
       likeArticles.classList.remove('d-block')
       bookmarkArticles.classList.add('d-none')
       bookmarkArticles.classList.remove('d-block')
-      accountsUpdate.classList.add('d-none')
-      accountsUpdate.classList.remove('d-block')
-      passwordUpdate.classList.add('d-none')
-      passwordUpdate.classList.remove('d-block')
     })
 
     likeArticlesBtn.addEventListener('click', function () {
@@ -416,8 +402,6 @@
       const userComments = document.querySelector('.user-comments')
       const likeArticles = document.querySelector('.like-articles')
       const bookmarkArticles = document.querySelector('.bookmark-articles')
-      const accountsUpdate = document.querySelector('.accounts-update')
-      const passwordUpdate = document.querySelector('.password-update')
 
       userArticles.classList.add('d-none')
       userArticles.classList.remove('d-block')
@@ -427,10 +411,6 @@
       likeArticles.classList.remove('d-none')
       bookmarkArticles.classList.add('d-none')
       bookmarkArticles.classList.remove('d-block')
-      accountsUpdate.classList.add('d-none')
-      accountsUpdate.classList.remove('d-block')
-      passwordUpdate.classList.add('d-none')
-      passwordUpdate.classList.remove('d-block')
     })
 
     bookmarkArticlesBtn.addEventListener('click', function () {
@@ -438,8 +418,6 @@
       const userComments = document.querySelector('.user-comments')
       const likeArticles = document.querySelector('.like-articles')
       const bookmarkArticles = document.querySelector('.bookmark-articles')
-      const accountsUpdate = document.querySelector('.accounts-update')
-      const passwordUpdate = document.querySelector('.password-update')
 
       userArticles.classList.add('d-none')
       userArticles.classList.remove('d-block')
@@ -449,54 +427,6 @@
       likeArticles.classList.remove('d-block')
       bookmarkArticles.classList.add('d-block')
       bookmarkArticles.classList.remove('d-none')
-      accountsUpdate.classList.add('d-none')
-      accountsUpdate.classList.remove('d-block')
-      passwordUpdate.classList.add('d-none')
-      passwordUpdate.classList.remove('d-block')
-    })
-
-    accountsUpdateBtn.addEventListener('click', function () {
-      const userArticles = document.querySelector('.user-articles')
-      const userComments = document.querySelector('.user-comments')
-      const likeArticles = document.querySelector('.like-articles')
-      const bookmarkArticles = document.querySelector('.bookmark-articles')
-      const accountsUpdate = document.querySelector('.accounts-update')
-      const passwordUpdate = document.querySelector('.password-update')
-
-      userArticles.classList.add('d-none')
-      userArticles.classList.remove('d-block')
-      userComments.classList.add('d-none')
-      userComments.classList.remove('d-block')
-      likeArticles.classList.add('d-none')
-      likeArticles.classList.remove('d-block')
-      bookmarkArticles.classList.add('d-none')
-      bookmarkArticles.classList.remove('d-block')
-      accountsUpdate.classList.add('d-block')
-      accountsUpdate.classList.remove('d-none')
-      passwordUpdate.classList.add('d-none')
-      passwordUpdate.classList.remove('d-block')
-    })
-
-    passwordUpdateBtn.addEventListener('click', function () {
-      const userArticles = document.querySelector('.user-articles')
-      const userComments = document.querySelector('.user-comments')
-      const likeArticles = document.querySelector('.like-articles')
-      const bookmarkArticles = document.querySelector('.bookmark-articles')
-      const accountsUpdate = document.querySelector('.accounts-update')
-      const passwordUpdate = document.querySelector('.password-update')
-
-      userArticles.classList.add('d-none')
-      userArticles.classList.remove('d-block')
-      userComments.classList.add('d-none')
-      userComments.classList.remove('d-block')
-      likeArticles.classList.add('d-none')
-      likeArticles.classList.remove('d-block')
-      bookmarkArticles.classList.add('d-none')
-      bookmarkArticles.classList.remove('d-block')
-      accountsUpdate.classList.add('d-none')
-      accountsUpdate.classList.remove('d-block')
-      passwordUpdate.classList.add('d-block')
-      passwordUpdate.classList.remove('d-none')
     })
   </script>
 {% endblock content %}
