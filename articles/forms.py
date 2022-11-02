@@ -15,7 +15,7 @@ class ArticleForm(forms.ModelForm):
             "foodType": "음식 종류",
         }
         widgets = {
-            "rating": forms.NumberInput(
+            "grade": forms.NumberInput(
                 attrs={
                     "maxlength": "1",
                     "max": "5",

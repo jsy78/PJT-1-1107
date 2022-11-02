@@ -2,33 +2,28 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-<div class="container my-3 pb-5">
-  <div class="container my-3 border border-dark border-2" style="border-radius: 5px;">
-    {% if request.resolver_match.url_name == "create" %}
-    <h2 class="mx-1 my-3">글쓰기</h2> <!-- request가 create라면 -->
-    {% elif request.resolver_match.url_name == "update" %}
-    <h2> 수정하기 </h2>  <!--create 가 아니면 -->
-    {% else %}
-    <h2> 삭제하기 </h2>
-    {% endif %}
-    <hr>
-    <!-- 글쓰기 폼 -->
-    <div class="container mx-2 d-flex justify-content-center">
-      <form action="" method="POST" enctype="multipart/form-data">
+
+<div class="container my-5 pt-1">
+{% if request.resolver_match.url_name == "create" %}
+<h1 class="text-center my-4 fs-3 fw-bold">후기 작성</h1>
+{% elif request.resolver_match.url_name == "update" %}
+<h1 class="text-center my-4 fs-3 fw-bold">후기 수정</h1>
+{% else %}
+<h1 class="text-center my-4 fs-3 fw-bold">후기 삭제</h1>
+{% endif %}
+<div class="d-flex justify-content-center">
+  <div class="card col-9 review-detail">
+    <div class="card-body">
+      <form action="" method="POST" class="text-dark px-5 py-3">
         {% csrf_token %}
         {% bootstrap_form form %}
-        {% bootstrap_button button_type="submit" content="글쓰기" %}
+        <div class="text-end mt-4">
+          <input type="submit" class="btn btn-form" value="저장">
+        </div>
       </form>
     </div>
-
-    {% comment %} <div class="container mx-3 my-3 d-flex">
-      {% if request.resolver_match.url_name == "create" %}
-      <a href="{% url 'articles:index' %}" class="btn btn-warning">목록으로</a>
-      {% else %}
-      <a href="{% url 'articles:index' %}" class="btn btn-warning">삭제하기</a>
-      {% endif %}
-    </div> {% endcomment %}
   </div>
+</div>
 </div>
 
 {% endblock content %}
