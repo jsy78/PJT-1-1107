@@ -6,18 +6,26 @@
 
 <!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 아래 성민 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 <!-- 배너 부분 carousel -->
-<div id="carouselExampleControls" class="container carousel slide" data-bs-ride="carousel">
-  <div class="py-3 fs-5 fw-bold">인기 맛집 -
-    <span class="pink">TOP 9</span></div>
-  <div class="carousel-inner">
+<div class="row">
+<!-- 배너 carousel 좌측 버튼 -->
+<button class="carousel-btn col-1 fs-1" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+  <i class="bi bi-arrow-left"></i>
+  <span class="visually-hidden">Previous</span>
+</button>
+
+<div id="carouselExampleControls" class="col-10 carousel slide" data-bs-ride="carousel">
+  <div class="py-3 fs-5 fw-bold">인기 맛집 - <span class="pink">TOP 9</span></div>
+  <div class="row carousel-inner">
 
     <!-- 배너 carousel 1페이지 -->
     <div class="carousel-item active">
       <div class="row">
         {% for article in articles|slice:":3" %}
           <div class="col-lg-4 mb-4">
-            <div class="card">
-              <img src="{{ article.image.url }}" alt="" class="card-img-top">
+            <div class="card" style="width: 23rem;">
+              <div class="w-100" style="height: 23rem;">
+                <img src="{{ article.image.url }}" alt="" class="h-100 card-img-top">
+              </div>
               <div class="card-body">
                 <h5 class="card-title">{{ article.title }}</h5>
                 <p class="card-text">{{ article.location }}</p>
@@ -38,8 +46,10 @@
       <div class="row">
         {% for article in articles|slice:"3:6" %}
           <div class="col-lg-4 mb-4">
-            <div class="card">
-              <img src="{{ article.image.url }}" alt="" class="card-img-top">
+            <div class="card" style="width: 23rem;">
+              <div class="w-100" style="height: 23rem;">
+                <img src="{{ article.image.url }}" alt="" class="h-100 card-img-top">
+              </div>
               <div class="card-body">
                 <h5 class="card-title">{{ article.title }}</h5>
                 <p class="card-text">{{ article.location }}</p>
@@ -60,8 +70,10 @@
       <div class="row">
         {% for article in articles|slice:"6:9" %}
           <div class="col-lg-4 mb-4">
-            <div class="card">
-              <img src="{{ article.image.url }}" alt="" class="card-img-top">
+            <div class="card" style="width: 23rem;">
+              <div class="w-100" style="height: 23rem;">
+                <img src="{{ article.image.url }}" alt="" class="h-100 card-img-top">
+              </div>
               <div class="card-body">
                 <h5 class="card-title">{{ article.title }}</h5>
                 <p class="card-text">{{ article.location }}</p>
@@ -79,41 +91,41 @@
   </div>
 </div>
 
-<!-- 배너 carousel 넘기기 버튼 -->
-<button style="color: black; width: 5rem; height: 50rem;" class="fs-1 ms-5 justify-content-start carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-  <i class="bi bi-arrow-left-square "></i>
+<!-- 배너 carousel 우측 버튼 -->
+<button class="carousel-btn col-1 fs-1" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+  <i class="bi bi-arrow-right"></i>
+  <span class="visually-hidden">Next</span>
+</button>
+</div>
+
+<!-- 메인 (~순 정렬) -->
+<div class="row my-5 pb-5">
+<!-- 리스트 carousel 좌측 버튼 -->
+<button class="carousel-btn col-1 fs-1" type="button" data-bs-target="#mainControls" data-bs-slide="prev">
+  <i class="bi bi-arrow-left"></i>
   <span class="visually-hidden">Previous</span>
 </button>
 
-<button style="color: black; width: 5rem; height: 50rem;" class="fs-1 me-5 justify-content-end carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-  <i class="bi bi-arrow-right-square "></i>
-  <span class="visually-hidden">Next</span>
-</button>
-
-<!-- 메인 (정렬하기) -->
-<div id="mainControls" class="my-5 pb-5 container carousel slide" data-bs-ride="carousel">
-  <!-- 맛집 리스트 title / dropdowns -->
-  <div class="d-flex justify-content-between">
-    <div class="pink fs-5 fw-bold">맛집
-      <span class="black">리스트</span></div>
-    
+<div id="mainControls" class="col-10 carousel slide" data-bs-ride="carousel">
+  <div class="mb-2 d-flex justify-content-between">
+    <div class="pink fs-5 fw-bold">맛집 <span class="black">리스트</span></div>
     <select class="selectpicker">
       <option class="picker"><a href="#">최신순</a></option>
       <option class="picker"><a href="#">조회순</a></option>
       <option class="picker"><a href="#">인기순 (좋아요순)</a></option>
     </select>
   </div>
-
   <div class="carousel-inner">
+
     <!-- 리스트 carousel 1페이지 -->
     <div class="carousel-item active">
-      <div class="row ">
+      <div class="row">
         {% for article in articles|slice:":8" %}
-          <div class="col-3 d-flex flex-column align-items-center" id="one">
-            <div style="width: 13rem; height: 13rem;">
+          <div class="col-3 d-flex flex-column align-items-between" id="one">
+            <div style="width: 15rem; height: 15rem;">
               <img class="w-100 h-100" src="{{ article.image.url }}" alt="">
             </div>
-            <div style="width: 13rem;">
+            <div style="width: 15rem;">
               <div>
                 <div class="my-3">
                   <a href="{% url 'articles:detail' article.pk %}" class="pink-btn btn">{{ article.title }}</a>
@@ -139,13 +151,13 @@
 
     <!-- 리스트 carousel 2페이지 -->
     <div class="carousel-item active">
-      <div class="row ">
+      <div class="row">
         {% for article in articles|slice:"8:" %}
-          <div class="col-3 d-flex flex-column align-items-center" id="one">
-            <div style="width: 13rem; height: 13rem;">
+          <div class="col-3 d-flex flex-column align-items-between" id="one">
+            <div style="width: 15rem; height: 15rem;">
               <img class="w-100 h-100" src="{{ article.image.url }}" alt="">
             </div>
-            <div style="width: 13rem;">
+            <div style="width: 15rem;">
               <div>
                 <div class="my-3">
                   <a href="{% url 'articles:detail' article.pk %}" class="pink-btn btn">{{ article.title }}</a>
@@ -171,15 +183,11 @@
   </div>
 </div>
 
-<!-- 리스트 carousel 넘기기 버튼 -->
-<button style="color: black; width: 5rem; height: 72rem;" class="fs-1 ms-5 justify-content-start align-items-end carousel-control-prev" type="button" data-bs-target="#mainControls" data-bs-slide="prev">
-  <i class="bi bi-arrow-left-square "></i>
-  <span class="visually-hidden">Previous</span>
-</button>
-
-<button style="color: black; width: 5rem; height: 72rem;" class="fs-1 me-5 justify-content-end align-items-end carousel-control-next" type="button" data-bs-target="#mainControls" data-bs-slide="next">
-  <i class="bi bi-arrow-right-square "></i>
+<!-- 리스트 carousel 우측 버튼 -->
+<button class="carousel-btn col-1 fs-1" type="button" data-bs-target="#mainControls" data-bs-slide="next">
+  <i class="bi bi-arrow-right"></i>
   <span class="visually-hidden">Next</span>
 </button>
+</div>
 
 {% endblock content %}
