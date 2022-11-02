@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container my-4">
+    <h1>마이 페이지</h1>
+  </div>
+  <div class="p-4">
+    <div class="row mx-auto mb-3 py-3 rounded bg-light border">
+      <div class="col-2 my-3 d-flex justify-content-center align-items-center">
+        {% if user.profile %}
+          <img src="{{ user.profile.url }}" class="rounded img-fluid" alt="{{ user.profile }}" style="width:150px;"></td>
+        {% else %}
+          <img src="https://source.boringavatars.com/bauhaus/150/{{ user.email }}" class="rounded img-fluid" alt="{{ user.email }}" style="width:150px;"></td>
+        {% endif %}
+      </div>
+      <div class="col-10 my-3 d-flex flex-column justify-content-center">
+        <h2 class="my-2">{{ user.nickname }}</h2>
+        <h5 class="my-2">{{ user.email }}</h5>
+        <h5 class="my-2">팔로잉 : {{ user.followings.count }}명 | 팔로워 : {{ user.followers.count }}명</h5>
+      </div>
+    </div>
+    <div class="row mx-auto mb-3 py-3 rounded bg-light border">
+      <div class="col-2 my-3">
+        <div class="list-group">
+          <button type="button" class="list-group-item list-group-item-action">작성한 글</button>
+          <button type="button" class="list-group-item list-group-item-action">작성한 댓글</button>
+          <button type="button" class="list-group-item list-group-item-action">좋아요한 글</button>
+          <button type="button" class="list-group-item list-group-item-action">스크랩한 글</button>
+        </div>
+        <hr>
+        <div class="list-group">
+          <button type="button" class="list-group-item list-group-item-action border-top">회원 정보 수정</button>
+        </div>
+      </div>
+      <div class="col-10">
+        <div class="user-articles d-block"></div>
+        <div class="user-comments d-none"></div>
+        <div class="like-articles d-none"></div>
+        <div class="bookmark-articles d-none"></div>
+        <div class="accounts-update d-none"></div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div>
+    <p class="text-center" style="padding-top: 20px;">찾으시는 검색어 : <b>"{{ query }}"</b></p>
+    <input type="button" value="뒤로가기" onclick="back()">
+</div>
+{% comment %} <div>
+    <div class="row mx-auto">
+        <span>사용자에서 찾으시는 내용</span>
+        {% for user in user %}
+            <div class="my_bottom_magin col-9 col-sm-12 col-md-4 col-md-12 col-lg-4">
+                <div class="card text-center" style="min-width: 18rem;">
+                    <a href="{{ user.get_url }}"><h4>{{ user.username }}</h4></a>
+                    <div class="card-body">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="row mx-auto">
+                <p class="text-center" style="padding-top: 20px;">결과가 없어요 ㅠㅠ</p>
+            </div>
+        {% endfor %}
+    </div>
+</div> {% endcomment %}
+<div>
+    <div class="row mx-auto">
+        <span>커뮤니티에서 찾으시는 내용</span>
+        {% for article in article %}
+            <div class="my_bottom_magin col-9 col-sm-12 col-md-4 col-md-12 col-lg-4">
+                <div class="card text-center" style="min-width: 18rem;">
+                    <a href="{{ article.get_url }}"><h4>{{ article.title }}</h4></a>
+                    <div class="card-body">
+                        <p>{{ article.content }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="row mx-auto">
+                <p class="text-center" style="padding-top: 20px;">결과가 없어요 ㅠㅠ</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<script>
+    const back = () => {
+        window.history.back();
+    }
+</script>
+{% endblock content %}

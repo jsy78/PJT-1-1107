@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".herokuapp.com"]
 INSTALLED_APPS = [
     "accounts",
     "articles",
+    "search",
     "django_bootstrap5",
     "multiselectfield",
     "imagekit",
