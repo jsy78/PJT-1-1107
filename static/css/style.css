@@ -15,11 +15,34 @@
   top: -80px;
 }
 
+.btn-orange {
+  background-color: white;
+  color: #f38524;
+  border: 1px solid #f38524;
+}
+
+.btn-orange:hover {
+  background-color: #f38524;
+  color: white;
+  border: 1px solid #f38524;
+}
+
+.btn-pink {
+  background-color: white;
+  color: #ea449a;
+  border: 1px solid #ea449a;
+}
+
+.btn-pink:hover {
+  background-color: #ea449a;
+  color: white;
+  border: 1px solid #ea449a;
+}
+
 .btn-search {
   background-color: #ea449a;
   color: white;
   border: 1px solid #ea449a;
-  cursor: pointer;
 }
 
 .btn-search:hover {

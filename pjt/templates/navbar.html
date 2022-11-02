@@ -27,7 +27,7 @@
       <!-- 토글러 -->
       <div class="d-flex">
         {% if request.user.is_authenticated %}
-          <li class="nav-item nav1-text">
+          <li class="nav-item me-4 nav1-text">
             <a class="nav-link" href="{% url 'accounts:mypage' %}">{{ request.user }}</a>
           </li>
           <li class="nav-item nav1-text">
