@@ -39,8 +39,8 @@
                                 <!--본문-->
                                 <h5 class="card-title card_color">{{ article.title }}</h5>
                                 <p class="text-muted">
-                                    <a href="{% url 'accounts:detail' article.user.pk %}"
-                                        class="text-dark text-decoration-none">
+                                    {% comment %} <a href="{% url 'accounts:mypage' article.user.pk %}" 
+                                        class="text-dark text-decoration-none">{% endcomment %}
                                         {{ article.user.username }}
                                         <!--user페이지 링크-->
                                     </a>
@@ -118,7 +118,7 @@
                             {% if request.user.is_authenticated %}
                             <!--로그인되어있으면-->
                             <span>
-                                <a href="{% url 'accounts:detail' user.pk %}" class="btn btn-warning">계정</a>
+                                {% comment %} <a href="{% url 'accounts:mypage' user.pk %}" class="btn btn-warning">계정</a> {% endcomment %}
                                 <a href="{% url 'accounts:update' %}" class="btn btn-warning my-2">계정 관리</a>
                             </span>
                             {% else %}

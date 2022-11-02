@@ -1,4 +1,5 @@
 from django.db import models
+from multiselectfield import MultiSelectField
 from imagekit.models import ProcessedImageField, ImageSpecField
 from imagekit.processors import ResizeToFill
 from django.conf import settings
@@ -36,6 +37,7 @@ class Article(models.Model):
         ("디저트/카페", "디저트/카페"),
         ("기타", "기타"),
     )
+    foodType = models.CharField(max_length=7, choices=category, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
