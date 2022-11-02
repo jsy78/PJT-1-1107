@@ -1,3 +1,23 @@
+/* #wrapper {
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 3rem;
+}
+
+#footer {
+  height: 3rem;
+  position: relative;
+  transform: translate(-100%);
+} */
+
+.topBtn {
+  background-color: white;
+  color: #ea449a;
+  border: 2px solid #ea449a;
+  border-radius: 50%;
+  padding: 15px 14px;
+}
+
 .lower-navbar {
   background-color: #f38524;
   color: white;
@@ -118,7 +138,7 @@ The navbar toggle appears at this breakpoint */
 /* carousel 버튼 색 */
 .carousel-btn {
   color: gray;
-  background-color: white;
+  background-color: #f8f9fa;
   border: 0;
 }
 
