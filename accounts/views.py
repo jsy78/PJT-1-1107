@@ -41,14 +41,22 @@ def mypage(request):
         .order_by("-pk")
     )  # user.comment_set.order_by("-pk")
     like_articles = (
-        Article.objects.prefetch_related("like_users").filter(user=user).order_by("-pk")
+        get_user_model()
+        .objects.prefetch_related(
+            Prefetch("like_articles", queryset=Article.objects.select_related("user"))
+        )
+        .get(pk=request.user.pk)
+        .like_articles.order_by("-pk")
     )  # user.like_articles.order_by("-pk")
     bookmark_articles = (
-        Article.objects.prefetch_related(
-            Prefetch("bookmark_users", queryset=Article.objects.select_related("user"))
+        get_user_model()
+        .objects.prefetch_related(
+            Prefetch(
+                "bookmark_articles", queryset=Article.objects.select_related("user")
+            )
         )
-        .filter(user=user)
-        .order_by("-pk")
+        .get(pk=request.user.pk)
+        .bookmark_articles.order_by("-pk")
     )  # user.bookmark_articles.order_by("-pk")
 
     user_articles_page = request.GET.get("user-articles-page", "1")

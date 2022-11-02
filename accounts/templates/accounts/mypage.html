@@ -36,11 +36,11 @@
       </div>
       <div class="col-10">
         <div class="user-articles d-block">
-          <div class="row">
+          <div class="row justify-content-center">
             {% for article in user_articles %}
               <!--각각의 글들-->
               <div class="col-4 d-block">
-                <div class="card text-center w-75 my-2">
+                <div class="card text-center w-75 mx-auto my-2">
                   {% if article.image %}
                   <!--이미지-->
                     <img src="{{ article.image.url }}" class="card-img-top" alt="...">
@@ -66,7 +66,7 @@
               </div>
             {% endfor %}
           </div>
-          <ul class="pagination justify-content-center align-end">
+          <ul class="pagination justify-content-center">
             <!-- 이전 페이지 -->
             {% if paginated_user_articles_lists.has_previous %}
               <!-- 이전 페이지 있으면 연결-->
@@ -166,11 +166,11 @@
           </ul>
         </div>
         <div class="like-articles d-none">
-          <div class="row">
+          <div class="row justify-content-center">
             {% for article in like_articles %}
               <!--각각의 글들-->
               <div class="col-4 d-block">
-                <div class="card text-center w-75 my-2">
+                <div class="card text-center w-75 mx-auto my-2">
                   {% if article.image %}
                   <!--이미지-->
                     <img src="{{ article.image.url }}" class="card-img-top" alt="...">
@@ -234,11 +234,11 @@
           </ul>
         </div>
         <div class="bookmark-articles d-none">
-          <div class="row">
+          <div class="row justify-content-center">
             {% for article in bookmark_articles %}
               <!--각각의 글들-->
               <div class="col-4 d-block">
-                <div class="card text-center w-75 my-2">
+                <div class="card text-center w-75 mx-auto my-2">
                   {% if article.image %}
                   <!--이미지-->
                     <img src="{{ article.image.url }}" class="card-img-top" alt="...">
