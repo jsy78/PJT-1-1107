@@ -17,7 +17,7 @@
           <form class="form-inline my-2 my-lg-0 d-flex" style="position:sticky; top:70px; right:25px;" action="{% url 'search:searchResult' %}" method="get">
             {% csrf_token %}
             <input class="form-control bg-light" type="search" placeholder="지역, 음식 또는 식당" aria-label="Search" name="q">
-            <button class="btn btn-search  ms-2" type="submit">
+            <button class="btn btn-search rounded-pill px-3 ms-2" type="submit">
               <i class="bi bi-search"></i>
             </button>
           </form>
