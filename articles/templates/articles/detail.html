@@ -77,9 +77,9 @@
         </div>
         {% endif %}
         <div class="text-end">
-        <p class="m-0">작성자 : <a href="{% url 'accounts:mypage' %}" class="text-decoration-none text-dark">
+        <p class="m-0">작성자 : <a href="{% url 'accounts:profile' article.user.username %}" class="text-decoration-none text-dark">
           <span class="nav1-text">
-            {{article.user.username }}
+            {{ article.user.username }}
           </span>
         </a></p>
         {% if article.created_at == article.updated_at %}
