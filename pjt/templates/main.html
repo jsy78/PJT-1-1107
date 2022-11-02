@@ -13,7 +13,7 @@
 
       <div class="carousel-item active">
         <div class="row">
-          {% for article in articles | slice : ":3" %}
+          {% for article in articles|slice:":3" %}
             <div class="col-lg-4 mb-4">
               <div class="card">
                 <img src="{{ article.image.url }}" alt="" class="card-img-top">
