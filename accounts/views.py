@@ -12,6 +12,7 @@ from django.views.decorators.http import (
 from django.http import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.db.models import Prefetch
+from django.core.paginator import Paginator
 from articles.models import Article, Comment
 from .forms import CustomUserChangeForm, CustomUserCreationForm
 
@@ -27,14 +28,17 @@ def index(request):
     return render(request, "accounts/index.html", context)
 
 
-@require_safe
+@login_required
+@require_http_methods(["GET", "POST"])
 def mypage(request):
     user = get_object_or_404(get_user_model(), pk=request.user.pk)
     user_articles = (
         Article.objects.select_related("user").filter(user=user).order_by("-pk")
     )  # user.article_set.order_by("-pk")
     user_comments = (
-        Comment.objects.select_related("user").filter(user=user).order_by("-pk")
+        Comment.objects.select_related("user", "article")
+        .filter(user=user)
+        .order_by("-pk")
     )  # user.comment_set.order_by("-pk")
     like_articles = (
         Article.objects.prefetch_related("like_users").filter(user=user).order_by("-pk")
@@ -47,12 +51,41 @@ def mypage(request):
         .order_by("-pk")
     )  # user.bookmark_articles.order_by("-pk")
 
+    user_articles_page = request.GET.get("user-articles-page", "1")
+    user_comments_page = request.GET.get("user-comments-page", "1")
+    like_articles_page = request.GET.get("like-articles-page", "1")
+    bookmark_articles_page = request.GET.get("bookmark-articles-page", "1")
+    # GET 방식으로 정보를 받아오는 데이터
+
+    user_articles_paginator = Paginator(user_articles, "3")
+    user_comments_paginator = Paginator(user_comments, "8")
+    like_articles_paginator = Paginator(like_articles, "3")
+    bookmark_articles_paginator = Paginator(bookmark_articles, "3")
+    # Paginator(분할될 객체, 페이지 당 담길 객체 수)
+
+    paginated_user_articles_lists = user_articles_paginator.get_page(user_articles_page)
+    paginated_user_comments_lists = user_comments_paginator.get_page(user_comments_page)
+    paginated_like_articles_lists = like_articles_paginator.get_page(like_articles_page)
+    paginated_bookmark_articles_lists = bookmark_articles_paginator.get_page(
+        bookmark_articles_page
+    )
+    # 페이지 번호를 받아 해당 페이지를 리턴
+
+    update_form = CustomUserChangeForm(instance=request.user)
+    password_form = PasswordChangeForm(request.user)
+
     context = {
         "user": user,
         "user_articles": user_articles,
         "user_comments": user_comments,
         "like_articles": like_articles,
         "bookmark_articles": bookmark_articles,
+        "paginated_user_articles_lists": paginated_user_articles_lists,
+        "paginated_user_comments_lists": paginated_user_comments_lists,
+        "paginated_like_articles_lists": paginated_like_articles_lists,
+        "paginated_bookmark_articles_lists": paginated_bookmark_articles_lists,
+        "update_form": update_form,
+        "password_form": password_form,
     }
     return render(request, "accounts/mypage.html", context)
 
@@ -112,39 +145,39 @@ def logout(request):
         return redirect("main")
 
 
-@login_required
-@require_http_methods(["GET", "POST"])
+@require_POST
 def update(request):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
     if request.method == "POST":
         form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, "정보 수정 성공")
-            return redirect("accounts:profile", request.user.username)
+        else:
+            messages.warning(request, "양식이 유효하지 않습니다.")
     else:
-        form = CustomUserChangeForm(instance=request.user)
-    context = {
-        "form": form,
-    }
-    return render(request, "accounts/update.html", context)
+        messages.warning(request, "잘못된 접근입니다.")
+    return redirect("accounts:mypage")
 
 
-@login_required
-@require_http_methods(["GET", "POST"])
+@require_POST
 def password(request):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
     if request.method == "POST":
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
             messages.success(request, "비밀번호 변경 성공")
-            return redirect("accounts:profile", request.user.username)
+        else:
+            messages.warning(request, "양식이 유효하지 않습니다.")
     else:
-        form = PasswordChangeForm(request.user)
-    context = {
-        "form": form,
-    }
-    return render(request, "accounts/password.html", context)
+        messages.warning(request, "잘못된 접근입니다.")
+    return redirect("accounts:mypage")
 
 
 @login_required
@@ -161,9 +194,13 @@ def profile(request, username):
     user_articles = (
         Article.objects.select_related("user").filter(user=user).order_by("-pk")
     )  # user.article_set.order_by("-pk")
+    user_articles_page = request.GET.get("user-articles-page", "1")
+    user_articles_paginator = Paginator(user_articles, "3")
+    paginated_user_articles_lists = user_articles_paginator.get_page(user_articles_page)
     context = {
         "user": user,
         "user_articles": user_articles,
+        "paginated_user_articles_lists": paginated_user_articles_lists,
     }
     return render(request, "accounts/profile.html", context)
 
