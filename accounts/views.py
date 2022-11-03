@@ -58,17 +58,27 @@ def mypage(request):
         .get(pk=request.user.pk)
         .bookmark_articles.order_by("-pk")
     )  # user.bookmark_articles.order_by("-pk")
+    following_users = (
+        get_user_model()
+        .objects.prefetch_related(
+            Prefetch("followings", queryset=get_user_model().objects.all())
+        )
+        .get(pk=request.user.pk)
+        .followings.order_by("-pk")
+    )  # user.bookmark_articles.order_by("-pk")
 
     user_articles_page = request.GET.get("user-articles-page", "1")
     user_comments_page = request.GET.get("user-comments-page", "1")
     like_articles_page = request.GET.get("like-articles-page", "1")
     bookmark_articles_page = request.GET.get("bookmark-articles-page", "1")
+    following_users_page = request.GET.get("following-users-page", "1")
     # GET 방식으로 정보를 받아오는 데이터
 
     user_articles_paginator = Paginator(user_articles, "3")
-    user_comments_paginator = Paginator(user_comments, "8")
+    user_comments_paginator = Paginator(user_comments, "6")
     like_articles_paginator = Paginator(like_articles, "3")
     bookmark_articles_paginator = Paginator(bookmark_articles, "3")
+    following_users_paginator = Paginator(following_users, "6")
     # Paginator(분할될 객체, 페이지 당 담길 객체 수)
 
     paginated_user_articles_lists = user_articles_paginator.get_page(user_articles_page)
@@ -76,6 +86,9 @@ def mypage(request):
     paginated_like_articles_lists = like_articles_paginator.get_page(like_articles_page)
     paginated_bookmark_articles_lists = bookmark_articles_paginator.get_page(
         bookmark_articles_page
+    )
+    paginated_following_users_lists = following_users_paginator.get_page(
+        following_users_page
     )
     # 페이지 번호를 받아 해당 페이지를 리턴
 
@@ -88,10 +101,12 @@ def mypage(request):
         "user_comments": user_comments,
         "like_articles": like_articles,
         "bookmark_articles": bookmark_articles,
+        "following_users": following_users,
         "paginated_user_articles_lists": paginated_user_articles_lists,
         "paginated_user_comments_lists": paginated_user_comments_lists,
         "paginated_like_articles_lists": paginated_like_articles_lists,
         "paginated_bookmark_articles_lists": paginated_bookmark_articles_lists,
+        "paginated_following_users_lists": paginated_following_users_lists,
         "update_form": update_form,
         "password_form": password_form,
     }
@@ -238,13 +253,35 @@ def follow(request, username):
 @login_required
 def followings(request):
     # user = get_object_or_404(get_user_model(), pk=request.user.pk)
-    users = (
-        get_user_model()
-        .objects.prefetch_related("followings")
-        .get(pk=request.user.pk)
-        .followings.order_by("-pk")
+    # users = (
+    #     get_user_model()
+    #     .objects.prefetch_related("followings")
+    #     .get(pk=request.user.pk)
+    #     .followings.order_by("-pk")
+    # )
+    # context = {
+    #     "users": users,
+    # }
+    # return render(request, "accounts/followings.html", context)
+    users = get_user_model().objects.prefetch_related(
+        Prefetch(
+            "followings",
+            queryset=get_user_model().objects.prefetch_related("article_set").all(),
+            to_attr="followings_users",
+        )
     )
+    articles = list()
+    for followings_user in users.get(pk=request.user.pk).followings_users:
+        for article in followings_user.article_set.all():
+            articles.append(article)
+
+    articles.sort(key=lambda x: x.created_at, reverse=True)
+
+    page = request.GET.get("page", "1")  # 페이지
+    paginator = Paginator(articles, 5)
+    page_list = paginator.get_page(page)
     context = {
-        "users": users,
+        "articles": articles,
+        "page_list": page_list,
     }
     return render(request, "accounts/followings.html", context)

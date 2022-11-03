@@ -117,9 +117,9 @@
         <div class="me-3">
           <a class="p-0 m-0 btn btn-lg border-0" href="{% url 'articles:likes' article.pk %}">
             {% if request.user in article.likes_users.all %}
-            <i class="bi bi-heart-fill fs-4" style="color: #f38524;"></i>
+              <i class="bi bi-heart-fill fs-4" style="color: #f38524;"></i>
             {% else %}
-            <i class="bi bi-heart fs-4"></i>
+              <i class="bi bi-heart fs-4"></i>
             {% endif %}
           </a>
           {% comment %} <p>{{ article.likes_users.count }}</p> {% endcomment %}

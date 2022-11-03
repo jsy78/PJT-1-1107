@@ -27,6 +27,7 @@
           <button id="user-comments-btn" type="button" class="list-group-item list-group-item-action">작성한 댓글</button>
           <button id="like-articles-btn" type="button" class="list-group-item list-group-item-action">좋아요한 글</button>
           <button id="bookmark-articles-btn" type="button" class="list-group-item list-group-item-action">스크랩한 글</button>
+          <button id="following-users-btn" type="button" class="list-group-item list-group-item-action">팔로우한 유저</button>
         </div>
         <hr>
         <div class="list-group">
@@ -111,7 +112,6 @@
                 <th scope="col">게시글 제목</th>
                 <th scope="col">댓글 내용</th>
                 <th scope="col">작성 일자</th>
-                <th scope="col">수정 일자</th>
               </tr>
             </thead>
             <tbody>
@@ -123,7 +123,6 @@
                   </td>
                   <td class="align-middle text-truncate" style="max-width: 10rem;">{{ comment.content }}</td>
                   <td class="align-middle">{{ comment.created_at|date:'SHORT_DATETIME_FORMAT' }}</td>
-                  <td class="align-middle">{{ comment.updated_at|date:'SHORT_DATETIME_FORMAT' }}</td>
                 </tr>
               {% endfor %}
             </tbody>
@@ -301,6 +300,73 @@
             {% endif %}
           </ul>
         </div>
+        <div class="following-users d-none">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">프로필</th>
+                <th scope="col">아이디</th>
+                <th scope="col">닉네임</th>
+                <th scope="col">이름</th>
+                <th scope="col">이메일</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in following_users %}
+                <tr>
+                  <td class="align-middle">
+                    {% if user.profile %}
+                      <img src="{{ user.profile.url }}" class="img-thumbnail rounded" alt="{{ user.profile }}" style="width:50px;"></td>
+                    {% else %}
+                      <img src="https://source.boringavatars.com/bauhaus/50/{{ user.email }}" class="img-thumbnail rounded" alt="{{ user.email }}" style="width:50px;"></td>
+                    {% endif %}
+                  <td class="align-middle">
+                    <a href="{% url 'accounts:profile' user.username %}" class="text-decoration-none">{{ user.username }}</a>
+                  </td>
+                  <td class="align-middle">{{ user.nickname }}</td>
+                  <td class="align-middle">{{ user.full_name }}</td>
+                  <td class="align-middle">{{ user.email }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <ul class="pagination justify-content-center">
+            <!-- 이전 페이지 -->
+            {% if paginated_following_users_lists.has_previous %}
+              <!-- 이전 페이지 있으면 연결-->
+              <li class="page-item">
+                <a class="page-link" tabindex="-1"  href="?following-users-page={{ paginated_following_users_lists.previous_page_number }}">&laquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo;</a>
+              </li>
+            {% endif %}
+            <!-- 페이지 리스트 -->
+            {% for page_number in paginated_following_users_lists.paginator.page_range %} <!--페이지 범위를 하나씩 리턴-->
+              <!--현재 페이지일 때는 active-->
+              {% if page_number == paginated_following_users_lists.number %} 
+                <li class="page-item active" aria-current="page">
+                  <a class="page-link" href="?following-users-page={{ page_number }}">{{ page_number }}</a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="?following-users-page={{ page_number }}">{{ page_number }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            <!-- 다음 페이지 -->
+            {% if paginated_following_users_lists.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?following-users-page={{ paginated_following_users_lists.next_page_number }}">&raquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" href="#">&raquo;</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
 
         <!-- 회원정보 수정 Modal -->
         <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
@@ -364,12 +430,14 @@
     const userCommentsBtn = document.querySelector('#user-comments-btn')
     const likeArticlesBtn = document.querySelector('#like-articles-btn')
     const bookmarkArticlesBtn = document.querySelector('#bookmark-articles-btn')
+    const followingUsersBtn = document.querySelector('#following-users-btn')
 
     userArticlesBtn.addEventListener('click', function () {
       const userArticles = document.querySelector('.user-articles')
       const userComments = document.querySelector('.user-comments')
       const likeArticles = document.querySelector('.like-articles')
       const bookmarkArticles = document.querySelector('.bookmark-articles')
+      const followingUsers = document.querySelector('.following-users')
 
       userArticles.classList.add('d-block')
       userArticles.classList.remove('d-none')
@@ -379,6 +447,8 @@
       likeArticles.classList.remove('d-block')
       bookmarkArticles.classList.add('d-none')
       bookmarkArticles.classList.remove('d-block')
+      followingUsers.classList.add('d-none')
+      followingUsers.classList.remove('d-block')
     })
 
     userCommentsBtn.addEventListener('click', function () {
@@ -386,6 +456,7 @@
       const userComments = document.querySelector('.user-comments')
       const likeArticles = document.querySelector('.like-articles')
       const bookmarkArticles = document.querySelector('.bookmark-articles')
+      const followingUsers = document.querySelector('.following-users')
 
       userArticles.classList.add('d-none')
       userArticles.classList.remove('d-block')
@@ -395,6 +466,8 @@
       likeArticles.classList.remove('d-block')
       bookmarkArticles.classList.add('d-none')
       bookmarkArticles.classList.remove('d-block')
+      followingUsers.classList.add('d-none')
+      followingUsers.classList.remove('d-block')
     })
 
     likeArticlesBtn.addEventListener('click', function () {
@@ -402,6 +475,7 @@
       const userComments = document.querySelector('.user-comments')
       const likeArticles = document.querySelector('.like-articles')
       const bookmarkArticles = document.querySelector('.bookmark-articles')
+      const followingUsers = document.querySelector('.following-users')
 
       userArticles.classList.add('d-none')
       userArticles.classList.remove('d-block')
@@ -411,6 +485,8 @@
       likeArticles.classList.remove('d-none')
       bookmarkArticles.classList.add('d-none')
       bookmarkArticles.classList.remove('d-block')
+      followingUsers.classList.add('d-none')
+      followingUsers.classList.remove('d-block')
     })
 
     bookmarkArticlesBtn.addEventListener('click', function () {
@@ -418,6 +494,7 @@
       const userComments = document.querySelector('.user-comments')
       const likeArticles = document.querySelector('.like-articles')
       const bookmarkArticles = document.querySelector('.bookmark-articles')
+      const followingUsers = document.querySelector('.following-users')
 
       userArticles.classList.add('d-none')
       userArticles.classList.remove('d-block')
@@ -427,6 +504,27 @@
       likeArticles.classList.remove('d-block')
       bookmarkArticles.classList.add('d-block')
       bookmarkArticles.classList.remove('d-none')
+      followingUsers.classList.add('d-none')
+      followingUsers.classList.remove('d-block')
+    })
+
+    followingUsersBtn.addEventListener('click', function () {
+      const userArticles = document.querySelector('.user-articles')
+      const userComments = document.querySelector('.user-comments')
+      const likeArticles = document.querySelector('.like-articles')
+      const bookmarkArticles = document.querySelector('.bookmark-articles')
+      const followingUsers = document.querySelector('.following-users')
+
+      userArticles.classList.add('d-none')
+      userArticles.classList.remove('d-block')
+      userComments.classList.add('d-none')
+      userComments.classList.remove('d-block')
+      likeArticles.classList.add('d-none')
+      likeArticles.classList.remove('d-block')
+      bookmarkArticles.classList.add('d-none')
+      bookmarkArticles.classList.remove('d-block')
+      followingUsers.classList.add('d-block')
+      followingUsers.classList.remove('d-none')
     })
   </script>
 {% endblock content %}

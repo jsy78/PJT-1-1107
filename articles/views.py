@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ArticleForm, CommentForm
 from .models import Article, Comment
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from datetime import date, datetime, timedelta
 from django.core.paginator import Paginator
+from django.db.models import Prefetch
 
 # Create your views here.
 
@@ -19,6 +21,28 @@ def index(request):
         "page_list": page_list,
     }
     return render(request, "articles/index.html", context)
+
+
+@login_required
+def bookmark(request):
+    page = request.GET.get("page", "1")  # 페이지
+    articles = (
+        get_user_model()
+        .objects.prefetch_related(
+            Prefetch(
+                "bookmark_articles", queryset=Article.objects.select_related("user")
+            )
+        )
+        .get(pk=request.user.pk)
+        .bookmark_articles.order_by("-pk")
+    )
+    paginator = Paginator(articles, 5)
+    page_list = paginator.get_page(page)
+    context = {
+        "articles": articles,
+        "page_list": page_list,
+    }
+    return render(request, "articles/bookmark.html", context)
 
 
 def detail(request, pk):
