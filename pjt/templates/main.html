@@ -23,16 +23,24 @@
         {% for article in articles|slice:":3" %}
           <div class="col-lg-4 mb-4">
             <div class="card" style="width: 23rem;">
-              <div class="w-100" style="height: 23rem;">
+              <div class="w-100" style="height: 23rem; position: relative;">
                 <img src="{{ article.image.url }}" alt="" class="h-100 card-img-top">
+                <div class="dot-yellow blink px-1" style="position: absolute; top: 91%; left: 84%;">
+                  <span class="hidden"><i class="text-warning bi bi-star-fill"></i></span>
+                  <span class="hidden">{{ article.grade }}</span>
+                </div>
+                <div class="px-1" style="position: absolute; top: 92%; left: 85%; background-color: rgba(0, 0, 0, 0.44);">
+                  <span><i class="text-warning bi bi-star-fill" ></i></span>
+                  <span class="white">{{ article.grade }}</span>
+                </div>
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{ article.title }}</h5>
-                <p class="card-text">{{ article.location }}</p>
-                <p class="card-text">한식</p>
+                <p class="my-3 gray card-text"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
+                <p class="card-text"><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
                 <a href="{% url 'articles:detail' article.pk %}" class="me-1 btn btn-outline-warning btn-sm">자세히 보기</a>
                 <a href="" class="btn btn-outline-danger btn-sm">
-                  <i class="far fa-heart"></i> 999
+                  <i class="far fa-heart"></i> {{ article.like_users.count }}
                 </a>
               </div>
             </div>
@@ -47,16 +55,24 @@
         {% for article in articles|slice:"3:6" %}
           <div class="col-lg-4 mb-4">
             <div class="card" style="width: 23rem;">
-              <div class="w-100" style="height: 23rem;">
+              <div class="w-100" style="height: 23rem; position: relative;">
                 <img src="{{ article.image.url }}" alt="" class="h-100 card-img-top">
+                <div class="dot-yellow blink px-1" style="position: absolute; top: 91%; left: 84%;">
+                  <span class="hidden"><i class="text-warning bi bi-star-fill"></i></span>
+                  <span class="hidden">{{ article.grade }}</span>
+                </div>
+                <div class="px-1" style="position: absolute; top: 92%; left: 85%; background-color: rgba(0, 0, 0, 0.44);">
+                  <span><i class="text-warning bi bi-star-fill" ></i></span>
+                  <span class="white">{{ article.grade }}</span>
+                </div>
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{ article.title }}</h5>
-                <p class="card-text">{{ article.location }}</p>
-                <p class="card-text">한식</p>
+                <p class="my-3 gray card-text"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
+                <p class="card-text"><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
                 <a href="{% url 'articles:detail' article.pk %}" class="me-1 btn btn-outline-warning btn-sm">자세히 보기</a>
                 <a href="" class="btn btn-outline-danger btn-sm">
-                  <i class="far fa-heart"></i> 999
+                  <i class="far fa-heart"></i> {{ article.like_users.count }}
                 </a>
               </div>
             </div>
@@ -71,16 +87,24 @@
         {% for article in articles|slice:"6:9" %}
           <div class="col-lg-4 mb-4">
             <div class="card" style="width: 23rem;">
-              <div class="w-100" style="height: 23rem;">
+              <div class="w-100" style="height: 23rem; position: relative;">
                 <img src="{{ article.image.url }}" alt="" class="h-100 card-img-top">
+                <div class="dot-yellow blink px-1" style="position: absolute; top: 91%; left: 84%;">
+                  <span class="hidden"><i class="text-warning bi bi-star-fill"></i></span>
+                  <span class="hidden">{{ article.grade }}</span>
+                </div>
+                <div class="px-1" style="position: absolute; top: 92%; left: 85%; background-color: rgba(0, 0, 0, 0.44);">
+                  <span><i class="text-warning bi bi-star-fill" ></i></span>
+                  <span class="white">{{ article.grade }}</span>
+                </div>
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{ article.title }}</h5>
-                <p class="card-text">{{ article.location }}</p>
-                <p class="card-text">한식</p>
+                <p class="my-3 gray card-text"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
+                <p class="card-text"><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
                 <a href="{% url 'articles:detail' article.pk %}" class="me-1 btn btn-outline-warning btn-sm">자세히 보기</a>
                 <a href="" class="btn btn-outline-danger btn-sm">
-                  <i class="far fa-heart"></i> 999
+                  <i class="far fa-heart"></i> {{ article.like_users.count }}
                 </a>
               </div>
             </div>
@@ -121,26 +145,34 @@
     <div class="carousel-item active">
       <div class="row">
         {% for article in articles|slice:":8" %}
-          <div class="col-3 d-flex flex-column align-items-between" id="one">
-            <div style="width: 15rem; height: 15rem;">
+          <div class="mb-5 col-3 d-flex flex-column align-items-between" id="one">
+            <div style="width: 15rem; height: 15rem; position: relative;">
               <img class="w-100 h-100" src="{{ article.image.url }}" alt="">
+              <div class="dot-yellow blink px-1" style="position: absolute; top: 87%; left: 76%;">
+                <span class="hidden"><i class="text-warning bi bi-star-fill"></i></span>
+                <span class="hidden">{{ article.grade }}</span>
+              </div>
+              <div class="px-1" style="position: absolute; top: 88%; left: 77%; background-color: rgba(0, 0, 0, 0.44);">
+                <span><i class="text-warning bi bi-star-fill" ></i></span>
+                <span class="white">{{ article.grade }}</span>
+              </div>
             </div>
             <div style="width: 15rem;">
               <div>
                 <div class="my-3">
                   <a href="{% url 'articles:detail' article.pk %}" class="pink-btn btn">{{ article.title }}</a>
                 </div>
-                <div>{{ article.location }}</div>
-                <div>치킨</div>
+                <div class="mb-2 gray"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</div>
+                <div><i class="pink bi bi-hash"></i> {{ article.foodType }}</div>
               </div>
               <div class="my-2">
                 <span class="fs-5 me-2">
                   <i class="pink bi bi-heart-fill"></i>
-                  999
+                  {{ article.like_users.count }}
                 </span>
                 <span class="fs-5">
                   <i class="pink bi bi-mouse"></i>
-                  999
+                  {{ article.hits }}
                 </span>
               </div>
             </div>
@@ -153,26 +185,34 @@
     <div class="carousel-item active">
       <div class="row">
         {% for article in articles|slice:"8:" %}
-          <div class="col-3 d-flex flex-column align-items-between" id="one">
-            <div style="width: 15rem; height: 15rem;">
+          <div class="mb-5 col-3 d-flex flex-column align-items-between" id="one">
+            <div style="width: 15rem; height: 15rem; position: relative;">
               <img class="w-100 h-100" src="{{ article.image.url }}" alt="">
+              <div class="dot-yellow blink px-1" style="position: absolute; top: 87%; left: 76%;">
+                <span class="hidden"><i class="text-warning bi bi-star-fill"></i></span>
+                <span class="hidden">{{ article.grade }}</span>
+              </div>
+              <div class="px-1" style="position: absolute; top: 88%; left: 77%; background-color: rgba(0, 0, 0, 0.44);">
+                <span><i class="text-warning bi bi-star-fill" ></i></span>
+                <span class="white">{{ article.grade }}</span>
+              </div>
             </div>
             <div style="width: 15rem;">
               <div>
                 <div class="my-3">
                   <a href="{% url 'articles:detail' article.pk %}" class="pink-btn btn">{{ article.title }}</a>
                 </div>
-                <div>{{ article.location }}</div>
-                <div>치킨</div>
+                <div class="mb-2 gray"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</div>
+                <div><i class="pink bi bi-hash"></i> {{ article.foodType }}</div>
               </div>
               <div class="my-2">
                 <span class="fs-5 me-2">
                   <i class="pink bi bi-heart-fill"></i>
-                  999
+                  {{ article.like_users.count }}
                 </span>
                 <span class="fs-5">
                   <i class="pink bi bi-mouse"></i>
-                  999
+                  {{ article.hits }}
                 </span>
               </div>
             </div>
