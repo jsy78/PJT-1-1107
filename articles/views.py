@@ -4,9 +4,15 @@ from .models import Article, Comment
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from django.core.paginator import Paginator
 from django.db.models import Prefetch
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+import locale
+
+# 로케일 한국어 설정 (요일을 한글로 표시하기 위함)
+locale.setlocale(locale.LC_ALL, "")
 
 # Create your views here.
 
@@ -80,9 +86,9 @@ def create(request):
             return redirect("articles:index")
     else:
         form = ArticleForm()
-        context = {
-            "form": form,
-        }
+    context = {
+        "form": form,
+    }
     return render(request, "articles/form.html", context)
 
 
@@ -98,9 +104,9 @@ def update(request, pk):
                 return redirect("articles:detail", pk)
         else:
             form = ArticleForm(instance=article)
-            context = {
-                "form": form,
-            }
+        context = {
+            "form": form,
+        }
         return render(request, "articles/form.html", context)
     else:
         messages.warning(request, "글 작성자만 수정이 가능합니다.")
@@ -119,21 +125,50 @@ def delete(request, pk):
         return redirect("articles:detail", article.pk)
 
 
-@login_required
+@require_POST
 def comment_create(request, pk):
     article = get_object_or_404(Article, pk=pk)
-    comment_form = CommentForm(request.POST)
-    if comment_form.is_valid():
-        comment = comment_form.save(commit=False)
-        comment.article = article
-        comment.user = request.user
-        comment.save()
-    return redirect("articles:detail", article.pk)
+
+    if request.user.is_authenticated:
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.article = article
+            comment.user = request.user
+            comment.save()
+
+            queryset = Comment.objects.select_related("user").filter(article=article)
+            queryset_list = [
+                {
+                    "pk": query.pk,
+                    "content": query.content,
+                    "created_at": query.created_at.astimezone(
+                        timezone(timedelta(hours=9))
+                    ).strftime("%Y-%m-%d %A"),
+                    "username": query.user.username,
+                }
+                for query in queryset
+            ]
+
+            context = {
+                "comments_count": queryset.count(),
+                "comments": queryset_list,
+                "article_pk": article.pk,
+                "request_username": request.user.username,
+            }
+            return JsonResponse(context)
+        else:
+            messages.warning(request, "양식이 유효하지 않습니다.")
+            return redirect("articles:detail", article.pk)
+    else:
+        messages.warning(request, "로그인이 필요합니다.")
+        return redirect("accounts:login")
 
 
 @login_required
 def comment_delete(request, article_pk, comment_pk):
     # 임시 코드 (url로 댓글 삭제 가능)
+    article = get_object_or_404(Article, pk=article_pk)
     comment = get_object_or_404(Comment, pk=comment_pk)
     # comment.delete()
     # return redirect("articles:detail", article_pk)
@@ -141,10 +176,29 @@ def comment_delete(request, article_pk, comment_pk):
     if request.user == comment.user:
         # if request.method == "POST":
         comment.delete()
-        return redirect("articles:detail", article_pk)
+        queryset = Comment.objects.select_related("user").filter(article=article)
+        queryset_list = [
+            {
+                "pk": query.pk,
+                "content": query.content,
+                "created_at": query.created_at.astimezone(
+                    timezone(timedelta(hours=9))
+                ).strftime("%Y-%m-%d %A"),
+                "username": query.user.username,
+            }
+            for query in queryset
+        ]
+
+        context = {
+            "comments_count": queryset.count(),
+            "comments": queryset_list,
+            "article_pk": article.pk,
+            "request_username": request.user.username,
+        }
+        return JsonResponse(context)
     else:
         messages.warning(request, "댓글 작성자만 삭제 가능합니다.")
-    return redirect("articles:detail", article_pk)
+        return redirect("articles:detail", article_pk)
 
 
 @login_required
@@ -152,9 +206,16 @@ def likes(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     if request.user in article.like_users.all():
         article.like_users.remove(request.user)
+        is_liked = False
     else:
         article.like_users.add(request.user)
-    return redirect("articles:detail", article_pk)
+        is_liked = True
+    context = {
+        "is_liked": is_liked,
+        "like_count": article.like_users.count(),
+    }
+    return JsonResponse(context)
+    # return redirect("articles:detail", article_pk)
 
 
 @login_required
@@ -162,6 +223,13 @@ def bookmark(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     if request.user in article.bookmark_users.all():
         article.bookmark_users.remove(request.user)
+        is_saved = False
     else:
         article.bookmark_users.add(request.user)
-    return redirect("articles:detail", article_pk)
+        is_saved = True
+    context = {
+        "is_saved": is_saved,
+        "save_count": article.bookmark_users.count(),
+    }
+    return JsonResponse(context)
+    # return redirect("articles:detail", article_pk)

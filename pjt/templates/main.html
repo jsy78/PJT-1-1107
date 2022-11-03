@@ -39,9 +39,9 @@
                 <p class="my-3 gray card-text"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
                 <p class="card-text"><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
                 <a href="{% url 'articles:detail' article.pk %}" class="me-1 btn btn-outline-warning btn-sm">자세히 보기</a>
-                <a href="" class="btn btn-outline-danger btn-sm">
+                <button class="btn btn-outline-danger btn-sm disabled">
                   <i class="far fa-heart"></i> {{ article.like_users.count }}
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -50,7 +50,7 @@
     </div>
 
     <!-- 배너 carousel 2페이지 -->
-    <div class="carousel-item active">
+    <div class="carousel-item">
       <div class="row">
         {% for article in articles|slice:"3:6" %}
           <div class="col-lg-4 mb-4">
@@ -71,9 +71,9 @@
                 <p class="my-3 gray card-text"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
                 <p class="card-text"><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
                 <a href="{% url 'articles:detail' article.pk %}" class="me-1 btn btn-outline-warning btn-sm">자세히 보기</a>
-                <a href="" class="btn btn-outline-danger btn-sm">
+                <button class="btn btn-outline-danger btn-sm disabled">
                   <i class="far fa-heart"></i> {{ article.like_users.count }}
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -82,7 +82,7 @@
     </div>
 
     <!-- 배너 carousel 3페이지 -->
-    <div class="carousel-item active">
+    <div class="carousel-item">
       <div class="row">
         {% for article in articles|slice:"6:9" %}
           <div class="col-lg-4 mb-4">
@@ -103,9 +103,9 @@
                 <p class="my-3 gray card-text"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
                 <p class="card-text"><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
                 <a href="{% url 'articles:detail' article.pk %}" class="me-1 btn btn-outline-warning btn-sm">자세히 보기</a>
-                <a href="" class="btn btn-outline-danger btn-sm">
+                <button class="btn btn-outline-danger btn-sm disabled">
                   <i class="far fa-heart"></i> {{ article.like_users.count }}
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -182,7 +182,7 @@
     </div>
 
     <!-- 리스트 carousel 2페이지 -->
-    <div class="carousel-item active">
+    <div class="carousel-item">
       <div class="row">
         {% for article in articles|slice:"8:" %}
           <div class="mb-5 col-3 d-flex flex-column align-items-between" id="one">
