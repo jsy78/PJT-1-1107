@@ -49,19 +49,19 @@
   <!-- 아래로 스크롤 => 사라짐 / 위로 스크롤 => 나타남 -->
   <ul class="lower-navbar navbar-nav text-white d-flex justify-content-between align-items-center px-5 py-1">
     <div class="d-flex">
+      <!--
       <li class="nav-item mx-5">
         <a class="nav-link nav2-text" aria-current="page" href="{% url 'accounts:index' %}">All</a>
+      </li> 
+    -->
+      <li class="nav-item me-5">
+        <a class="nav-link nav2-text" aria-current="page" href="{% url 'articles:index' %}">Community</a>
       </li>
       <li class="nav-item me-5">
         <a class="nav-link nav2-text" aria-current="page" href="{% url 'accounts:followings' %}">Following</a>
       </li>
       <li class="nav-item me-5">
-        <a class="nav-link nav2-text" aria-current="page" href="{% url 'articles:index' %}">Community</a>
-      </li>
-    </div>
-    <div>
-      <li class="nav-item mx-5">
-        <a class="nav-link nav2-mypage" aria-current="page" href="#">저장한 글</a>
+        <a class="nav-link nav2-text" aria-current="page" href="{% url 'articles:bookmark' %}">Bookmark</a>
       </li>
     </div>
   </ul>

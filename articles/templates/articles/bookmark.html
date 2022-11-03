@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock css %}
 
 {% block content %}
   <div class="container my-4">
-    <h1>팔로잉한 유저의 글</h1>
+    <h1>저장한 글</h1>
   </div>
+  <hr>
   <!-- content -->
   <div class="flex-wrap my-3 pb-5">
     <main class="container d-flex justify-content-center">
