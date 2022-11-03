@@ -10,6 +10,14 @@
   transform: translate(-100%);
 } */
 
+/* @media 사용 => responsive */
+#map {
+  width: 250px;
+  height: 280px;
+  border-radius: 2%;
+  border: 1px solid #6c757d;
+}
+
 .topBtn {
   background-color: white;
   color: #ea449a;
@@ -164,4 +172,36 @@ The navbar toggle appears at this breakpoint */
 
 .carousel-btn:hover {
   color: #ea449a;
+}
+
+/* 별 평점, 깜박임 효과 */
+.blink {
+  animation: blink-effect 0.5s step-end infinite;
+}
+
+@keyframes blink-effect {
+  50% {
+    opacity: 0;
+  }
+}
+
+.dot-yellow {
+  border: 3px dotted yellow; 
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.hidden-white {
+  visibility: hidden;
+  color: white;
+}
+
+.white {
+  color: white;
+}
+
+.gray {
+  color: gray;
 }

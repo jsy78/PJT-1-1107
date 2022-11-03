@@ -53,33 +53,18 @@ def detail(request, pk):
         "comments": article.comment_set.all(),
         "comment_form": comment_form,
     }
-    return render(request, "articles/detail.html", context)
-    # if request.user == article.user:
-    #     context["user"] = True
-    # else:
-    #     context["user"] = False
-    # 리턴된 HttpResponse 객체를 response 변수에 할당
     response = render(request, "articles/detail.html", context)
-    # 조회수 기능(쿠키이용)
-    # 쿠키 만료시간 설정
-    # expire_date, now = datetime.now(), datetime.now()
-    # expire_date += timedelta(days=1)
-    # expire_date = expire_date.replace(hour=0, minute=0, second=0, microsecond=0)
-    # expire_date -= now
-    # # 쿠키 만료시간 설정 끝
-    # # 남은 시간 초단위 저장
-    # max_age = expire_date.total_seconds()
-    # # request 에서 hitboard라는 쿠키값 가져오기, 없으면 _ 로 가져오기
-    # cookie_value = request.COOKIES.get("hitboard", "_")
-    # # 쿠키값에 해당 게시글의 번호가 없을 경우, 쿠키에 게시글의 번호를 추가하고 조회수를 +1
-    # if f"_{pk}_" not in cookie_value:
-    #     cookie_value += f"{pk}_"
-    #     response.set_cookie(
-    #         "hitboard", value=cookie_value, max_age=max_age, httponly=True
-    #     )
-    #     article.hits += 1
-    #     article.save()
-    # response객체return
+    expire_date, now = datetime.now(), datetime.now()
+    expire_date += timedelta(days=1)
+    expire_date = expire_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    expire_date -= now
+    max_age = expire_date.total_seconds()
+    cookie_value = request.COOKIES.get("hits", "_")
+    if f"_{id}_" not in cookie_value:
+        cookie_value += f"_{id}_"
+        response.set_cookie("hits", value=cookie_value, max_age=max_age, httponly=True)
+        article.hits += 1
+        article.save()
     return response
 
 
@@ -169,4 +154,14 @@ def likes(request, article_pk):
         article.like_users.remove(request.user)
     else:
         article.like_users.add(request.user)
+    return redirect("articles:detail", article_pk)
+
+
+@login_required
+def bookmark(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    if request.user in article.bookmark_users.all():
+        article.bookmark_users.remove(request.user)
+    else:
+        article.bookmark_users.add(request.user)
     return redirect("articles:detail", article_pk)
