@@ -1,5 +1,4 @@
 from django.db import models
-from multiselectfield import MultiSelectField
 from imagekit.models import ProcessedImageField, ImageSpecField
 from imagekit.processors import ResizeToFill
 from django.conf import settings
@@ -15,7 +14,7 @@ class Article(models.Model):
     location = models.CharField(max_length=120)
     image = ProcessedImageField(
         upload_to="images/",
-        blank=True,
+        blank=False,
         processors=[ResizeToFill(1200, 960)],
         format="JPEG",
         options={"quality": 80},

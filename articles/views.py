@@ -117,21 +117,25 @@ def comment_create(request, pk):
     if comment_form.is_valid():
         comment = comment_form.save(commit=False)
         comment.article = article
-        comment.user = article.user
+        comment.user = request.user
         comment.save()
-        return redirect("articles:detail", article.pk)
+    return redirect("articles:detail", article.pk)
 
 
 @login_required
 def comment_delete(request, article_pk, comment_pk):
+    # 임시 코드 (url로 댓글 삭제 가능)
     comment = get_object_or_404(Comment, pk=comment_pk)
+    # comment.delete()
+    # return redirect("articles:detail", article_pk)
+    # 밑에 코드는 왜 안될까요ㅠㅠ
     if request.user == comment.user:
-        if request.method == "POST":
-            comment.delete()
-            return redirect("articles:detail", article_pk)
+        # if request.method == "POST":
+        comment.delete()
+        return redirect("articles:detail", article_pk)
     else:
         messages.warning(request, "댓글 작성자만 삭제 가능합니다.")
-        return redirect("articles:detail", article_pk)
+    return redirect("articles:detail", article_pk)
 
 
 @login_required
