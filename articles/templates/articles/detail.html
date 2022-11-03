@@ -9,7 +9,17 @@
   <div class="col-sm-3">
     <div class="card my-5">
       <div class="card-body d-flex flex-column align-items-center">
-        <div id="map" style="width:500px;height:400px;"></div>
+        <div id="map" style="width:300px;height:300px;"></div>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={% include 'articles/appkey.txt' %}"></script>
+        <script>
+          var container = document.getElementById('map');
+          var options = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667),
+            level: 3
+          };
+          var map = new kakao.maps.Map(container, options);
+        </script>
+        {% comment %} <script type="text/javascript" src="/static/js/mapscript.js"></script> {% endcomment %}
       </div>
       <a href="#" class="ms-3 text-decoration-none text-dark">
         <p class="mb-1 fw-bold">'{{ article.location }}'</p>
@@ -177,16 +187,3 @@
 </div> <!-- container -->
 
 {% endblock content %}
-
-{% block script %}
-{% static 'js/mapscript.js' %}
-<script>
-var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-var options = { //지도를 생성할 때 필요한 기본 옵션
-	center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-	level: 3 //지도의 레벨(확대, 축소 정도)
-};
-
-var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-</script>
-{% endblock script %}
