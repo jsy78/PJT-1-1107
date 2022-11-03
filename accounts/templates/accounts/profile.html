@@ -64,10 +64,12 @@
                     <!--본문-->
                     <h5 class="card-title card_color">{{ article.title }}</h5>
                     <p class="text-muted">
-                      <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">
-                        {{ article.user.username }}
-                        <!--user페이지 링크-->
-                      </a>
+                      {% if request.user == article.user %}
+                        <a href="{% url 'accounts:mypage' %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
+                      {% else %}
+                        <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
+                      {% endif %}
+                      <!--user페이지 링크-->
                     </p>
                     <p>{{ article.created_at|date:'SHORT_DATETIME_FORMAT' }}</p>
                     <!--날짜-->

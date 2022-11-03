@@ -53,7 +53,7 @@
                     <!--본문-->
                     <h5 class="card-title card_color">{{ article.title }}</h5>
                     <p class="text-muted">
-                      <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">
+                      <a href="{% url 'accounts:mypage' %}" class="text-dark text-decoration-none">
                         {{ article.user.username }}
                         <!--user페이지 링크-->
                       </a>
@@ -108,7 +108,8 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">게시글 ID</th>
+                <th scope="col">게시글 PK</th>
+                <th scope="col">게시글 작성자</th>
                 <th scope="col">게시글 제목</th>
                 <th scope="col">댓글 내용</th>
                 <th scope="col">작성 일자</th>
@@ -118,6 +119,7 @@
               {% for comment in user_comments %}
                 <tr>
                   <th scope="row" class="align-middle">{{ comment.article.pk }}</td>
+                  <td class="align-middle">{{ comment.user.username }}</td>
                   <td class="align-middle">
                     <a href="{% url 'articles:detail' comment.article.pk %}" class="text-decoration-none">{{ comment.article.title }}</a>
                   </td>
@@ -181,10 +183,12 @@
                     <!--본문-->
                     <h5 class="card-title card_color">{{ article.title }}</h5>
                     <p class="text-muted">
-                      <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">
-                        {{ article.user.username }}
-                        <!--user페이지 링크-->
-                      </a>
+                      {% if request.user == article.user %}
+                        <a href="{% url 'accounts:mypage' %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
+                      {% else %}
+                        <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
+                      {% endif %}
+                      <!--user페이지 링크-->
                     </p>
                     <p>{{ article.created_at|date:'SHORT_DATETIME_FORMAT' }}</p>
                     <!--날짜-->
@@ -249,10 +253,12 @@
                     <!--본문-->
                     <h5 class="card-title card_color">{{ article.title }}</h5>
                     <p class="text-muted">
-                      <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">
-                        {{ article.user.username }}
-                        <!--user페이지 링크-->
-                      </a>
+                      {% if request.user == article.user %}
+                        <a href="{% url 'accounts:mypage' %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
+                      {% else %}
+                        <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
+                      {% endif %}
+                      <!--user페이지 링크-->
                     </p>
                     <p>{{ article.created_at|date:'SHORT_DATETIME_FORMAT' }}</p>
                     <!--날짜-->
@@ -304,6 +310,7 @@
           <table class="table">
             <thead>
               <tr>
+                <th scope="col">PK</th>
                 <th scope="col">프로필</th>
                 <th scope="col">아이디</th>
                 <th scope="col">닉네임</th>
@@ -314,6 +321,7 @@
             <tbody>
               {% for user in following_users %}
                 <tr>
+                  <th scope="row" class="align-middle">{{ user.pk }}</td>
                   <td class="align-middle">
                     {% if user.profile %}
                       <img src="{{ user.profile.url }}" class="img-thumbnail rounded" alt="{{ user.profile }}" style="width:50px;"></td>
