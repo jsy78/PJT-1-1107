@@ -10,7 +10,9 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 class Article(models.Model):
     title = models.CharField(max_length=80)
     content = models.TextField()
-    grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    grade = models.FloatField(
+        validators=[MinValueValidator(0.5), MaxValueValidator(5.0)],
+    )
     location = models.CharField(max_length=120)
     image = ProcessedImageField(
         upload_to="images/",
