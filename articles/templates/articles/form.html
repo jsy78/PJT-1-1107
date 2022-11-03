@@ -3,24 +3,31 @@
 
 {% block content %}
 
-<div class="container my-5 pt-1">
-  {% if request.resolver_match.url_name == "create" %}
-    <h1 class="text-center my-4 fs-3 fw-bold">후기 작성</h1>
-  {% elif request.resolver_match.url_name == "update" %}
-    <h1 class="text-center my-4 fs-3 fw-bold">후기 수정</h1>
-  {% else %}
-    <h1 class="text-center my-4 fs-3 fw-bold">후기 삭제</h1>
-  {% endif %}
-  <div class="d-flex justify-content-center">
-    <div class="card col-9 review-detail">
-      <div class="card-body">
-        <form action="" method="POST" class="text-dark px-5 py-3">
-          {% csrf_token %}
-          {% bootstrap_form form %}
-          <div class="text-end mt-4">
-            <input type="submit" class="btn btn-form" value="저장">
-          </div>
-        </form>
+<div style="position: relative;">
+  <div>
+    <img class="w-100" src="https://burst.shopifycdn.com/photos/ripe-red-strawberries-against-pink.jpg?width=925&format=pjpg&exif=1&iptc=1" alt="">
+  </div>
+  <div class="form-center container my-5 pt-1">
+    <div class="pink d-flex justify-content-center">
+      {% if request.resolver_match.url_name == "create" %}
+      <h1 class="berry-title text-center my-4 fs-3 fw-bold">후기 작성</h1>
+      {% elif request.resolver_match.url_name == "update" %}
+      <h1 class="berry-title text-center my-4 fs-3 fw-bold">후기 수정</h1>
+      {% else %}
+      <h1 class="berry-title text-center my-4 fs-3 fw-bold">후기 삭제</h1>
+      {% endif %}
+    </div>
+    <div class="d-flex justify-content-center">
+      <div class="card col-9 review-detail"> 
+        <div class="card-body">
+          <form action="" method="POST" class="text-dark px-5 py-5">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="text-center mt-5">
+              <input type="submit" class="rainbow rainbow-5 px-5" value="작성 완료">
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
