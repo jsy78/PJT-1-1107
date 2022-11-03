@@ -78,9 +78,14 @@ def detail(request, pk):
 def create(request):
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
-        if form.is_valid:
+        if request.POST.get("grade") == "" or request.POST.get("grade") == 0:
+            grade = 0.5
+        else:
+            grade = float(request.POST.get("grade"))
+        if form.is_valid() and 0.5 <= grade <= 5:
             article = form.save(commit=False)
             article.user = request.user
+            article.grade = grade
             article.save()
             messages.success(request, "글 작성이 완료되었습니다.")
             return redirect("articles:index")
@@ -98,8 +103,14 @@ def update(request, pk):
     if request.user == article.user:
         if request.method == "POST":
             form = ArticleForm(request.POST, request.FILES, instance=article)
-            if form.is_valid():
-                form.save()
+            if request.POST.get("grade") == "" or request.POST.get("grade") == 0:
+                grade = 0.5
+            else:
+                grade = float(request.POST.get("grade"))
+            if form.is_valid() and 0.5 <= grade <= 5:
+                article = form.save(commit=False)
+                article.grade = grade
+                article.save()
                 messages.success(request, "글이 수정되었습니다.")
                 return redirect("articles:detail", pk)
         else:

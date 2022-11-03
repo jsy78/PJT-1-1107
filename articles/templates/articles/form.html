@@ -20,9 +20,13 @@
     <div class="d-flex justify-content-center">
       <div class="card col-9 review-detail"> 
         <div class="card-body">
-          <form action="" method="POST" class="text-dark px-5 py-5">
+          <form action="" method="POST" class="text-dark px-5 py-5" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form form %}
+            <div class="mb-3">
+              <label class="form-label" for="grade">평점</label>
+              <input id="grade" name="grade" class="rating rating-loading" data-show-clear="false" data-min="0" data-max="5" data-step="0.5" value="5">
+            </div>
             <div class="text-center mt-5">
               <input type="submit" class="rainbow rainbow-5 px-5" value="작성 완료">
             </div>
