@@ -100,13 +100,11 @@ def update(request, pk):
 
 @login_required
 def delete(request, pk):
-    article = get_object_or_404(Article, pk=pk)
+    article = Article.objects.get(pk=pk)
     if request.user == article.user:
-        if request.method == "POST":
-            article.delete()
-            messages.success(request, "성공적으로 삭제되었습니다.")
-            return redirect("articles:index")
-        return render(request, "articles/detail.html")
+        article.delete()
+        messages.success(request, "성공적으로 삭제되었습니다.")
+        return redirect("articles:index")
     else:
         messages.warning(request, "권한이 없습니다. 작성자만 삭제 가능합니다.")
         return redirect("articles:detail", article.pk)
