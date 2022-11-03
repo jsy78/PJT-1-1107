@@ -10,6 +10,14 @@
   transform: translate(-100%);
 } */
 
+/* @media 사용 => responsive */
+#map {
+  width: 250px;
+  height: 280px;
+  border-radius: 2%;
+  border: 1px solid #6c757d;
+}
+
 .topBtn {
   background-color: white;
   color: #ea449a;

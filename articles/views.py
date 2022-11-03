@@ -131,3 +131,13 @@ def likes(request, article_pk):
     else:
         article.like_users.add(request.user)
     return redirect("articles:detail", article_pk)
+
+
+@login_required
+def bookmark(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    if request.user in article.bookmark_users.all():
+        article.bookmark_users.remove(request.user)
+    else:
+        article.bookmark_users.add(request.user)
+    return redirect("articles:detail", article_pk)

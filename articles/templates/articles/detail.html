@@ -9,7 +9,7 @@
     <div class="col-sm-3">
       <div class="card my-5">
         <div class="card-body d-flex flex-column align-items-center">
-          <div id="map" style="width:300px;height:300px;"></div>
+          <div id="map"></div>
           <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={% include 'articles/appkey.txt' %}"></script>
           <script>
             var container = document.getElementById('map');
@@ -45,10 +45,26 @@
         <hr class="mt-1 mb-2">
         <div class="d-flex justify-content-between align-items-center text-muted px-1">
           <!-- 평점 -->
-          {% if article.grade == 1 %}
+          {% if article.grade == 0.5 %}
+          <div>
+            <i class="p-0  bi bi-star-half fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star fs-4 text-warning"></i>
+          </div>
+          {% elif article.grade == 1 %}
           <div>
             <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
             <i class="p-0  bi bi-star fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star fs-4 text-warning"></i>
+          </div>
+          {% elif article.grade == 1.5 %}
+          <div>
+            <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star-half fs-4 text-warning"></i>
             <i class="p-0  bi bi-star fs-4 text-warning"></i>
             <i class="p-0  bi bi-star fs-4 text-warning"></i>
             <i class="p-0  bi bi-star fs-4 text-warning"></i>
@@ -61,12 +77,28 @@
             <i class="p-0  bi bi-star fs-4 text-warning"></i>
             <i class="p-0  bi bi-star fs-4 text-warning"></i>
           </div>
+          {% elif article.grade == 2.5 %}
+          <div>
+            <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star-half fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star fs-4 text-warning"></i>
+          </div>
           {% elif article.grade == 3 %}
           <div>
             <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
             <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
             <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
             <i class="p-0  bi bi-star fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star fs-4 text-warning"></i>
+          </div>
+          {% elif article.grade == 3.5 %}
+          <div>
+            <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star-half fs-4 text-warning"></i>
             <i class="p-0  bi bi-star fs-4 text-warning"></i>
           </div>
           {% elif article.grade == 4 %}
@@ -76,6 +108,14 @@
             <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
             <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
             <i class="p-0  bi bi-star fs-4 text-warning"></i>
+          </div>
+          {% elif article.grade == 4.5 %}
+          <div>
+            <i class="p-0 bi bi-star-fill fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star-fill fs-4 text-warning"></i>
+            <i class="p-0  bi bi-star-half fs-4 text-warning"></i>
           </div>
           {% elif article.grade == 5 %}
           <div>
@@ -110,8 +150,14 @@
         <hr>
         <!-- 아이콘 -->
         <!-- 조회수 아이콘 추가하기 -->
-        <div class="d-flex align-items-center">     
+        <div class="d-flex">
           
+          <!-- 조회수 -->
+          <div class="d-flex flex-column align-items-center me-3">
+            <i class="bi bi-search fs-4"></i>
+            <p class=hits>{{ article.hits }}</p>
+          </div>
+
           <!-- 좋아요 -->
           <div class="d-flex flex-column align-items-center me-3">
             <a class="p-0 m-0 btn btn-lg border-0" href="{% url 'articles:likes' article.pk %}">
@@ -125,81 +171,79 @@
           </div>
 
           <!-- 공유 -->
-          <a class="p-0 btn btn-lg border-0 bi bi-share me-3 fs-4" href="#"></a>
+          <div class="d-flex flex-column align-items-center me-3">
+            <a class="p-0 m-0 btn btn-lg border-0" href="{% url 'articles:likes' article.pk %}">
+              <i class="bi bi-share fs-4"></i>
+            </a>
+            <p>공유</p>
+          </div>
+
           <!-- 스크랩 -->
-          {% if request.user in article.likes_users.all %}
-          <!-- 스크랩한 유저로 변경해야함!!!!! -->
-          <a class="p-0 m-0 btn btn-lg border-0 bi bi-bookmark-fill fs-4" style="color: #ea449a;" href="#"></a>
-          {% else %}
-          <a class="p-0 m-0 btn btn-lg border-0 bi bi-bookmark fs-4" href="#"></a>
-          {% endif %}
+          <div class="d-flex flex-column align-items-center me-3">
+            <a class="p-0 m-0 btn btn-lg border-0" href="{% url 'articles:bookmark' article.pk %}">
+              {% if request.user in article.bookmark_users.all %}
+                <i class="bi bi-bookmark-fill fs-4" style="color: #ea449a;"></i>
+              {% else %}
+                <i class="bi bi-bookmark fs-4"></i>
+              {% endif %}
+            </a>
+            <p>{{ article.bookmark_users.count }}</p>
+          </div>
         </div>
       </div>
     
       <!-- 수정, 뒤로, 삭제 버튼 -->
       <div class="d-flex justify-content-end">
-      {% if request.user == article.user %}
-      <div>
-        <a class="btn btn-orange m-2 rounded-pill" href="{% url 'articles:update' article.pk %}">수정</a>
-        <a class="btn btn-outline-secondary m-2 rounded-pill" href="{% url 'articles:index' %}">뒤로</a>
-        <a class="btn btn-pink m-2 rounded-pill" href="{% url 'articles:delete' article.pk %}">삭제</a>
+        {% if request.user == article.user %}
+        <div>
+          <a class="btn btn-orange m-2 rounded-pill" href="{% url 'articles:update' article.pk %}">수정</a>
+          <a class="btn btn-outline-secondary m-2 rounded-pill" href="{% url 'articles:index' %}">뒤로</a>
+          <a class="btn btn-pink m-2 rounded-pill" href="{% url 'articles:delete' article.pk %}">삭제</a>
+        </div>
+        {% else %}
+          <a class="btn btn-outline-secondary m-2" href="{% url 'articles:index' %}">뒤로</a>
+        {% endif %}
       </div>
-      {% else %}
-      <a class="btn btn-outline-secondary m-2" href="{% url 'articles:index' %}">뒤로</a>
-      {% endif %}
-    </div>
 
-    <h5 class=hits>🖱조회수 : {{ article.hits }}</h5>
-    <div class="d-flex justify-content-end">
-    {% if request.user == article.user %}
-    <div>
-      <a class="btn btn-orange m-2 rounded-pill" href="{% url 'articles:update' article.pk %}">수정</a>
-      <a class="btn btn-outline-secondary m-2 rounded-pill" href="{% url 'articles:index' %}">뒤로</a>
-      <a class="btn btn-pink m-2 rounded-pill" href="{% url 'articles:delete' article.pk %}">삭제</a>
-    </div>
-    {% else %}
-    <a class="btn btn-outline-secondary m-2" href="{% url 'articles:index' %}">뒤로</a>
-    {% endif %}
-  </div>
-
-  <!-- 댓글 -->
-  <div class="mt-3 mb-5 p-5 rounded-4 shadow">
-    <div class="mb-4">
-      <form action="{% url 'articles:comment_create' article.pk %}" method="POST" >
-        {% csrf_token %}
-        <div class="d-flex justify-content-between">
-          <div class="flex-fill me-2">
-            {% bootstrap_form comment_form %}
+      <!-- 댓글 -->
+      <div class="mt-3 mb-5 p-5 rounded-4 shadow">
+        <div class="mb-4">
+          <form action="{% url 'articles:comment_create' article.pk %}" method="POST" >
+            {% csrf_token %}
+            <div class="d-flex justify-content-between">
+              <div class="flex-fill me-2">
+                {% bootstrap_form comment_form %}
+              </div>
+              <div>
+                <input class="btn btn-search" type="submit" value="작성">
+              </div>
             </div>
-            <div>
-              <input class="btn btn-search" type="submit" value="작성">
-            </div>
-          </div>
-        </form>
-      </div>
-      <h5 class="">{{ comments|length }}개의 댓글</h5>
-      <hr class="mb-0">
-      <ul class="list-group list-group-flush rounded-2">
-        {% for comment in comments %}
-          <li class="list-group-item  bg-light px-0">
-            <div class="d-flex justify-content-between align-items-center">
-              <a class="card-text m-2 comment-user" href="{% url 'accounts:profile' comment.user %}">{{ comment.user }}</a>
-              <p class="card-text text-muted">{{ comment.created_at|date:'Y-m-d D' }}</p>
-            </div>
-            <div class="d-flex justify-content-between m-2">
-              <p class="">
-                {{ comment.content }}
-              </p>
-              {% if request.user == comment.user %}
-              <a href="{% url 'articles:comment_delete' article.pk comment.pk %}" class="text-danger text-decoration-none me-2">
-                <i class="bi bi-x-square"></i>
-              </a>
-              {% endif %}
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
+          </form>
+        </div>
+        <h5 class="">{{ comments|length }}개의 댓글</h5>
+        <hr class="mb-0">
+        <ul class="list-group list-group-flush rounded-2">
+          {% for comment in comments %}
+            <li class="list-group-item  bg-light px-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <a class="card-text m-2 comment-user" href="{% url 'accounts:profile' comment.user %}">{{ comment.user }}</a>
+                <p class="card-text text-muted">{{ comment.created_at|date:'Y-m-d D' }}</p>
+              </div>
+              <div class="d-flex justify-content-between m-2">
+                <p class="">
+                  {{ comment.content }}
+                </p>
+                {% if request.user == comment.user %}
+                <a href="{% url 'articles:comment_delete' article.pk comment.pk %}" class="text-danger text-decoration-none me-2">
+                  <i class="bi bi-x-square"></i>
+                </a>
+                {% endif %}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div> <!-- 댓글 -->
+    </div> <!-- 게시글 col-sm-9 -->
   </div> <!-- row -->
 </div> <!-- container -->
 
