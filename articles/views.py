@@ -24,7 +24,7 @@ def index(request):
 
 
 @login_required
-def bookmark(request):
+def saved(request):
     page = request.GET.get("page", "1")  # 페이지
     articles = (
         get_user_model()
@@ -42,7 +42,7 @@ def bookmark(request):
         "articles": articles,
         "page_list": page_list,
     }
-    return render(request, "articles/bookmark.html", context)
+    return render(request, "articles/saved.html", context)
 
 
 def detail(request, pk):
