@@ -17,9 +17,9 @@ class ArticleForm(forms.ModelForm):
         widgets = {
             "grade": forms.NumberInput(
                 attrs={
-                    "maxlength": "1",
-                    "max": "5",
-                    "min": "1",
+                    "step": "0.5",
+                    "max": "5.0",
+                    "min": "0.5",
                 }
             ),
         }
