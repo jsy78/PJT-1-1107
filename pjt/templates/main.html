@@ -133,10 +133,13 @@
 <div id="mainControls" class="col-10 carousel slide">
   <div class="mb-2 d-flex justify-content-between">
     <div class="pink fs-5 fw-bold">맛집 <span class="black">리스트</span></div>
-    <select class="selectpicker">
-      <option class="picker"><a href="#">최신순</a></option>
-      <option class="picker"><a href="#">조회순</a></option>
-      <option class="picker"><a href="#">인기순 (좋아요순)</a></option>
+
+    <!-- select 정렬 선택 -->
+    <select class="down" onchange="if(this.value) location.href=(this.value);">
+      <option value="" disabled selected>정렬 선택</option>
+      <option value="{% url 'good' %}">인기순 (좋아요순)</option>
+      <option value="{% url 'new' %}" >최신순</option>
+      <option value="{% url 'hit' %}">조회순</option>
     </select>
   </div>
   <div class="carousel-inner">
