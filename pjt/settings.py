@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "multiselectfield",
     "imagekit",
+    "django_social_share",
     "django_extensions",
     "django.contrib.admin",
     "django.contrib.auth",

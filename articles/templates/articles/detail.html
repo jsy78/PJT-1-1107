@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% load static %}
+{% load social_share %}
 
 {% block content %}
   <div class="container">
@@ -9,7 +10,7 @@
       <div class="col-sm-3">
         <div class="card my-5">
           <div class="card-body d-flex flex-column align-items-center">
-            <div id="map" style="width:80%;"></div>
+            <div id="map" style="width:90%;"></div>
           </div>
           <a href="#" class="ms-3 text-decoration-none text-dark">
             <p class="mb-1 fw-bold">'{{ article.location }}'</p>
@@ -162,6 +163,7 @@
               </button>
               <p id="like-count">{{ article.like_users.count }}</p>
             </div>
+
             <!-- 공유 -->
             <div class="d-flex flex-column align-items-center me-3">
               <button class="btn btn-lg p-0 m-0 border-0" data-bs-toggle="modal" data-bs-target="#shareModal">
@@ -503,4 +505,5 @@
     commentCreate()
   </script>
   <!-- <script type="text/javascript" src="/static/js/mapscript.js"></script> -->
-{% endblock content %}
+  {% add_copy_script %}
+  {% endblock content %}
