@@ -13,7 +13,7 @@ def searchResult(request):
     if "q" in request.GET:
         query = request.GET.get("q")
         # user = User.objects.all().filter(Q(username__contains=query))
-        article = Article.objects.all().filter(
+        article = Article.objects.order_by("-pk").filter(
             Q(title__contains=query) | Q(content__contains=query)
         )
     context = {
