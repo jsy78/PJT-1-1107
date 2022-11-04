@@ -2,48 +2,55 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-<div>
-    <p class="text-center" style="padding-top: 20px;">찾으시는 검색어 : <b>"{{ query }}"</b></p>
-    <input type="button" value="뒤로가기" onclick="back()">
-</div>
-{% comment %} <div>
-    <div class="row mx-auto">
-        <span>사용자에서 찾으시는 내용</span>
-        {% for user in user %}
-            <div class="my_bottom_magin col-9 col-sm-12 col-md-4 col-md-12 col-lg-4">
-                <div class="card text-center" style="min-width: 18rem;">
-                    <a href="{{ user.get_url }}"><h4>{{ user.username }}</h4></a>
-                    <div class="card-body">
-                        <p></p>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class="row mx-auto">
-                <p class="text-center" style="padding-top: 20px;">결과가 없어요 ㅠㅠ</p>
-            </div>
-        {% endfor %}
-    </div>
-</div> {% endcomment %}
-<div>
-    <div class="row mx-auto">
-        <span>커뮤니티에서 찾으시는 내용</span>
+
+<div class="container my-5">
+  <div class="d-flex justify-content-between my-5">
+    <p class="fs-5">검색어 : <b>"{{ query }}"</b></p>
+    <input class="btn btn-outline-secondary my-1" type="button" value="뒤로" onclick="back()">
+  </div>
+    
+  <div>
+    <div class="row my-4">
+        <span class="fs-5 mb-4">검색 결과 : </span>
         {% for article in article %}
-            <div class="my_bottom_magin col-9 col-sm-12 col-md-4 col-md-12 col-lg-4">
-                <div class="card text-center" style="min-width: 18rem;">
-                    <a href="{{ article.get_url }}"><h4>{{ article.title }}</h4></a>
-                    <div class="card-body">
-                        <p>{{ article.content }}</p>
-                    </div>
+        <div class="col-3 d-block">
+            <div class="card h-100 text-center w-75 mx-auto my-2">
+                <img src="{{ article.image.url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <!--본문-->
+                  <h5 class="card-title card_color">{{ article.title }}</h5>
+                  <p class="text-muted">
+                    <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">
+                      {{ article.user.username }}
+                      <!--user페이지 링크-->
+                    </a>
+                  </p>
+                  <p>{{ article.created_at|date:'Y-m-d D' }}</p>
+                  <!--날짜-->
+                  <a href="{% url 'articles:detail' article.pk %}" class="btn btn-outline-primary my-3">CHECK</a>
+                  <!--디테일링크-->
                 </div>
             </div>
-            {% empty %}
-            <div class="row mx-auto">
-                <p class="text-center" style="padding-top: 20px;">결과가 없어요 ㅠㅠ</p>
+        </div>
+        <!-- <div class="my_bottom_magin col-9 col-sm-12 col-md-4 col-md-12 col-lg-4">
+          <div class="card text-center" style="min-width: 18rem;">
+            <a href="{{ article.get_url }}"><h4>{{ article.title }}</h4></a>
+            <div class="card-body">
+              <p>{{ article.content }}</p>
             </div>
+          </div>
+        </div> -->
+        {% empty %}
+
+        <div class="row mx-auto">
+          <p class="text-center fs-5">검색 결과가 없어요 😥</p>
+          <p class="text-center text-muted">지역, 음식 또는 식당 이름을 검색해 주세요.</p>
+        </div>
         {% endfor %}
-    </div>
-</div>
+    </div> <!-- row -->
+  </div>
+</div> <!-- container -->
+
 <script>
     const back = () => {
         window.history.back();
