@@ -14,7 +14,9 @@ def searchResult(request):
         query = request.GET.get("q")
         # user = User.objects.all().filter(Q(username__contains=query))
         article = Article.objects.order_by("-pk").filter(
-            Q(title__contains=query) | Q(content__contains=query)
+            Q(title__contains=query)
+            | Q(content__contains=query)
+            | Q(location__contains=query)
         )
     context = {
         "query": query,
