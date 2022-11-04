@@ -187,11 +187,11 @@
         {% if request.user == article.user %}
         <div>
           <a class="btn btn-orange m-2 rounded-pill" href="{% url 'articles:update' article.pk %}">수정</a>
-          <a class="btn btn-outline-secondary m-2 rounded-pill" href="{% url 'articles:index' %}">뒤로</a>
+          <input class="btn btn-outline-secondary m-2 rounded-pill" type="button" value="뒤로" onclick="back()">
           <a class="btn btn-pink m-2 rounded-pill" href="{% url 'articles:delete' article.pk %}">삭제</a>
         </div>
         {% else %}
-          <a class="btn btn-outline-secondary m-2" href="{% url 'articles:index' %}">뒤로</a>
+          <input class="btn btn-outline-secondary m-2 rounded-pill" type="button" value="뒤로" onclick="back()">
         {% endif %}
         </div>
         <!-- 댓글 -->
@@ -261,6 +261,14 @@
     </div>
 
   </div> <!-- container -->
+
+
+  <!-- 뒤로가기 버튼 -->
+  <script>
+    const back = () => {
+        window.history.back();
+    }
+  </script>
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={% include 'articles/appkey.txt' %}"></script>
   <!-- 지도 -->
   <script>
