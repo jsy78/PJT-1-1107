@@ -11,7 +11,7 @@
       <!-- 게시글 -->
       <div class="d-flex flex-wrap justify-content-center mb-5">        
         {% for article in article %}
-        <div class="col-sm-2 mb-5" style="min-width: 15rem;">
+        <div class="col-sm-2 mb-5" style="min-width: 15rem; height: 22rem;">
             <a href="{% url 'articles:detail' article.pk %}" class="p-0 text-decoration-none text-dark">
             <div class="card h-100 m-3">
                 <img src="{{ article.image.url }}" class="card-img-top" alt="...">

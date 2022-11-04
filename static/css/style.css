@@ -7,7 +7,7 @@
 }
 
 .topBtn {
-  background: linear-gradient(#f38524, #ea449a);
+  background: linear-gradient(45deg, #ea449a, #f38524);
   color: white;
   /* color: #ea449a;
   background-color: white; */
