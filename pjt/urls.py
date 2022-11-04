@@ -25,4 +25,7 @@ urlpatterns = [
     path("articles/", include("articles.urls")),
     path("search/", include("search.urls")),
     path("", views.main, name="main"),
+    path("new", views.new, name="new"),
+    path("good", views.good, name="good"),
+    path("hit", views.hit, name="hit"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

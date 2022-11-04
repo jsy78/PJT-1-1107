@@ -148,16 +148,6 @@ The navbar toggle appears at this breakpoint */
   background-color: white;
 }
 
-/* 드롭다운 색 */
-.picker {
-  color: #ea449a;
-}
-
-.picker:hover {
-  color: #ea449a;
-  background-color: rgb(228, 224, 224);
-}
-
 /* carousel 버튼 색 */
 .carousel-btn {
   color: gray;
@@ -246,4 +236,16 @@ The navbar toggle appears at this breakpoint */
   to {
     background-position: 20vw;
   }
+}
+
+/* 정렬선택 색 */
+.down {
+  color: #ea449a;
+  border-color: #ea449a;
+  
+}
+
+.down:hover {
+  color: white;
+  background-color: #fabfdd;
 }
