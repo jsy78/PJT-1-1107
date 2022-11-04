@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block css %}
+{% comment %} {% static 'css/style2.css' %} {% endcomment %}
+{% endblock css %}
 
 {% block content %}
-  <div class="container my-4">
-    <h1>{{ user.username }}님의 프로필</h1>
-  </div>
-  <div class="p-4">
-    <div class="row mx-auto mb-3 py-3 rounded bg-light border">
+<div class="container m-auto">
+  <h1 class="text-center mt-5 pt-5 fs-3 fw-bold">{{ user.username }}님의 프로필</h1>
+
+  <div class="px-4 py-3 pb-5">
+    <div class="row mx-auto mb-3 rounded bg-white border">
       <div class="col-2 my-3 d-flex justify-content-center align-items-center">
         {% if user.profile %}
           <img src="{{ user.profile.url }}" class="rounded img-fluid" alt="{{ user.profile }}" style="width:150px;"></td>
@@ -27,58 +33,55 @@
             <form id="follow-form" data-user-name="{{ user.username }}">
               {% csrf_token %}
               {% if request.user in user.followers.all %}
-                <button id="follow-btn" class="btn btn-success" type="submit">언팔로우</button>
+                <button id="follow-btn" class="btn btn-outline-pink" type="submit">팔로우 취소</button>
               {% else %}
-                <button id="follow-btn" class="btn btn-outline-success" type="submit">팔로우</button>
+                <button id="follow-btn" class="btn btn-form" type="submit">팔로우</button>
               {% endif %}
             </form>
           {% else %}
-            <button class="btn btn-outline-success disabled">팔로우</button>
+            <button class="btn btn-form disabled">팔로우</button>
           {% endif %}
         {% else %}
-          <button class="btn btn-outline-success disabled">팔로우</button>
+          <button class="btn btn-form disabled">팔로우</button>
         {% endif %}
       </div>
     </div>
-    <div class="row mx-auto mb-3 py-3 rounded bg-light border">
+    <div class="row mx-auto mb-3 py-3 rounded bg-white border">
       <div class="col-2 my-3">
         <div class="list-group">
           <button type="button" class="list-group-item list-group-item-action">작성한 글</button>
         </div>
       </div>
-      <div class="col-10">
+      <div class="col-10 px-5">
         <div class="user-articles d-block">
-          <div class="row justify-content-center">
-            {% for article in paginated_user_articles_lists %}
-              <!--각각의 글들-->
-              <div class="col-4 d-block">
-                <div class="card text-center w-75 mx-auto my-2">
-                  {% if article.image %}
-                  <!--이미지-->
-                    <img src="{{ article.image.url }}" class="card-img-top" alt="...">
-                  {% else %}
-                  <!--이미지 없을시-->
-                    <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top">
-                  {% endif %}
-                  <div class="card-body">
-                    <!--본문-->
-                    <h5 class="card-title card_color">{{ article.title }}</h5>
-                    <p class="text-muted">
-                      {% if request.user == article.user %}
-                        <a href="{% url 'accounts:mypage' %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
-                      {% else %}
-                        <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
-                      {% endif %}
-                      <!--user페이지 링크-->
-                    </p>
-                    <p>{{ article.created_at|date:'SHORT_DATETIME_FORMAT' }}</p>
-                    <!--날짜-->
-                    <a href="{% url 'articles:detail' article.pk %}" class="btn btn-outline-primary my-3">CHECK</a>
-                    <!--디테일링크-->
+          <div class="row flex-wrap justify-content-center">
+            <!-- 작성한 글-->
+            {% for article in user_articles %}
+              <div class="col-sm-3 mb-5" style="min-width: 15rem; height: 21rem;">
+                  <a href="{% url 'articles:detail' article.pk %}" class="p-0 text-decoration-none text-dark">
+                  <div class="card h-100 m-3">
+                      <img src="{{ article.image.url }}" class="card-img-top" alt="...">
+                      <div class="card-body">
+                          <h5 class="card-title text-center text-dark text-decoration-none mt-1 mb-4">{{ article.title }}</h5>
+                          <p class="mb-2 text-muted"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
+                          <p><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
+                          <div class="">
+                              <span class="me-2">
+                                <i class="pink bi bi-heart-fill"></i>
+                                {{ article.like_users.count }}
+                              </span>
+                              <span class="">
+                                <i class="pink bi bi-search"></i>
+                                {{ article.hits }}
+                              </span>
+                          </div>
+                      </div>
                   </div>
-                </div>
+                  </a>
               </div>
-            {% endfor %}
+              {% empty %}
+                <p class="text-center fs-5 my-5 py-5">아직 작성한 글이 없어요</p>
+              {% endfor %}
           </div>
           <ul class="pagination justify-content-center align-end">
             <!-- 이전 페이지 -->
@@ -120,6 +123,7 @@
       </div>
     </div>
   </div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
@@ -140,13 +144,13 @@
         const followingsCountTag = document.querySelector('#followings-count')
 
         if (isFollowed) {
-          followBtn.classList.add("btn-success")
-          followBtn.classList.remove("btn-outline-success")
-          followBtn.innerText = "언팔로우"
+          followBtn.classList.add("btn-outline-pink")
+          followBtn.classList.remove("btn-form")
+          followBtn.innerText = "팔로우 취소"
         }
         else {
-          followBtn.classList.add("btn-outline-success")
-          followBtn.classList.remove("btn-success")
+          followBtn.classList.add("btn-form")
+          followBtn.classList.remove("btn-outline-pink")
           followBtn.innerText = "팔로우"
         }
         followersCountTag.innerText =  response.data.followers_count
