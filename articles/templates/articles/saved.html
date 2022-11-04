@@ -16,7 +16,7 @@
       <section class="container" style="width: 100%; height: auto;">
         <table class="d-block">
           <div class="row border border-dark border-2">
-            {% for article in articles %}
+            {% for article in page_list %}
               <!--각각의 글들-->
               <div class="d-block">
                 <div class="text-center w-75 mx-auto my-2 d-flex justify-content-around align-items-center">
@@ -62,7 +62,7 @@
           {% endif %}
           <!-- 페이지리스트 -->
           {% for page_number in page_list.paginator.page_range %}
-            {% if page_number >= question_list.number|add:-5 and page_number <= question_list.number|add:5 %}
+            {% if page_number >= page_list.number|add:-5 and page_number <= page_list.number|add:5 %}
               {% if page_number == page_list.number %}
                 <li class="page-item active" aria-current="page">
                   <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
