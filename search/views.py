@@ -2,6 +2,7 @@ from django.shortcuts import render
 from articles.models import Article
 from accounts.models import User
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 # Create your views here.
 
