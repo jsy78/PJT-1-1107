@@ -10,7 +10,7 @@
         <div class="card my-5">
           <div class="card-body d-flex flex-column align-items-center">
             <div id="map" style="width:90%;"></div>
-            <p id="detailLocation" value="{{ article.location }}"></p>
+            <input id="detailLocation" value="{{ article.location }}" style="z-index:-30; width:1px;">
           </div>
           <a href="#" class="ms-3 text-decoration-none text-dark">
             <p class="mb-1 fw-bold">'{{ article.location }}'</p>
