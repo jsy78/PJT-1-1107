@@ -2,11 +2,11 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-  <div class="container my-4">
-    <h1>마이 페이지</h1>
-  </div>
-  <div class="p-4">
-    <div class="row mx-auto mb-3 py-3 rounded bg-light border">
+<div class="container m-auto">
+    <h1 class="text-center mt-5 pt-5 fs-3 fw-bold">마이 페이지</h1>
+
+  <div class="px-4 py-3 pb-5">
+    <div class="row mx-auto mb-3 rounded bg-white border">
       <div class="col-2 my-3 d-flex justify-content-center align-items-center">
         {% if user.profile %}
           <img src="{{ user.profile.url }}" class="rounded img-fluid" alt="{{ user.profile }}" style="width:150px;"></td>
@@ -20,7 +20,7 @@
         <h5 class="my-2">팔로잉 : {{ user.followings.count }}명 | 팔로워 : {{ user.followers.count }}명</h5>
       </div>
     </div>
-    <div class="row mx-auto mb-3 py-3 rounded bg-light border">
+    <div class="row mx-auto mb-3 py-3 rounded bg-white border">
       <div class="col-2 my-3">
         <div class="list-group">
           <button id="user-articles-btn" type="button" class="list-group-item list-group-item-action">작성한 글</button>
@@ -35,12 +35,12 @@
           <button id="password-update-btn" type="button" class="list-group-item list-group-item-action border-top" data-bs-toggle="modal" data-bs-target="#passwordModal">비밀번호 변경</button>
         </div>
       </div>
-      <div class="col-10">
+      <div class="col-10 px-5">
         <div class="user-articles d-block">
           <div class="row flex-wrap justify-content-center">
             <!-- 작성한 글-->
             {% for article in user_articles %}
-              <div class="col-sm-3 mb-5" style="min-width: 15rem; height: 24rem;">
+              <div class="col-sm-3 mb-5" style="min-width: 15rem; height: 21rem;">
                   <a href="{% url 'articles:detail' article.pk %}" class="p-0 text-decoration-none text-dark">
                   <div class="card h-100 m-3">
                       <img src="{{ article.image.url }}" class="card-img-top" alt="...">
@@ -69,7 +69,7 @@
               </div>
               {% endfor %}
           </div>
-          <ul class="pagination justify-content-center">
+          <ul class="pagination justify-content-center mt-2">
             <!-- 이전 페이지 -->
             {% if paginated_user_articles_lists.has_previous %}
               <!-- 이전 페이지 있으면 연결-->
@@ -108,7 +108,7 @@
         </div>
         <!-- 작성한 댓글 -->
         <div class="user-comments d-none">
-          <table class="table my-5">
+          <table class="table my-5 mt-3">
             <thead>
               <tr>
                 <th scope="col">후기 No.</th>
@@ -133,7 +133,7 @@
             </tbody>
           </table>
           
-          <ul class="pagination justify-content-center">
+          <ul class="pagination justify-content-center mt-0">
             <!-- 이전 페이지 -->
             {% if paginated_user_comments_lists.has_previous %}
               <!-- 이전 페이지 있으면 연결-->
@@ -175,7 +175,7 @@
           <div class="row justify-content-center">
             <!-- 작성한 글-->
             {% for article in like_articles %}
-              <div class="col-sm-3 mb-5" style="min-width: 15rem; height: 24rem;">
+              <div class="col-sm-3 mb-5" style="min-width: 15rem; height: 21rem;">
                   <a href="{% url 'articles:detail' article.pk %}" class="p-0 text-decoration-none text-dark">
                   <div class="card h-100 m-3">
                       <img src="{{ article.image.url }}" class="card-img-top" alt="...">
@@ -199,12 +199,12 @@
               </div>
             {% empty %}
               <div class="row my-5">
-                <p class="text-center fs-5">아직 좋아요를 누른 후기가 없어요</p>
+                <p class="text-center fs-5">아직 좋아요를 누른 글이 없어요</p>
                 <a class="text-center text-decoration-none comment-user" href="{% url 'main' %}">후기 보러 가기 🍜</a>
               </div>
             {% endfor %}
           </div>
-          <ul class="pagination justify-content-center">
+          <ul class="pagination justify-content-center mt-2">
             <!-- 이전 페이지 -->
             {% if paginated_like_articles_lists.has_previous %}
               <!-- 이전 페이지 있으면 연결-->
@@ -241,40 +241,40 @@
             {% endif %}
           </ul>
         </div>
+        <!-- 스크랩한 글 -->
         <div class="bookmark-articles d-none">
           <div class="row justify-content-center">
             {% for article in bookmark_articles %}
-              <!--각각의 글들-->
-              <div class="col-4 d-block">
-                <div class="card text-center w-75 mx-auto my-2">
-                  {% if article.image %}
-                  <!--이미지-->
-                    <img src="{{ article.image.url }}" class="card-img-top" alt="...">
-                  {% else %}
-                  <!--이미지 없을시-->
-                    <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top">
-                  {% endif %}
-                  <div class="card-body">
-                    <!--본문-->
-                    <h5 class="card-title card_color">{{ article.title }}</h5>
-                    <p class="text-muted">
-                      {% if request.user == article.user %}
-                        <a href="{% url 'accounts:mypage' %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
-                      {% else %}
-                        <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
-                      {% endif %}
-                      <!--user페이지 링크-->
-                    </p>
-                    <p>{{ article.created_at|date:'SHORT_DATETIME_FORMAT' }}</p>
-                    <!--날짜-->
-                    <a href="{% url 'articles:detail' article.pk %}" class="btn btn-outline-primary my-3">CHECK</a>
-                    <!--디테일링크-->
+            <div class="col-sm-3 mb-5" style="min-width: 15rem; height: 21rem;">
+                  <a href="{% url 'articles:detail' article.pk %}" class="p-0 text-decoration-none text-dark">
+                  <div class="card h-100 m-3">
+                      <img src="{{ article.image.url }}" class="card-img-top" alt="...">
+                      <div class="card-body">
+                          <h5 class="card-title text-center text-dark text-decoration-none mt-1 mb-4">{{ article.title }}</h5>
+                          <p class="mb-2 text-muted"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
+                          <p><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
+                          <div class="">
+                              <span class="me-2">
+                                <i class="pink bi bi-heart-fill"></i>
+                                {{ article.like_users.count }}
+                              </span>
+                              <span class="">
+                                <i class="pink bi bi-search"></i>
+                                {{ article.hits }}
+                              </span>
+                          </div>
+                      </div>
                   </div>
-                </div>
+                  </a>
               </div>
-            {% endfor %}
+              {% empty %}
+              <div class="row my-5">
+                <p class="text-center fs-5">아직 저장한 글이 없어요</p>
+                <a class="text-center text-decoration-none comment-user" href="{% url 'main' %}">후기 보러 가기 🌮</a>
+              </div>
+              {% endfor %}
           </div>
-          <ul class="pagination justify-content-center">
+          <ul class="pagination justify-content-center mt-2">
             <!-- 이전 페이지 -->
             {% if paginated_bookmark_articles_lists.has_previous %}
               <!-- 이전 페이지 있으면 연결-->
@@ -312,21 +312,19 @@
           </ul>
         </div>
         <div class="following-users d-none">
-          <table class="table">
+          <table class="table my-5 mt-3">
             <thead>
               <tr>
-                <th scope="col">PK</th>
-                <th scope="col">프로필</th>
-                <th scope="col">아이디</th>
+                <th scope="col">User No.</th>
+                <th scope="col">프로필 사진</th>
                 <th scope="col">닉네임</th>
-                <th scope="col">이름</th>
                 <th scope="col">이메일</th>
               </tr>
             </thead>
             <tbody>
               {% for user in following_users %}
                 <tr>
-                  <th scope="row" class="align-middle">{{ user.pk }}</td>
+                  <td scope="row" class="align-middle">{{ user.pk }}</td>
                   <td class="align-middle">
                     {% if user.profile %}
                       <img src="{{ user.profile.url }}" class="img-thumbnail rounded" alt="{{ user.profile }}" style="width:50px;"></td>
@@ -334,16 +332,14 @@
                       <img src="https://source.boringavatars.com/bauhaus/50/{{ user.email }}" class="img-thumbnail rounded" alt="{{ user.email }}" style="width:50px;"></td>
                     {% endif %}
                   <td class="align-middle">
-                    <a href="{% url 'accounts:profile' user.username %}" class="text-decoration-none">{{ user.username }}</a>
+                    <a href="{% url 'accounts:profile' user.username %}" class="black-pink text-decoration-none fw-bold">{{ user.nickname }}</a>
                   </td>
-                  <td class="align-middle">{{ user.nickname }}</td>
-                  <td class="align-middle">{{ user.full_name }}</td>
                   <td class="align-middle">{{ user.email }}</td>
                 </tr>
               {% endfor %}
             </tbody>
           </table>
-          <ul class="pagination justify-content-center">
+          <ul class="pagination justify-content-center mt-2">
             <!-- 이전 페이지 -->
             {% if paginated_following_users_lists.has_previous %}
               <!-- 이전 페이지 있으면 연결-->
@@ -434,7 +430,7 @@
       </div>
     </div>
   </div>
-
+</div>
   <script>
     const mb3 = document.querySelectorAll('#updateModal .mb-3')
     mb3.item(5).remove() // 비밀번호 제거

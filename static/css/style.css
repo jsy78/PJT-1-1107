@@ -6,6 +6,10 @@
   border: 1px solid #6c757d;
 }
 
+.card:hover {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
 .topBtn {
   background: linear-gradient(45deg, #ea449a, #f38524);
   color: white;
@@ -83,6 +87,18 @@
   background-color: #e11383;
   color: white;
   border: 1px solid #e11383;
+}
+
+.btn-outline-pink {
+  background-color: white;
+  color: #ea449a;
+  border: 1px solid #ea449a;
+}
+
+.btn-outline-pink:hover {
+  font-weight: bold;
+  color: #ea449a;
+  border: 2px solid #e11383;
 }
 
 .bi-heart:hover {
