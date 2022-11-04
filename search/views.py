@@ -17,6 +17,7 @@ def searchResult(request):
             Q(title__contains=query)
             | Q(content__contains=query)
             | Q(location__contains=query)
+            | Q(foodType__contains=query)
         )
     context = {
         "query": query,
