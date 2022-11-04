@@ -42,7 +42,7 @@ def saved(request):
         .get(pk=request.user.pk)
         .bookmark_articles.order_by("-pk")
     )
-    paginator = Paginator(articles, 5)
+    paginator = Paginator(articles, 10)
     page_list = paginator.get_page(page)
     context = {
         "articles": articles,

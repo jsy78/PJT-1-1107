@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% load static %}
-{% load social_share %}
+
+{% block css %}
+{% static 'css/style2.css' %}
+{% endblock css %}
 
 {% block content %}
   <div class="container">
@@ -11,6 +14,7 @@
         <div class="card my-5">
           <div class="card-body d-flex flex-column align-items-center">
             <div id="map" style="width:90%;"></div>
+            <p id="detailLocation" value="{{ article.location }}"></p>
           </div>
           <a href="#" class="ms-3 text-decoration-none text-dark">
             <p class="mb-1 fw-bold">'{{ article.location }}'</p>
@@ -273,237 +277,13 @@
   </script>
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={% include 'articles/appkey.txt' %}"></script>
   <!-- 지도 -->
-  <script>
-    var container = document.getElementById('map');
-    var options = {
-      center: new kakao.maps.LatLng(33.450701, 126.570667),
-      level: 3
-    };
-    var map = new kakao.maps.Map(container, options);
-  </script>
+  <script type="text/javascript" src="/static/js/mapsearch.js"></script>
   <!-- 좋아요 비동기 -->
-  <script>
-    const likeBtn = document.querySelector('#like-btn')
-
-    likeBtn.addEventListener('click', function (event) {
-      const articleId = event.currentTarget.dataset.articleId
-      axios({
-        method: "GET",
-        url: `/articles/${articleId}/likes/`
-      })
-      .then(response => {
-        if (response.data.is_liked) {
-           const heartIcon = document.querySelector('#heart-icon')
-           const likeCount = document.querySelector('#like-count')
-           heartIcon.classList.add('bi-heart-fill')
-           heartIcon.classList.remove('bi-heart')
-           likeCount.innerText = response.data.like_count
-        }
-        else {
-          const heartIcon = document.querySelector('#heart-icon')
-          const likeCount = document.querySelector('#like-count')
-          heartIcon.classList.add('bi-heart')
-          heartIcon.classList.remove('bi-heart-fill')
-          likeCount.innerText = response.data.like_count
-        }
-      })
-      .catch(error => {
-        console.log(error.response)
-      })
-    })
-  </script>
+  <script type="text/javascript" src="/static/js/heart.js"></script>
   <!-- 스크랩 비동기 -->
-  <script>
-    const bookmarkBtn = document.querySelector('#bookmark-btn')
-
-    bookmarkBtn.addEventListener('click', function (event) {
-      const articleId = event.currentTarget.dataset.articleId
-      axios({
-        method: "GET",
-        url: `/articles/${articleId}/bookmark/`
-      })
-      .then(response => {
-        if (response.data.is_saved) {
-           const bookmarkIcon = document.querySelector('#bookmark-icon')
-           const bookmarkCount = document.querySelector('#bookmark-count')
-           bookmarkIcon.classList.add('bi-bookmark-fill')
-           bookmarkIcon.classList.remove('bi-bookmark')
-           bookmarkCount.innerText = response.data.save_count
-        }
-        else {
-          const bookmarkIcon = document.querySelector('#bookmark-icon')
-           const bookmarkCount = document.querySelector('#bookmark-count')
-           bookmarkIcon.classList.add('bi-bookmark')
-           bookmarkIcon.classList.remove('bi-bookmark-fill')
-           bookmarkCount.innerText = response.data.save_count
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    })
-  </script>
+  <script type="text/javascript" src="/static/js/scrap.js"></script>
   <!-- 댓글 비동기 -->
-  <script>
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
 
-    function commentDelete() {
-      const commentDeleteForms = document.querySelectorAll('.comment-delete-form')
-      commentDeleteForms.forEach((commentDeleteForm) => {
-        commentDeleteForm.addEventListener('submit', function (event) {
-          event.preventDefault()
-          const articleId = event.currentTarget.dataset.articleId
-          const commentId = event.currentTarget.dataset.commentId
-          axios({
-            method: 'POST',
-            url: `/articles/${articleId}/comments/${commentId}/delete/`,
-            headers: {'X-CSRFToken': csrftoken}
-          })
-          .then(response => {
-            const comments = response.data.comments
+  <script type="text/javascript" src="/static/js/comment.js"></script>
+{% endblock content %}
 
-            const commentsArea = document.querySelector('#comments-area')
-            
-            while (commentsArea.hasChildNodes()) {
-              commentsArea.removeChild(commentsArea.firstChild)
-            }
-            
-            commentsArea.insertAdjacentHTML('beforeend', 
-                  `
-                  <h5>${response.data.comments_count}개의 댓글</h5>
-                  <hr class="mb-0">
-                  <ul id="comments-list" class="list-group list-group-flush rounded-2">
-                  </ul>
-                  `
-            )
-            const commentsList = document.querySelector('#comments-list')
-            for (let i = 0; i < comments.length; i++) {
-              if (response.data.request_username == comments[i].username) {
-                commentsList.insertAdjacentHTML('beforeend', 
-                  `
-                  <li class="list-group-item bg-light px-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <a class="card-text m-2 comment-user" href="/accounts/mypage/">${comments[i].username}</a>
-                      <p class="card-text text-muted">${comments[i].created_at}</p>
-                    </div>
-                    <div class="d-flex justify-content-between m-2">
-                      <p>${comments[i].content}</p>
-                      <form class="comment-delete-form" data-article-id="${response.data.article_pk}" data-comment-id="${comments[i].pk}">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="${csrftoken}">
-                        <button class="btn btn-sm p-0 border-0 text-danger text-decoration-none me-2" type="submit"><i class="bi bi-x-square"></i></button>
-                      </form>
-                    </div>
-                  </li>
-                  `
-                )
-              }
-              else {
-                commentsList.insertAdjacentHTML('beforeend', 
-                  `
-                  <li class="list-group-item bg-light px-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <a class="card-text m-2 comment-user" href="/accounts/profile/${comments[i].username}/">${comments[i].username}</a>
-                      <p class="card-text text-muted">${comments[i].created_at}</p>
-                    </div>
-                    <div class="d-flex justify-content-between m-2">
-                      <p>${comments[i].content}</p>
-                    </div>
-                  </li>
-                  `
-                )
-              }
-            }
-            return commentDeleteForms
-          })
-          .then(response => {
-            commentDelete()
-          })
-          .catch(error => {
-            console.log(error.response)
-          })
-        })
-      })
-    }
-    function commentCreate() {
-      const commentCreateForm = document.querySelector('#comment-create-form')
-      commentCreateForm.addEventListener('submit', function (event) {
-        event.preventDefault()
-        const articleId = event.currentTarget.dataset.articleId
-        axios({
-          method: 'POST',
-          url: `/articles/${articleId}/comments/`,
-          headers: {'X-CSRFToken': csrftoken},
-          data: new FormData(commentCreateForm) // 폼에 있는 정보를 data로 넘겨줄 수 있도록 변환
-        })
-        .then(response => {
-          const comments = response.data.comments
-
-          const commentsArea = document.querySelector('#comments-area')
-          
-          while (commentsArea.hasChildNodes()) {
-            commentsArea.removeChild(commentsArea.firstChild)
-          }
-          
-          commentsArea.insertAdjacentHTML('beforeend', 
-                `
-                <h5>${response.data.comments_count}개의 댓글</h5>
-                <hr class="mb-0">
-                <ul id="comments-list" class="list-group list-group-flush rounded-2">
-                </ul>
-                `
-          )
-          const commentsList = document.querySelector('#comments-list')
-          for (let i = 0; i < comments.length; i++) {
-            if (response.data.request_username == comments[i].username) {
-              commentsList.insertAdjacentHTML('beforeend', 
-                `
-                <li class="list-group-item bg-light px-0">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <a class="card-text m-2 comment-user" href="/accounts/mypage/">${comments[i].username}</a>
-                    <p class="card-text text-muted">${comments[i].created_at}</p>
-                  </div>
-                  <div class="d-flex justify-content-between m-2">
-                    <p>${comments[i].content}</p>
-                    <form class="comment-delete-form" data-article-id="${response.data.article_pk}" data-comment-id="${comments[i].pk}">
-                      <input type="hidden" name="csrfmiddlewaretoken" value="${csrftoken}">
-                      <button class="btn btn-sm p-0 border-0 text-danger text-decoration-none me-2" type="submit"><i class="bi bi-x-square"></i></button>
-                    </form>
-                  </div>
-                </li>
-                `
-              )
-            }
-            else {
-              commentsList.insertAdjacentHTML('beforeend', 
-                `
-                <li class="list-group-item bg-light px-0">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <a class="card-text m-2 comment-user" href="/accounts/profile/${comments[i].username}/">${comments[i].username}</a>
-                    <p class="card-text text-muted">${comments[i].created_at}</p>
-                  </div>
-                  <div class="d-flex justify-content-between m-2">
-                    <p>${comments[i].content}</p>
-                  </div>
-                </li>
-                `
-              )
-            }
-          }
-          commentCreateForm.reset()
-          return commentCreateForm
-        })
-        .then(response => {
-          commentDelete()
-        })
-        .catch(error => {
-          console.log(error.response)
-        })
-      })
-    }
-
-    commentDelete()
-    commentCreate()
-  </script>
-  <!-- <script type="text/javascript" src="/static/js/mapscript.js"></script> -->
-  {% add_copy_script %}
-  {% endblock content %}

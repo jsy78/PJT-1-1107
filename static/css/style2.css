@@ -85,3 +85,9 @@
 ion-icon {
     padding-top: 0.05rem;
 }
+
+#trash {
+    background-color: transparent;
+    color: white;
+    border-color: transparent;
+}
