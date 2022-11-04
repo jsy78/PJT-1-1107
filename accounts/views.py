@@ -214,6 +214,10 @@ def delete(request):
 @require_safe
 def profile(request, username):
     user = get_object_or_404(get_user_model(), username=username)
+
+    if request.user == user:
+        return redirect("accounts:mypage")
+
     user_articles = (
         Article.objects.select_related("user").filter(user=user).order_by("-pk")
     )  # user.article_set.order_by("-pk")
