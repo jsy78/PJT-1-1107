@@ -7,11 +7,17 @@
 }
 
 .topBtn {
-  background-color: white;
-  color: #ea449a;
-  border: 2px solid #ea449a;
+  background: linear-gradient(#f38524, #ea449a);
+  color: white;
+  /* color: #ea449a;
+  background-color: white; */
+  /* border: 2px solid #ea449a; */
+  border: none;
   border-radius: 50%;
   padding: 15px 14px;
+  box-shadow: rgba(225, 19, 131, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 .lower-navbar {
