@@ -39,7 +39,7 @@
         <div class="user-articles d-block">
           <div class="row flex-wrap justify-content-center">
             <!-- 작성한 글-->
-            {% for article in user_articles %}
+            {% for article in paginated_user_articles_lists %}
               <div class="col-sm-3 mb-5" style="min-width: 15rem; height: 24rem;">
                   <a href="{% url 'articles:detail' article.pk %}" class="p-0 text-decoration-none text-dark">
                   <div class="card h-100 m-3">
