@@ -37,35 +37,37 @@
       </div>
       <div class="col-10">
         <div class="user-articles d-block">
-          <div class="row justify-content-center">
+          <div class="row flex-wrap justify-content-center">
+            <!-- 작성한 글-->
             {% for article in user_articles %}
-              <!--각각의 글들-->
-              <div class="col-4 d-block">
-                <div class="card text-center w-75 mx-auto my-2">
-                  {% if article.image %}
-                  <!--이미지-->
-                    <img src="{{ article.image.url }}" class="card-img-top" alt="...">
-                  {% else %}
-                  <!--이미지 없을시-->
-                    <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top">
-                  {% endif %}
-                  <div class="card-body">
-                    <!--본문-->
-                    <h5 class="card-title card_color">{{ article.title }}</h5>
-                    <p class="text-muted">
-                      <a href="{% url 'accounts:mypage' %}" class="text-dark text-decoration-none">
-                        {{ article.user.username }}
-                        <!--user페이지 링크-->
-                      </a>
-                    </p>
-                    <p>{{ article.created_at|date:'SHORT_DATETIME_FORMAT' }}</p>
-                    <!--날짜-->
-                    <a href="{% url 'articles:detail' article.pk %}" class="btn btn-outline-primary my-3">CHECK</a>
-                    <!--디테일링크-->
+              <div class="col-sm-3 mb-5" style="min-width: 15rem; height: 24rem;">
+                  <a href="{% url 'articles:detail' article.pk %}" class="p-0 text-decoration-none text-dark">
+                  <div class="card h-100 m-3">
+                      <img src="{{ article.image.url }}" class="card-img-top" alt="...">
+                      <div class="card-body">
+                          <h5 class="card-title text-center text-dark text-decoration-none mt-1 mb-4">{{ article.title }}</h5>
+                          <p class="mb-2 text-muted"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
+                          <p><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
+                          <div class="">
+                              <span class="me-2">
+                                <i class="pink bi bi-heart-fill"></i>
+                                {{ article.like_users.count }}
+                              </span>
+                              <span class="">
+                                <i class="pink bi bi-search"></i>
+                                {{ article.hits }}
+                              </span>
+                          </div>
+                      </div>
                   </div>
-                </div>
+                  </a>
               </div>
-            {% endfor %}
+              {% empty %}
+              <div class="row my-5">
+                <p class="text-center fs-5">아직 작성한 글이 없어요</p>
+                <a class="text-center text-decoration-none comment-user" href="{% url 'articles:create' %}">후기 쓰러 가기 ✍️</a>
+              </div>
+              {% endfor %}
           </div>
           <ul class="pagination justify-content-center">
             <!-- 이전 페이지 -->
@@ -104,31 +106,33 @@
             {% endif %}
           </ul>
         </div>
+        <!-- 작성한 댓글 -->
         <div class="user-comments d-none">
-          <table class="table">
+          <table class="table my-5">
             <thead>
               <tr>
-                <th scope="col">게시글 PK</th>
-                <th scope="col">게시글 작성자</th>
-                <th scope="col">게시글 제목</th>
-                <th scope="col">댓글 내용</th>
-                <th scope="col">작성 일자</th>
+                <th scope="col">후기 No.</th>
+                <th scope="col">후기 제목</th>
+                <th scope="col">후기 작성자</th>
+                <th scope="col">댓글내용</th>
+                <th scope="col">작성일자</th>
               </tr>
             </thead>
             <tbody>
               {% for comment in user_comments %}
                 <tr>
-                  <th scope="row" class="align-middle">{{ comment.article.pk }}</td>
+                  <td scope="row" class="align-middle">{{ comment.article.pk }}</td>
+                  <th class="align-middle">
+                    <a href="{% url 'articles:detail' comment.article.pk %}" class="black-pink text-decoration-none">{{ comment.article.title }}</a>
+                  </th>
                   <td class="align-middle">{{ comment.user.username }}</td>
-                  <td class="align-middle">
-                    <a href="{% url 'articles:detail' comment.article.pk %}" class="text-decoration-none">{{ comment.article.title }}</a>
-                  </td>
                   <td class="align-middle text-truncate" style="max-width: 10rem;">{{ comment.content }}</td>
                   <td class="align-middle">{{ comment.created_at|date:'SHORT_DATETIME_FORMAT' }}</td>
                 </tr>
               {% endfor %}
             </tbody>
           </table>
+          
           <ul class="pagination justify-content-center">
             <!-- 이전 페이지 -->
             {% if paginated_user_comments_lists.has_previous %}
@@ -166,36 +170,37 @@
             {% endif %}
           </ul>
         </div>
+        <!-- 좋아요한 글-->
         <div class="like-articles d-none">
           <div class="row justify-content-center">
+            <!-- 작성한 글-->
             {% for article in like_articles %}
-              <!--각각의 글들-->
-              <div class="col-4 d-block">
-                <div class="card text-center w-75 mx-auto my-2">
-                  {% if article.image %}
-                  <!--이미지-->
-                    <img src="{{ article.image.url }}" class="card-img-top" alt="...">
-                  {% else %}
-                  <!--이미지 없을시-->
-                    <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top">
-                  {% endif %}
-                  <div class="card-body">
-                    <!--본문-->
-                    <h5 class="card-title card_color">{{ article.title }}</h5>
-                    <p class="text-muted">
-                      {% if request.user == article.user %}
-                        <a href="{% url 'accounts:mypage' %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
-                      {% else %}
-                        <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
-                      {% endif %}
-                      <!--user페이지 링크-->
-                    </p>
-                    <p>{{ article.created_at|date:'SHORT_DATETIME_FORMAT' }}</p>
-                    <!--날짜-->
-                    <a href="{% url 'articles:detail' article.pk %}" class="btn btn-outline-primary my-3">CHECK</a>
-                    <!--디테일링크-->
+              <div class="col-sm-3 mb-5" style="min-width: 15rem; height: 24rem;">
+                  <a href="{% url 'articles:detail' article.pk %}" class="p-0 text-decoration-none text-dark">
+                  <div class="card h-100 m-3">
+                      <img src="{{ article.image.url }}" class="card-img-top" alt="...">
+                      <div class="card-body">
+                          <h5 class="card-title text-center text-dark text-decoration-none mt-1 mb-4">{{ article.title }}</h5>
+                          <p class="mb-2 text-muted"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
+                          <p><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
+                          <div class="">
+                              <span class="me-2">
+                                <i class="pink bi bi-heart-fill"></i>
+                                {{ article.like_users.count }}
+                              </span>
+                              <span class="">
+                                <i class="pink bi bi-search"></i>
+                                {{ article.hits }}
+                              </span>
+                          </div>
+                      </div>
                   </div>
-                </div>
+                  </a>
+              </div>
+            {% empty %}
+              <div class="row my-5">
+                <p class="text-center fs-5">아직 좋아요를 누른 후기가 없어요</p>
+                <a class="text-center text-decoration-none comment-user" href="{% url 'main' %}">후기 보러 가기 🍜</a>
               </div>
             {% endfor %}
           </div>

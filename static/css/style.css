@@ -119,6 +119,14 @@
   color: #ea449a;
 }
 
+.black-pink {
+  color: black;
+}
+
+.black-pink:hover {
+  color: #ea449a;
+}
+
 /* Medium devices (tablets, 768px and up) 
 The navbar toggle appears at this breakpoint */
 /* @media (min-width: 768px) {
@@ -242,7 +250,6 @@ The navbar toggle appears at this breakpoint */
 .down {
   color: #ea449a;
   border-color: #ea449a;
-  
 }
 
 .down:hover {
