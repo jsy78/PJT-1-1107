@@ -53,24 +53,29 @@ def saved(request):
 
 def detail(request, pk):
     article = get_object_or_404(Article, pk=pk)
-    comment_form = CommentForm()
+    cookie_value = request.COOKIES.get("hits", "_")
+
+    if f"_{pk}_" not in cookie_value:
+        article.hits += 1
+        article.save()
+
     context = {
         "article": article,
         "comments": article.comment_set.all(),
-        "comment_form": comment_form,
+        "comment_form": CommentForm(),
     }
     response = render(request, "articles/detail.html", context)
+
     expire_date, now = datetime.now(), datetime.now()
     expire_date += timedelta(days=1)
     expire_date = expire_date.replace(hour=0, minute=0, second=0, microsecond=0)
     expire_date -= now
     max_age = expire_date.total_seconds()
-    cookie_value = request.COOKIES.get("hits", "_")
-    if f"_{id}_" not in cookie_value:
-        cookie_value += f"_{id}_"
+
+    if f"_{pk}_" not in cookie_value:
+        cookie_value += f"_{pk}_"
         response.set_cookie("hits", value=cookie_value, max_age=max_age, httponly=True)
-        article.hits += 1
-        article.save()
+
     return response
 
 
@@ -93,6 +98,7 @@ def create(request):
         form = ArticleForm()
     context = {
         "form": form,
+        "grade": 5,
     }
     return render(request, "articles/form.html", context)
 
@@ -117,6 +123,7 @@ def update(request, pk):
             form = ArticleForm(instance=article)
         context = {
             "form": form,
+            "grade": article.grade,
         }
         return render(request, "articles/form.html", context)
     else:
