@@ -29,3 +29,12 @@ urlpatterns = [
     path("good", views.good, name="good"),
     path("hit", views.hit, name="hit"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar, mimetypes
+
+    mimetypes.add_type("application/javascript", ".js", True)
+
+    urlpatterns += [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ]
