@@ -36,7 +36,7 @@
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{ article.title }}</h5>
-                <p class="my-3 gray card-text"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
+                <p class="my-3 gray card-text text-truncate"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
                 <p class="card-text"><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
                 <a href="{% url 'articles:detail' article.pk %}" class="me-1 btn btn-outline-warning btn-sm">자세히 보기</a>
                 <button class="btn btn-outline-danger btn-sm disabled">
@@ -68,7 +68,7 @@
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{ article.title }}</h5>
-                <p class="my-3 gray card-text"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
+                <p class="my-3 gray card-text text-truncate"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
                 <p class="card-text"><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
                 <a href="{% url 'articles:detail' article.pk %}" class="me-1 btn btn-outline-warning btn-sm">자세히 보기</a>
                 <button class="btn btn-outline-danger btn-sm disabled">
@@ -100,7 +100,7 @@
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{ article.title }}</h5>
-                <p class="my-3 gray card-text"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
+                <p class="my-3 gray card-text text-truncate"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
                 <p class="card-text"><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
                 <a href="{% url 'articles:detail' article.pk %}" class="me-1 btn btn-outline-warning btn-sm">자세히 보기</a>
                 <button class="btn btn-outline-danger btn-sm disabled">
@@ -165,7 +165,7 @@
                 <div class="my-3">
                   <a href="{% url 'articles:detail' article.pk %}" class="pink-btn btn">{{ article.title }}</a>
                 </div>
-                <div class="mb-2 gray"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</div>
+                <div class="mb-2 gray text-truncate"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</div>
                 <div><i class="pink bi bi-hash"></i> {{ article.foodType }}</div>
               </div>
               <div class="my-2">
@@ -205,7 +205,7 @@
                 <div class="my-3">
                   <a href="{% url 'articles:detail' article.pk %}" class="pink-btn btn">{{ article.title }}</a>
                 </div>
-                <div class="mb-2 gray"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</div>
+                <div class="mb-2 gray text-truncate"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</div>
                 <div><i class="pink bi bi-hash"></i> {{ article.foodType }}</div>
               </div>
               <div class="my-2">

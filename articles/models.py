@@ -14,6 +14,7 @@ class Article(models.Model):
         validators=[MinValueValidator(0.5), MaxValueValidator(5.0)],
     )
     location = models.CharField(max_length=120)
+    roadname = models.CharField(max_length=30)
     image = ProcessedImageField(
         upload_to="images/",
         blank=False,

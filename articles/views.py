@@ -83,13 +83,22 @@ def detail(request, pk):
 def create(request):
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
+        location = request.POST.get("location")
+        roadname = request.POST.get("roadname")
         if request.POST.get("grade") == "" or request.POST.get("grade") == 0:
             grade = 0.5
         else:
             grade = float(request.POST.get("grade"))
-        if form.is_valid() and 0.5 <= grade <= 5:
+        if (
+            form.is_valid()
+            and 0.5 <= grade <= 5
+            and 0 < len(location) <= 120
+            and 0 < len(roadname) <= 30
+        ):
             article = form.save(commit=False)
             article.user = request.user
+            article.location = location
+            article.roadname = roadname
             article.grade = grade
             article.save()
             messages.success(request, "글 작성이 완료되었습니다.")
@@ -99,6 +108,8 @@ def create(request):
     context = {
         "form": form,
         "grade": 5,
+        "location": "",
+        "roadname": "",
     }
     return render(request, "articles/form.html", context)
 
@@ -109,12 +120,21 @@ def update(request, pk):
     if request.user == article.user:
         if request.method == "POST":
             form = ArticleForm(request.POST, request.FILES, instance=article)
+            location = request.POST.get("location")
+            roadname = request.POST.get("roadname")
             if request.POST.get("grade") == "" or request.POST.get("grade") == 0:
                 grade = 0.5
             else:
                 grade = float(request.POST.get("grade"))
-            if form.is_valid() and 0.5 <= grade <= 5:
+            if (
+                form.is_valid()
+                and 0.5 <= grade <= 5
+                and 0 < len(location) <= 120
+                and 0 < len(roadname) <= 30
+            ):
                 article = form.save(commit=False)
+                article.location = location
+                article.roadname = roadname
                 article.grade = grade
                 article.save()
                 messages.success(request, "글이 수정되었습니다.")
@@ -124,6 +144,8 @@ def update(request, pk):
         context = {
             "form": form,
             "grade": article.grade,
+            "location": article.location,
+            "roadname": article.roadname,
         }
         return render(request, "articles/form.html", context)
     else:

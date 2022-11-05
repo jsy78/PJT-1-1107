@@ -5,11 +5,10 @@ from .models import Article, Comment
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ["title", "content", "image", "location", "foodType"]
+        fields = ["title", "content", "image", "foodType"]
         labels = {
             "title": "가게 이름",
             "content": "후기",
-            "location": "위치",
             "image": "사진 첨부",
             "foodType": "음식 종류",
         }
