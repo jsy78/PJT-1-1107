@@ -39,7 +39,7 @@
         <div class="user-articles d-block">
           <div class="row flex-wrap justify-content-center">
             <!-- 작성한 글-->
-            {% for article in user_articles %}
+            {% for article in paginated_user_articles_lists %}
               <div class="col-sm-3 mb-5" style="min-width: 15rem; height: 21rem;">
                   <a href="{% url 'articles:detail' article.pk %}" class="p-0 text-decoration-none text-dark">
                   <div class="card h-100 m-3">
@@ -119,7 +119,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for comment in user_comments %}
+              {% for comment in paginated_user_comments_lists %}
                 <tr>
                   <td scope="row" class="align-middle">{{ comment.article.pk }}</td>
                   <th class="align-middle">
@@ -174,7 +174,7 @@
         <div class="like-articles d-none">
           <div class="row justify-content-center">
             <!-- 작성한 글-->
-            {% for article in like_articles %}
+            {% for article in paginated_like_articles_lists %}
               <div class="col-sm-3 mb-5" style="min-width: 15rem; height: 21rem;">
                   <a href="{% url 'articles:detail' article.pk %}" class="p-0 text-decoration-none text-dark">
                   <div class="card h-100 m-3">
@@ -244,7 +244,7 @@
         <!-- 스크랩한 글 -->
         <div class="bookmark-articles d-none">
           <div class="row justify-content-center">
-            {% for article in bookmark_articles %}
+            {% for article in paginated_bookmark_articles_lists %}
             <div class="col-sm-3 mb-5" style="min-width: 15rem; height: 21rem;">
                   <a href="{% url 'articles:detail' article.pk %}" class="p-0 text-decoration-none text-dark">
                   <div class="card h-100 m-3">
@@ -322,7 +322,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for user in following_users %}
+              {% for user in paginated_following_users_lists %}
                 <tr>
                   <td scope="row" class="align-middle">{{ user.pk }}</td>
                   <td class="align-middle">
