@@ -2,48 +2,69 @@
 {% load static %}
 
 {% block content %}
-  <div class="container my-4">
-    <h1>저장한 글</h1>
+
+<div class="container my-4">
+    <h1 class="text-center my-5 pt-5 fs-3 fw-bold">저장한 후기</h1>
   </div>
-  <hr>
   <!-- content -->
-  <div class="flex-wrap my-3 pb-5" style="min-height: 70vh;">
-    <main class="container d-flex justify-content-center">
-      <section class="container" style="width: 100%; height: auto;">
-        <table class="d-block">
-          <div class="row border border-dark border-2">
-            {% for article in page_list %}
-              <!--각각의 글들-->
-              <div class="d-block">
-                <div class="text-center w-75 mx-auto my-2 d-flex justify-content-around align-items-center">
-                  {% if article.image %}
-                    <!--이미지-->
-                    <img src="{{ article.image.url }}" class="card-img-top" alt="..." style="float: left; width:100px; height:100px;">
+  <div class="flex-wrap my-3 pb-5">
+    <main class="container d-flex justify-content-center rounded bg-white border my-5">
+      <section class="container" style="width: 85%; height: auto;">
+          <table class="table my-5 mt-3">
+            <thead>
+              <tr>
+                <th scope="col">후기 No.</th>
+                <th scope="col">사진</th>
+                <th scope="col">후기 제목</th>
+                <th scope="col">후기 작성자</th>
+                <th scope="col">작성일자</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for article in page_list %}
+                <tr>
+                  <td scope="row" class="align-middle">{{ article.pk }}</td>
+                  <td>
+                    <a href="{% url 'articles:detail' article.pk %}">
+                    <img src="{{ article.image.url }}" class="table-img card-img-top rounded" alt="..." style="float: left; width:5rem; height:5rem;">
+                    </a></td>
+                  <th class="align-middle">
+                    <a href="{% url 'articles:detail' article.pk %}" class="black-pink text-decoration-none">{{ article.title }}</a>
+                  </th>
+                  <td class="align-middle">{% if request.user == article.user %}
+                  <a href="{% url 'accounts:mypage' %}" class="text-decoration-none text-dark">
+                    <span class="nav1-text">{{ article.user.username }}</span>
+                  </a>
+                {% else %}
+                  <a href="{% url 'accounts:profile' article.user.username %}" class="text-decoration-none text-dark">
+                    <span class="nav1-text">{{ article.user.username }}</span>
+                  </a>
+                {% endif %}
+              </td>
+                  <td class="align-middle">
+                    {% if article.created_at == article.updated_at %}
+                <p class="m-0">
+                  {% if article.created_string == False %}
+                    {{ article.created_at|date:'Y-m-d D' }}
                   {% else %}
-                    <!--이미지 없을시-->
-                    <img src="https://dummyimage.com/50x50/000000/c4c4c4" class="card-img-top">
+                    {{ article.created_string }}
                   {% endif %}
-                  <div>
-                    <!--본문-->
-                    <h5 class="my-2">{{ article.title }}</h5>
-                    <p class="text-muted mb-2">
-                      {% if request.user == article.user %}
-                        <a href="{% url 'accounts:mypage'  %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
-                      {% else %}
-                        <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark text-decoration-none">{{ article.user.username }}</a>
-                      {% endif %}
-                      <!--user페이지 링크-->
-                    </p>
-                    <p class="mb-2">{{ article.created_at|date:'SHORT_DATETIME_FORMAT' }}</p>
-                    <!--날짜-->
-                  </div>
-                  <a href="{% url 'articles:detail' article.pk %}" class="btn btn-outline-primary my-3">CHECK</a>
-                  <!--디테일링크-->
-                </div>
-              </div>
-            {% endfor %}
-          </div>
-        </table>
+              {% else %}
+                <p class="m-0">
+                  {% if article.created_string == False %}
+                    {{ article.updated_at|date:'Y-m-d D' }}
+                  {% else %}
+                    {{ article.created_string }}
+                  {% endif %}
+                  (수정됨)</p>
+              {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </main>
+
         <!-- 페이징처리 시작 -->
         <ul class="pagination justify-content-center my-3">
           <!-- 이전페이지 -->
@@ -83,6 +104,5 @@
         </ul>
         <!-- 페이징처리 끝 -->
       </section>
-    </main>
   </div>
 {% endblock content %}

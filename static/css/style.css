@@ -10,6 +10,10 @@
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
+.table-img:hover {
+  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+}
+
 .topBtn {
   background: linear-gradient(45deg, #ea449a, #f38524);
   color: white;

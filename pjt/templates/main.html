@@ -22,6 +22,7 @@
       <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
         {% for article in articles|slice:":3" %}
           <div class="col mb-4">
+            <a href="{% url 'articles:detail' article.pk %}" class="text-decoration-none text-dark">
             <div class="card" style="width: 23rem;">
               <div class="w-100" style="height: 23rem; position: relative;">
                 <img src="{{ article.image.url }}" alt="" class="h-100 card-img-top">
@@ -38,12 +39,19 @@
                 <h5 class="card-title">{{ article.title }}</h5>
                 <p class="my-3 gray card-text text-truncate"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
                 <p class="card-text"><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
-                <a href="{% url 'articles:detail' article.pk %}" class="me-1 btn btn-outline-warning btn-sm">자세히 보기</a>
-                <button class="btn btn-outline-danger btn-sm disabled">
-                  <i class="far fa-heart"></i> {{ article.like_users.count }}
-                </button>
+                <div class="my-2">
+                <span class="me-2">
+                  <i class="pink bi bi-heart-fill"></i>
+                  {{ article.like_users.count }}
+                </span>
+                <span class="">
+                  <i class="pink bi bi-mouse"></i>
+                  {{ article.hits }}
+                </span>
+              </div>
               </div>
             </div>
+            </a>
           </div>
         {% endfor %}
       </div>
@@ -54,6 +62,7 @@
       <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
         {% for article in articles|slice:"3:6" %}
           <div class="col mb-4">
+            <a href="{% url 'articles:detail' article.pk %}" class="text-decoration-none text-dark">
             <div class="card" style="width: 23rem;">
               <div class="w-100" style="height: 23rem; position: relative;">
                 <img src="{{ article.image.url }}" alt="" class="h-100 card-img-top">
@@ -70,12 +79,19 @@
                 <h5 class="card-title">{{ article.title }}</h5>
                 <p class="my-3 gray card-text text-truncate"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
                 <p class="card-text"><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
-                <a href="{% url 'articles:detail' article.pk %}" class="me-1 btn btn-outline-warning btn-sm">자세히 보기</a>
-                <button class="btn btn-outline-danger btn-sm disabled">
-                  <i class="far fa-heart"></i> {{ article.like_users.count }}
-                </button>
+                <div class="my-2">
+                <span class="me-2">
+                  <i class="pink bi bi-heart-fill"></i>
+                  {{ article.like_users.count }}
+                </span>
+                <span class="">
+                  <i class="pink bi bi-mouse"></i>
+                  {{ article.hits }}
+                </span>
+              </div>
               </div>
             </div>
+          </a>
           </div>
         {% endfor %}
       </div>
@@ -86,6 +102,7 @@
       <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
         {% for article in articles|slice:"6:9" %}
           <div class="col mb-4">
+            <a href="{% url 'articles:detail' article.pk %}" class="text-decoration-none text-dark">
             <div class="card" style="width: 23rem;">
               <div class="w-100" style="height: 23rem; position: relative;">
                 <img src="{{ article.image.url }}" alt="" class="h-100 card-img-top">
@@ -102,12 +119,19 @@
                 <h5 class="card-title">{{ article.title }}</h5>
                 <p class="my-3 gray card-text text-truncate"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</p>
                 <p class="card-text"><i class="pink bi bi-hash"></i> {{ article.foodType }}</p>
-                <a href="{% url 'articles:detail' article.pk %}" class="me-1 btn btn-outline-warning btn-sm">자세히 보기</a>
-                <button class="btn btn-outline-danger btn-sm disabled">
-                  <i class="far fa-heart"></i> {{ article.like_users.count }}
-                </button>
+                <div class="my-2">
+                <span class="me-2">
+                  <i class="pink bi bi-heart-fill"></i>
+                  {{ article.like_users.count }}
+                </span>
+                <span class="">
+                  <i class="pink bi bi-mouse"></i>
+                  {{ article.hits }}
+                </span>
+              </div>
               </div>
             </div>
+            </a>
           </div>
         {% endfor %}
       </div>
@@ -150,7 +174,7 @@
         {% for article in articles|slice:":8" %}
           <div class="col mb-5 d-flex flex-column align-items-between" id="one">
             <div style="width: 15rem; height: 15rem; position: relative;">
-              <img class="w-100 h-100" src="{{ article.image.url }}" alt="">
+              <img class="w-100 h-100 rounded" src="{{ article.image.url }}" alt="">
               <div class="dot-yellow blink px-1" style="position: absolute; top: 87%; left: 76%;">
                 <span class="hidden"><i class="text-warning bi bi-star-fill"></i></span>
                 <span class="hidden">{{ article.grade }}</span>
@@ -169,11 +193,11 @@
                 <div><i class="pink bi bi-hash"></i> {{ article.foodType }}</div>
               </div>
               <div class="my-2">
-                <span class="fs-5 me-2">
+                <span class="me-2">
                   <i class="pink bi bi-heart-fill"></i>
                   {{ article.like_users.count }}
                 </span>
-                <span class="fs-5">
+                <span class="">
                   <i class="pink bi bi-mouse"></i>
                   {{ article.hits }}
                 </span>
@@ -209,11 +233,11 @@
                 <div><i class="pink bi bi-hash"></i> {{ article.foodType }}</div>
               </div>
               <div class="my-2">
-                <span class="fs-5 me-2">
+                <span class="me-2">
                   <i class="pink bi bi-heart-fill"></i>
                   {{ article.like_users.count }}
                 </span>
-                <span class="fs-5">
+                <span class="">
                   <i class="pink bi bi-mouse"></i>
                   {{ article.hits }}
                 </span>
