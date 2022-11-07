@@ -20,6 +20,7 @@ from .forms import CustomUserChangeForm, CustomUserCreationForm
 
 
 @require_safe
+@login_required
 def index(request):
     users = get_user_model().objects.order_by("-pk")
     context = {
@@ -177,7 +178,7 @@ def update(request):
         form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request, "정보 수정 성공")
+            messages.success(request, "정보 수정 완료")
         else:
             messages.warning(request, "양식이 유효하지 않습니다.")
     else:
@@ -195,7 +196,7 @@ def password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            messages.success(request, "비밀번호 변경 성공")
+            messages.success(request, "비밀번호 변경 완료")
         else:
             messages.warning(request, "양식이 유효하지 않습니다.")
     else:
