@@ -211,7 +211,47 @@
     <!-- 리스트 carousel 2페이지 -->
     <div class="carousel-item">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
-        {% for article in articles|slice:"8:" %}
+        {% for article in articles|slice:"8:16" %}
+          <div class="col mb-5 d-flex flex-column align-items-between" id="one">
+            <div style="width: 15rem; height: 15rem; position: relative;">
+              <img class="w-100 h-100" src="{{ article.image.url }}" alt="">
+              <div class="dot-yellow blink px-1" style="position: absolute; top: 87%; left: 76%;">
+                <span class="hidden"><i class="text-warning bi bi-star-fill"></i></span>
+                <span class="hidden">{{ article.grade }}</span>
+              </div>
+              <div class="px-1" style="position: absolute; top: 88%; left: 77%; background-color: rgba(0, 0, 0, 0.44);">
+                <span><i class="text-warning bi bi-star-fill" ></i></span>
+                <span class="white">{{ article.grade }}</span>
+              </div>
+            </div>
+            <div style="width: 15rem;">
+              <div>
+                <div class="my-3">
+                  <a href="{% url 'articles:detail' article.pk %}" class="pink-btn btn">{{ article.title }}</a>
+                </div>
+                <div class="mb-2 gray text-truncate"><i class="pink bi bi-geo-alt"></i> {{ article.location }}</div>
+                <div><i class="pink bi bi-hash"></i> {{ article.foodType }}</div>
+              </div>
+              <div class="my-2">
+                <span class="me-2">
+                  <i class="pink bi bi-heart-fill"></i>
+                  {{ article.like_users.count }}
+                </span>
+                <span class="">
+                  <i class="pink bi bi-mouse"></i>
+                  {{ article.hits }}
+                </span>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- 리스트 carousel 3페이지 -->
+    <div class="carousel-item">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+        {% for article in articles|slice:"16:" %}
           <div class="col mb-5 d-flex flex-column align-items-between" id="one">
             <div style="width: 15rem; height: 15rem; position: relative;">
               <img class="w-100 h-100" src="{{ article.image.url }}" alt="">
