@@ -74,6 +74,13 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    parent = models.ForeignKey(
+        "self",
+        related_name="reply_set",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
     @property
     def created_string(self):
         time = datetime.now(tz=timezone.utc) - self.created_at

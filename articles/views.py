@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import ArticleForm, CommentForm
+from .forms import ArticleForm, CommentForm, ReplyForm
 from .models import Article, Comment
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -61,8 +61,12 @@ def detail(request, pk):
 
     context = {
         "article": article,
-        "comments": article.comment_set.all(),
+        "comments": Comment.objects.select_related("user").filter(
+            article=article, parent=None
+        ),
+        "comments_count": Comment.objects.filter(article=article).count(),
         "comment_form": CommentForm(),
+        "reply_form": ReplyForm(),
     }
     response = render(request, "articles/detail.html", context)
 
@@ -178,22 +182,97 @@ def comment_create(request, pk):
             comment.save()
 
             queryset = Comment.objects.select_related("user").filter(article=article)
-            queryset_list = [
-                {
-                    "pk": query.pk,
-                    "content": query.content,
-                    "created_at": query.created_at.astimezone(
-                        timezone(timedelta(hours=9))
-                    ).strftime("%Y-%m-%d %A"),
-                    "username": query.user.username,
-                }
-                for query in queryset
-            ]
+            queryset_list = list()
+            for query in queryset:
+                if query.parent == None:
+                    queryset_list.append(
+                        {
+                            "pk": query.pk,
+                            "parent": None,
+                            "content": query.content,
+                            "created_at": query.created_at.astimezone(
+                                timezone(timedelta(hours=9))
+                            ).strftime("%Y-%m-%d %A"),
+                            "username": query.user.username,
+                        }
+                    )
+                else:
+                    queryset_list.append(
+                        {
+                            "pk": query.pk,
+                            "parent": query.parent.pk,
+                            "content": query.content,
+                            "created_at": query.created_at.astimezone(
+                                timezone(timedelta(hours=9))
+                            ).strftime("%Y-%m-%d %A"),
+                            "username": query.user.username,
+                        }
+                    )
 
             context = {
                 "comments_count": queryset.count(),
                 "comments": queryset_list,
                 "article_pk": article.pk,
+                "request_is_authenticated": request.user.is_authenticated,
+                "request_username": request.user.username,
+            }
+            print(context["comments"])
+            return JsonResponse(context)
+        else:
+            messages.warning(request, "양식이 유효하지 않습니다.")
+            return redirect("articles:detail", article.pk)
+    else:
+        messages.warning(request, "로그인이 필요합니다.")
+        return redirect("accounts:login")
+
+
+@require_POST
+def reply_create(request, article_pk, comment_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    parent_comment = get_object_or_404(Comment, pk=comment_pk)
+
+    if request.user.is_authenticated:
+        reply_form = ReplyForm(request.POST)
+        if reply_form.is_valid():
+            reply = reply_form.save(commit=False)
+            reply.article = article
+            reply.parent = parent_comment
+            reply.user = request.user
+            reply.save()
+
+            queryset = Comment.objects.select_related("user").filter(article=article)
+            queryset_list = list()
+            for query in queryset:
+                if query.parent == None:
+                    queryset_list.append(
+                        {
+                            "pk": query.pk,
+                            "parent": None,
+                            "content": query.content,
+                            "created_at": query.created_at.astimezone(
+                                timezone(timedelta(hours=9))
+                            ).strftime("%Y-%m-%d %A"),
+                            "username": query.user.username,
+                        }
+                    )
+                else:
+                    queryset_list.append(
+                        {
+                            "pk": query.pk,
+                            "parent": query.parent.pk,
+                            "content": query.content,
+                            "created_at": query.created_at.astimezone(
+                                timezone(timedelta(hours=9))
+                            ).strftime("%Y-%m-%d %A"),
+                            "username": query.user.username,
+                        }
+                    )
+
+            context = {
+                "comments_count": queryset.count(),
+                "comments": queryset_list,
+                "article_pk": article.pk,
+                "request_is_authenticated": request.user.is_authenticated,
                 "request_username": request.user.username,
             }
             return JsonResponse(context)
@@ -217,22 +296,38 @@ def comment_delete(request, article_pk, comment_pk):
         # if request.method == "POST":
         comment.delete()
         queryset = Comment.objects.select_related("user").filter(article=article)
-        queryset_list = [
-            {
-                "pk": query.pk,
-                "content": query.content,
-                "created_at": query.created_at.astimezone(
-                    timezone(timedelta(hours=9))
-                ).strftime("%Y-%m-%d %A"),
-                "username": query.user.username,
-            }
-            for query in queryset
-        ]
+        queryset_list = list()
+        for query in queryset:
+            if query.parent == None:
+                queryset_list.append(
+                    {
+                        "pk": query.pk,
+                        "parent": None,
+                        "content": query.content,
+                        "created_at": query.created_at.astimezone(
+                            timezone(timedelta(hours=9))
+                        ).strftime("%Y-%m-%d %A"),
+                        "username": query.user.username,
+                    }
+                )
+            else:
+                queryset_list.append(
+                    {
+                        "pk": query.pk,
+                        "parent": query.parent.pk,
+                        "content": query.content,
+                        "created_at": query.created_at.astimezone(
+                            timezone(timedelta(hours=9))
+                        ).strftime("%Y-%m-%d %A"),
+                        "username": query.user.username,
+                    }
+                )
 
         context = {
             "comments_count": queryset.count(),
             "comments": queryset_list,
             "article_pk": article.pk,
+            "request_is_authenticated": request.user.is_authenticated,
             "request_username": request.user.username,
         }
         return JsonResponse(context)
