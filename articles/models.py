@@ -52,21 +52,32 @@ class Article(models.Model):
         settings.AUTH_USER_MODEL, related_name="bookmark_articles"
     )
     hits = models.PositiveBigIntegerField(default=0, verbose_name="조회수")
+
     @property
     def created_string(self):
         time = datetime.now(tz=timezone.utc) - self.created_at
 
         if time < timedelta(minutes=1):
-            return '방금 전'
+            return "방금 전"
         elif time < timedelta(hours=1):
-            return str(int(time.seconds / 60)) + '분 전'
+            return str(int(time.seconds / 60)) + "분 전"
         elif time < timedelta(days=1):
-            return str(int(time.seconds / 3600)) + '시간 전'
+            return str(int(time.seconds / 3600)) + "시간 전"
         elif time < timedelta(days=7):
             time = datetime.now(tz=timezone.utc).date() - self.created_at.date()
-            return str(time.days) + '일 전'
+            return str(time.days) + "일 전"
         else:
             return False
+
+    @property
+    def is_updated(self):
+        time = self.updated_at - self.created_at
+        print(time)
+        if time < timedelta(seconds=10):
+            return False
+        else:
+            return True
+
 
 class Comment(models.Model):
     content = models.CharField(max_length=80)
@@ -81,18 +92,19 @@ class Comment(models.Model):
         null=True,
         blank=True,
     )
+
     @property
     def created_string(self):
         time = datetime.now(tz=timezone.utc) - self.created_at
 
         if time < timedelta(minutes=1):
-            return '방금 전'
+            return "방금 전"
         elif time < timedelta(hours=1):
-            return str(int(time.seconds / 60)) + '분 전'
+            return str(int(time.seconds / 60)) + "분 전"
         elif time < timedelta(days=1):
-            return str(int(time.seconds / 3600)) + '시간 전'
+            return str(int(time.seconds / 3600)) + "시간 전"
         elif time < timedelta(days=7):
             time = datetime.now(tz=timezone.utc).date() - self.created_at.date()
-            return str(time.days) + '일 전'
+            return str(time.days) + "일 전"
         else:
             return False

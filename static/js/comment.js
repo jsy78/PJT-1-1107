@@ -102,9 +102,9 @@ function commentDelete() {
                         <div class="mb-3">
                           <input type="text" name="content" placeholder="대댓글을 남겨보세요 💬" class="form-control" required="" id="id_content">
                         </div>
-                        <div>
-                          <input class="btn btn-search" type="submit" value="작성">
-                        </div>
+                      </div>
+                      <div>
+                        <input class="btn btn-search" type="submit" value="작성">
                       </div>
                     </div>
                   </form>
@@ -182,9 +182,9 @@ function commentDelete() {
                         <div class="mb-3">
                           <input type="text" name="content" placeholder="대댓글을 남겨보세요 💬" class="form-control" required="" id="id_content">
                         </div>
-                        <div>
-                          <input class="btn btn-search" type="submit" value="작성">
-                        </div>
+                      </div>
+                      <div>
+                        <input class="btn btn-search" type="submit" value="작성">
                       </div>
                     </div>
                   </form>
@@ -298,9 +298,9 @@ function replyCreate() {
                         <div class="mb-3">
                           <input type="text" name="content" placeholder="대댓글을 남겨보세요 💬" class="form-control" required="" id="id_content">
                         </div>
-                        <div>
-                          <input class="btn btn-search" type="submit" value="작성">
-                        </div>
+                      </div>
+                      <div>
+                        <input class="btn btn-search" type="submit" value="작성">
                       </div>
                     </div>
                   </form>
@@ -378,9 +378,9 @@ function replyCreate() {
                         <div class="mb-3">
                           <input type="text" name="content" placeholder="대댓글을 남겨보세요 💬" class="form-control" required="" id="id_content">
                         </div>
-                        <div>
-                          <input class="btn btn-search" type="submit" value="작성">
-                        </div>
+                      </div>
+                      <div>
+                        <input class="btn btn-search" type="submit" value="작성">
                       </div>
                     </div>
                   </form>
@@ -493,9 +493,9 @@ function commentCreate() {
                       <div class="mb-3">
                         <input type="text" name="content" placeholder="대댓글을 남겨보세요 💬" class="form-control" required="" id="id_content">
                       </div>
-                      <div>
-                        <input class="btn btn-search" type="submit" value="작성">
-                      </div>
+                    </div>
+                    <div>
+                      <input class="btn btn-search" type="submit" value="작성">
                     </div>
                   </div>
                 </form>
@@ -573,9 +573,9 @@ function commentCreate() {
                       <div class="mb-3">
                         <input type="text" name="content" placeholder="대댓글을 남겨보세요 💬" class="form-control" required="" id="id_content">
                       </div>
-                      <div>
-                        <input class="btn btn-search" type="submit" value="작성">
-                      </div>
+                    </div>
+                    <div>
+                      <input class="btn btn-search" type="submit" value="작성">
                     </div>
                   </div>
                 </form>
