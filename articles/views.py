@@ -190,7 +190,8 @@ def comment_create(request, pk):
                             "pk": query.pk,
                             "parent": None,
                             "content": query.content,
-                            "created_at": query.created_at.astimezone(
+                            "created_at": query.created_string
+                            or query.created_at.astimezone(
                                 timezone(timedelta(hours=9))
                             ).strftime("%Y-%m-%d %A"),
                             "username": query.user.username,
@@ -202,7 +203,8 @@ def comment_create(request, pk):
                             "pk": query.pk,
                             "parent": query.parent.pk,
                             "content": query.content,
-                            "created_at": query.created_at.astimezone(
+                            "created_at": query.created_string
+                            or query.created_at.astimezone(
                                 timezone(timedelta(hours=9))
                             ).strftime("%Y-%m-%d %A"),
                             "username": query.user.username,
@@ -249,7 +251,8 @@ def reply_create(request, article_pk, comment_pk):
                             "pk": query.pk,
                             "parent": None,
                             "content": query.content,
-                            "created_at": query.created_at.astimezone(
+                            "created_at": query.created_string
+                            or query.created_at.astimezone(
                                 timezone(timedelta(hours=9))
                             ).strftime("%Y-%m-%d %A"),
                             "username": query.user.username,
@@ -261,7 +264,8 @@ def reply_create(request, article_pk, comment_pk):
                             "pk": query.pk,
                             "parent": query.parent.pk,
                             "content": query.content,
-                            "created_at": query.created_at.astimezone(
+                            "created_at": query.created_string
+                            or query.created_at.astimezone(
                                 timezone(timedelta(hours=9))
                             ).strftime("%Y-%m-%d %A"),
                             "username": query.user.username,
@@ -285,43 +289,43 @@ def reply_create(request, article_pk, comment_pk):
 
 
 @login_required
+@require_POST
 def comment_delete(request, article_pk, comment_pk):
-    # 임시 코드 (url로 댓글 삭제 가능)
     article = get_object_or_404(Article, pk=article_pk)
     comment = get_object_or_404(Comment, pk=comment_pk)
-    # comment.delete()
-    # return redirect("articles:detail", article_pk)
-    # 밑에 코드는 왜 안될까요ㅠㅠ
-    if request.user == comment.user:
-        # if request.method == "POST":
-        comment.delete()
-        queryset = Comment.objects.select_related("user").filter(article=article)
-        queryset_list = list()
-        for query in queryset:
-            if query.parent == None:
-                queryset_list.append(
-                    {
-                        "pk": query.pk,
-                        "parent": None,
-                        "content": query.content,
-                        "created_at": query.created_at.astimezone(
-                            timezone(timedelta(hours=9))
-                        ).strftime("%Y-%m-%d %A"),
-                        "username": query.user.username,
-                    }
-                )
-            else:
-                queryset_list.append(
-                    {
-                        "pk": query.pk,
-                        "parent": query.parent.pk,
-                        "content": query.content,
-                        "created_at": query.created_at.astimezone(
-                            timezone(timedelta(hours=9))
-                        ).strftime("%Y-%m-%d %A"),
-                        "username": query.user.username,
-                    }
-                )
+
+    if request.method == "POST":
+        if request.user == comment.user:
+            comment.delete()
+            queryset = Comment.objects.select_related("user").filter(article=article)
+            queryset_list = list()
+            for query in queryset:
+                if query.parent == None:
+                    queryset_list.append(
+                        {
+                            "pk": query.pk,
+                            "parent": None,
+                            "content": query.content,
+                            "created_at": query.created_string
+                            or query.created_at.astimezone(
+                                timezone(timedelta(hours=9))
+                            ).strftime("%Y-%m-%d %A"),
+                            "username": query.user.username,
+                        }
+                    )
+                else:
+                    queryset_list.append(
+                        {
+                            "pk": query.pk,
+                            "parent": query.parent.pk,
+                            "content": query.content,
+                            "created_at": query.created_string
+                            or query.created_at.astimezone(
+                                timezone(timedelta(hours=9))
+                            ).strftime("%Y-%m-%d %A"),
+                            "username": query.user.username,
+                        }
+                    )
 
         context = {
             "comments_count": queryset.count(),
