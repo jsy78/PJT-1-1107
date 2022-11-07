@@ -72,7 +72,6 @@ class Article(models.Model):
     @property
     def is_updated(self):
         time = self.updated_at - self.created_at
-        print(time)
         if time < timedelta(seconds=10):
             return False
         else:
