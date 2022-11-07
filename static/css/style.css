@@ -202,6 +202,7 @@ The navbar toggle appears at this breakpoint */
 .pink-btn:hover {
   color: #ea449a;
   background-color: white;
+  border: 1px solid #ea449a;
 }
 
 /* carousel 버튼 색 */
